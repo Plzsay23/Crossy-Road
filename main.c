@@ -195,6 +195,8 @@ Draw_image_ 함수만 가져오면 되도록 세팅되어 있음
 09/16 메인화면 구현
 09/19 새로하기&이어하기 구현
 09/20 코인 구현
+09/28 랭킹 완벽 구현
+09/29 강 객체 구현
 
 <게임 진행 방식>
          -> 1.새로하기 -> 이름 입력(중복 방지) -> 인게임 -> 랭킹화면 -> 메인화면
@@ -244,6 +246,10 @@ Delete_coin()이 없으면 충돌해도 코인이 사라지지 않는 상황
 ↓↓↓ (09/27 해결) ↓↓↓
 화면 가장 아래까지 플레이어가 내려가지를 않는 상황
 ㄴ (09/27 해결) y축 한계까지 내려가도록 수정함
+
+↓↓↓ (09/28 해결) ↓↓↓
+코인 갯수가 저장이 안 됨
+ㄴ (09/28 해결) Read_ranking 함수에서 코인 저장을 안하고 있었음
 */
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -260,42 +266,10 @@ Delete_coin()이 없으면 충돌해도 코인이 사라지지 않는 상황
 #include "Object.h"
 #include "Game.h"
 
-void Test()
-{
-    system("cls");
-    srand((unsigned int)time(NULL));
-    Textcolor(blue, black);
-    for (int i = 0; i < 40; i++)
-    {
-        for (int j = 0; j < 11; j++)
-        {
-            gotoxy(30 + j, i); printf(" ");
-        }
-    }
-
-    Textcolor(blue, green);
-    for (int i = 0; i < rand() % 5 + 1; i++)
-    {
-        gotoxy(30, rand() % 40); printf("■ ■ ■ ■");
-    }
-    
-    
-
-
-
-
-    while (1)
-    {
-
-    }
-}
-
 int main()
 {
     Setting(); //세팅함수 호출
     Read_ranking(); //랭킹 불러오기
-
-    Test();
     
     Main_screen(); //메인 스크린
 

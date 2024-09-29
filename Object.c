@@ -69,6 +69,41 @@ void Remove_car(short x, short y)
         gotoxy(x - 1, y + 1); printf("   ");
     }
 }
+//좌표를 받아 강 그리기
+void Draw_river(short x, int num)
+{
+    srand((unsigned int)time(NULL));
+    Textcolor(blue, black);
+    for (int i = 0; i < 40; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            gotoxy(x + j, i); printf(" ");
+        }
+    }
+
+    Textcolor(green, green);
+    for (int i = 0; i < RIVER; i++)
+    {
+        if (rivers[num].bridge[i] != 0)
+        {
+            gotoxy(x, rivers[num].bridge[i]);
+            for (int j = 0; j < 10; j++) printf(" ");
+        }
+    }
+    Textcolor(black, white);
+}
+//좌표를 받아 강 지우기
+void Remove_river(short x)
+{
+    for (int i = 0; i < 40; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            gotoxy(x + j, i); printf(" ");
+        }
+    }
+}
 
 //자동차 객체와 닿았는지를 판별하는 함수
 bool Check_over(short x, short y)
@@ -109,6 +144,30 @@ bool Check_coin(short x, short y)
         }
     }
 }
+//강 객체 위를 지나갈 수 있는지를 판별하는 함수
+bool Check_river(short x, short y)
+{
+    for (int i = 0; i < RIVER; i++)
+    {
+        if (rivers[i].on == true)
+        {
+            if (rivers[i].x - 2 <= x && x < rivers[i].x + 10)
+            {
+                int found = 0;
+                for (int j = 0; j < RIVER; j++)
+                {
+                    if (rivers[i].bridge[j] == y)
+                    {
+                        found++; return 1;
+                    }
+                }
+                if (found == 0)
+                    return 0;
+            }
+        }
+    }
+    return 1;
+}
 
 //자동차를 그리고 객체 하나의 좌표를 설정하는 함수
 void Add_car(short x, short y, int num, bool up)
@@ -123,7 +182,7 @@ void Delete_car(int num)
     Remove_car(cars[num].x, cars[num].y); //자동차를 지운다음
     cars[num].on = false;                 //해당 객체 비활성화
 }
-//자동차 객체를 한 칸 이동하는 함수
+//자동차 객체를 "위 아래로" 한 칸 이동하는 함수
 void Move_car(int num)
 {
     if (cars[num].on == true) //해당 객체가 활성화되어 있어야만 함수 전문 발동
@@ -186,6 +245,49 @@ void Floating_coin(bool direction)
                 Delete_coin(i);
             else
                 Draw_coin(coins[i].x, coins[i].y);
+        }
+    }
+}
+
+//강을 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_river(short x, int num)
+{
+    srand((unsigned int)time(NULL));
+    rivers[num].x = x;
+    rivers[num].on = true;
+    for (int i = 0; i < rand() % 5 + 1; i++)
+    {
+        short bridge_y = rand() % 40;
+        //중복방지 추가요망
+        rivers[num].bridge[i] = bridge_y; //연꽃 다리 y축 지정
+    }
+    Draw_river(x, num);
+}
+//강 객체를 삭제하는 함수
+void Delete_river(int num)
+{
+    Remove_river(rivers[num].x);
+    rivers[num].on = false;
+    for (int i = 0; i < RIVER; i++)
+    {
+        rivers[num].bridge[i] = 0;
+    }
+}
+//화면이 움직임에 따라 강 객체를 이동하는 함수
+void Floating_river(bool direction)
+{ //direction이 0 이면 좌측, direction이 1 이면 우측
+    for (int i = 0; i < RIVER; i++) //모든 강 객체를 검사
+    {
+        if (rivers[i].on == true) //해당 객체가 활성화되어 있다면
+        {
+            Remove_river(rivers[i].x); //강을 먼저 지우고
+
+            if (direction == 0) rivers[i].x--;  //왼쪽 오른쪽 방향을 읽어 x좌표 수정
+            else rivers[i].x++;
+            if (rivers[i].x < 0 || rivers[i].x > 149) //만약 좌우 콘솔창을 벗어난다면
+                Delete_river(i);      //수정요망                //객체 삭제
+            else
+                Draw_river(rivers[i].x, i);
         }
     }
 }

@@ -103,7 +103,7 @@ void Ranking_sort()
     {
         if (Ranking[i].score > 0)
         {
-            fprintf(Rank, "%s %d\n", Ranking[i].name, Ranking[i].score);
+            fprintf(Rank, "%s %d %d\n", Ranking[i].name, Ranking[i].score, Ranking[i].coins);
         }
     }
     fclose(Rank);
@@ -114,11 +114,8 @@ void Read_ranking()
 {
     FILE* Rank = fopen("Ranking.txt", "r");
     if (Rank == NULL) return; //처음 시작이어서 저장된 파일이 없다면 무시하고 진행
-    int rank = 0;
-    while (fscanf(Rank, "%s %d", Ranking[rank].name, &Ranking[rank].score) != EOF)
-    {
-        rank++;
-    }
+    int i = 0;
+    while (fscanf(Rank, "%s %d %d", Ranking[i].name, &Ranking[i].score, &Ranking[i].coins) != EOF) i++;
     fclose(Rank);
 }
 

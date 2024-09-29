@@ -5,6 +5,7 @@ char Name[30];  //게임 시작 시 이름을 입력받는 곳
 
 Cars cars[CARS]; //자동차 객체 배열
 Coin coins[COINS]; //코인 객체 배열
+River rivers[RIVER]; //강 객체 배열
 
 Cars help_screen_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
 Coin help_screen_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체

@@ -49,6 +49,8 @@ void Game()
             input = _getch();
             if (input == RIGHT && x < 148) //오른쪽 이동
             {
+                if (Check_river(x, y) == 0) continue; //강 위로 지나갈 수 없다면 돌아감
+
                 if (extra_display < 1000 && x >= start_x) //우측으로 1000칸만 플로팅 되도록 설정
                     //현재 임시로 1000칸, 이후 늘릴지 말지 결정
                 {
@@ -56,11 +58,14 @@ void Game()
                     Floating_coin(0); //코인들이 왼쪽으로 밀려나며 이동을 표현
                     extra_display++; //플로팅 이동을 변수에 저장
 
+                    //Floating_river(0); //강 플로팅
+
                     //화면이 움직이며 비는 공간에 주기적으로 자동차 객체 활성화 & 소환
                     if (extra_display < 1000 && (extra_display + x - 79) % 5 == 0)
                     {   //플로팅시 x축은 79로 고정, 이후 플로팅한 칸수가 5칸만큼 늘때마다 객체 생성
                         //즉, 자동차와 자동차 사이의 주기가 5인 셈
                         //■■■■■■■■■■■ x - 79가 항상 0이라 의미가 있는지 살펴볼 필요 있음■■■■
+                        //if(조건) == continue
                         Add_car(148, rand() % 39 + 1, Find_car(), rand() % 2);
                         Score += 30; //그럴때마다 30점 추가
                         coin_cycle++;
@@ -71,18 +76,19 @@ void Game()
                             coin_cycle = 0; //현재 확률 총 6분의 1
                         }
                     }
+                    Draw_player(x, y);
                 }
                 else //플로팅이 아니면
                 {
                     Remove_player(x++, y); //공 지우면서 좌표 이동
-                    Draw_player(x, y);     //공 그리기    
+                         //공 그리기    
                 }
                 Sleep(33); //약간의 딜레이
             }
             if (input == LEFT && x > 0) //왼쪽 이동
             {
                 if (extra_display > -1000 && x < start_x) //위와 동일, 방향만 반대
-                {
+                { //■■■■■■■■■■■좌측 플로팅을 제거할지 고민중■■■■■■■■■■■
                     Floating_car(1);
                     Floating_coin(1);
                     extra_display--;

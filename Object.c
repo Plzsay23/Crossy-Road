@@ -74,7 +74,7 @@ void Draw_river(short x, int num)
 {
     srand((unsigned int)time(NULL));
     Textcolor(blue, black);
-    for (int i = 0; i < 40; i++)
+    for (int i = 0; i < 40; i++) //강 배경 그리기
     {
         for (int j = 0; j < 10; j++)
         {
@@ -83,10 +83,10 @@ void Draw_river(short x, int num)
     }
 
     Textcolor(green, green);
-    for (int i = 0; i < RIVER; i++)
+    for (int i = 0; i < RIVER; i++) //연꽃 다리 그리기
     {
-        if (rivers[num].bridge[i] != 0)
-        {
+        if (rivers[num].bridge[i] != 0 && rivers[num].bridge[i] != 40) 
+        { //연꽃 다리의 y좌표가 0과 40이 아닐때만
             gotoxy(x, rivers[num].bridge[i]);
             for (int j = 0; j < 10; j++) printf(" ");
         }
@@ -253,12 +253,12 @@ void Floating_coin(bool direction)
 void Add_river(short x, int num)
 {
     srand((unsigned int)time(NULL));
-    rivers[num].x = x;
-    rivers[num].on = true;
+    rivers[num].x = x;      // x좌표 설정
+    rivers[num].on = true;  //객체 활성화
     for (int i = 0; i < rand() % 5 + 1; i++)
     {
-        short bridge_y = rand() % 40;
-        //중복방지 추가요망
+        short bridge_y = rand() % 40; //연꽃 다리의 y축 랜덤 생성
+        //중복방지 추가요망, 0과 40도 안됨
         rivers[num].bridge[i] = bridge_y; //연꽃 다리 y축 지정
     }
     Draw_river(x, num);
@@ -267,10 +267,10 @@ void Add_river(short x, int num)
 void Delete_river(int num)
 {
     Remove_river(rivers[num].x);
-    rivers[num].on = false;
+    rivers[num].on = false; //객체 비활성화
     for (int i = 0; i < RIVER; i++)
     {
-        rivers[num].bridge[i] = 0;
+        rivers[num].bridge[i] = 0; //모든 다리의 좌표를 0으로 설정하여 초기화
     }
 }
 //화면이 움직임에 따라 강 객체를 이동하는 함수

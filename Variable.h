@@ -38,9 +38,9 @@ typedef struct Coin {
 
 //강 구조체
 typedef struct River {
-    short x;         //배경이 시작될 x좌표
-    short bridge[RIVER]; //통나무 다리가 생성될 y좌표, 최대 5개
-    bool on;         //객체의 활성화 유무
+    short x;             //배경이 시작될 x좌표
+    short bridge[RIVER]; //연꽃 다리가 생성될 y좌표, 최대 5개
+    bool on;             //객체의 활성화 유무
 } River;
 
 //랭킹 구조체

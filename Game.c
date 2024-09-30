@@ -20,6 +20,12 @@ void Recycle()
         coins[i].x = 0; coins[i].y = 0;
         coins[i].on = false;
     }
+    for (int i = 0; i < RIVER; i++)
+    {
+        rivers[i].x = 0; rivers[i].on = false;
+        for (int j = 0; j < RIVER; j++)
+            rivers[i].bridge[j] = 0;
+    }
 }
 
 //인게임
@@ -76,12 +82,10 @@ void Game()
                         {
                             if (extra_display % 10 == 0) //10칸마다 소환
                             {
-                                Add_car(148, rand() % 39 + 1, Find_car(), rand() % 2);
+                                Add_car(148, rand() % 37, Find_car(), rand() % 2);
                                 Score += 30; //그럴때마다 30점 추가
-                                /*
                                 if (rand() % 100 > 15) //확률은 15%
                                         Add_coin(145, rand() % 41, Find_coin()); //코인 객체 생성
-                                        */
                             }
                         }
                         else choose = 0;

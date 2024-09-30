@@ -43,7 +43,7 @@ void Draw_car(short x, short y, int num, bool up)
 {
     Textcolor(black, green);
     short range = 6; //자동차의 최대길이 6
-    if (x > 144) range = 150 - x; //범위가 넘어가면 잘리도록 구현
+    if (x > 144) range = 149 - x; //범위가 넘어가면 잘리도록 구현
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < range; j++)
@@ -82,7 +82,7 @@ void Draw_river(short x, int num)
     if (x < 0) //0좌표로 내려가면
     {
         x_range = 0; range += x; //0으로 고정하고 강의 길이를 줄임
-        if (x <= -4) //강이 벽에 닿아 사라지려하면
+        if (x <= -9) //강이 벽에 닿아 사라지려하면
         {
             Delete_river(num); return; //객체 제거
         }
@@ -207,13 +207,13 @@ void Move_car(int num)
         {
             up = true;
             Remove_car(cars[num].x, cars[num].y--); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y < 1) cars[num].y = 35; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+            if (cars[num].y < 0) cars[num].y = 36; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
         }
         else                      //해당 객체가 아래로 전진이라면
         {
             up = false;
             Remove_car(cars[num].x, cars[num].y++); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y > 35) cars[num].y = 1; //만약 콘솔창을 벗어나면 다시 위로 보냄
+            if (cars[num].y > 36) cars[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
         }
         Draw_car(cars[num].x, cars[num].y, num, up); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
     }
@@ -228,7 +228,7 @@ void Floating_car(bool direction)
             Remove_car(cars[i].x, cars[i].y); //자동차를 먼저 지우고
             if (direction == 0) cars[i].x--;  //왼쪽 오른쪽 방향을 읽어 x좌표 수정
             else cars[i].x++;
-            if (cars[i].x < 1)
+            if (cars[i].x < 2)
                 Delete_car(i);
             else
             {

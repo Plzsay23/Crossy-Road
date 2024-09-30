@@ -26,7 +26,7 @@ void Setting()
     hdc = GetWindowDC(hwnd);
 
     //콘솔창 크기와 제목
-    system("mode con:cols=150 lines=41");
+    system("mode con: cols=150 lines=41");
     system("title Welcome");
 
     //커서 깜빡거림 제거
@@ -34,6 +34,15 @@ void Setting()
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     ConsoleCursor.bVisible = 0; ConsoleCursor.dwSize = 1;
     SetConsoleCursorInfo(hConsole, &ConsoleCursor);
+
+    //콘솔창 해상도 임의 변경
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+    //화면 해상도가 맞지 않으면 임의로 조정가능
+    int x = 1215;
+    int y = 695;
+    MoveWindow(console, r.left, r.top, x, y, TRUE);
 
     //외부 파일에 저장된 랭킹 불러오기
     Read_ranking();

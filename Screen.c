@@ -296,17 +296,21 @@ void Help_screen()
 //랭킹 화면
 void Ranking_screen()
 {
-    system("cls"); Draw_square();
+    system("cls");
+    Draw_square();
+    gotoxy(136, 39);
+    printf("뒤로가기 : Q");
 
-    gotoxy(136, 39); printf("뒤로가기 : Q");
+    // 타이틀 출력
+    gotoxy(20, 3);
+    printf("랭킹\t\t이름\t\t\t점수\t\t\t코인");
 
     for (int i = 0; i < RANKING; i++)
     {
         if (Ranking[i].score > 0) //점수가 있어야만 출력
         {
-            gotoxy(20, 5 + i * 3); printf("%s", Ranking[i].name);
-            gotoxy(80, 5 + i * 3); printf("%d", Ranking[i].score);
-            gotoxy(140, 5 + i * 3); printf("%d", Ranking[i].coins);
+            gotoxy(20, 5 + i * 3);
+            printf("%d\t\t\t%s\t\t\t%d\t\t\t%d", i + 1, Ranking[i].name, Ranking[i].score, Ranking[i].coins);
         }
     }
 

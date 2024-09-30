@@ -1,102 +1,117 @@
-#include "Object.h"
+ï»¿#include "Object.h"
 
-//ÁÂÇ¥¸¦ ¹Þ¾Æ ÇÃ·¹ÀÌ¾î ±×¸®±â
+char car_down[5][7] = {
+    {"n_ww_ "},
+    {"@l   l"},
+    {" l   l"},
+    {"@l___l"},
+    {" l__l "}
+};
+char car_up[5][7] = {
+    {" l--l "},
+    {"@l- -l"},
+    {" l   l"},
+    {"@l   l"},
+    {"u-mm- "}
+};
+
+//ì¢Œí‘œë¥¼ ë°›ì•„ í”Œë ˆì´ì–´ ê·¸ë¦¬ê¸°
 void Draw_player(short x, short y)
 {
-    gotoxy(x, y); printf("¡Û");
+    gotoxy(x, y); printf("G");
 }
-//ÁÂÇ¥¸¦ ¹Þ¾Æ ÇÃ·¹ÀÌ¾î Áö¿ì±â
+//ì¢Œí‘œë¥¼ ë°›ì•„ í”Œë ˆì´ì–´ ì§€ìš°ê¸°
 void Remove_player(short x, short y)
 {
-    gotoxy(x, y); printf("  ");
+    gotoxy(x, y); printf(" ");
 }
-//ÁÂÇ¥¸¦ ¹Þ¾Æ ÄÚÀÎ ±×¸®±â
+//ì¢Œí‘œë¥¼ ë°›ì•„ ì½”ì¸ ê·¸ë¦¬ê¸°
 void Draw_coin(short x, short y)
 {
     Textcolor(black, brightyellow);
-    gotoxy(x, y); printf("¡Û");
+    gotoxy(x, y); printf("o");
     Textcolor(black, white);
 }
-//ÁÂÇ¥¸¦ ¹Þ¾Æ ÄÚÀÎ Áö¿ì±â
-//ÇöÀç ÄÚÀÎ°ú ÇÃ·¹ÀÌ¾î µðÀÚÀÎÀÌ °°À½, Áö±Ý¸¸ °°Àº »ÓÀÓ
+//ì¢Œí‘œë¥¼ ë°›ì•„ ì½”ì¸ ì§€ìš°ê¸°
+//í˜„ìž¬ ì½”ì¸ê³¼ í”Œë ˆì´ì–´ ë””ìžì¸ì´ ê°™ìŒ, ì§€ê¸ˆë§Œ ê°™ì€ ë¿ìž„
 void Remove_coin(short x, short y)
 {
-    gotoxy(x, y); printf("  ");
+    gotoxy(x, y); printf(" ");
 }
-//ÁÂÇ¥¸¦ ¹Þ¾Æ ÀÚµ¿Â÷ ±×¸®±â
-void Draw_car(short x, short y)
+//ì¢Œí‘œë¥¼ ë°›ì•„ ìžë™ì°¨ ê·¸ë¦¬ê¸°
+void Draw_car(short x, short y, int num, bool up)
 {
     Textcolor(black, green);
-    if (x == 0) //ÁÂÃø È­¸é¿¡ ºÙÀ¸¸é
+    short range = 6; //ìžë™ì°¨ì˜ ìµœëŒ€ê¸¸ì´ 6
+    if (x > 144) range = 150 - x; //ë²”ìœ„ê°€ ë„˜ì–´ê°€ë©´ ìž˜ë¦¬ë„ë¡ êµ¬í˜„
+    for (int i = 0; i < 5; i++)
     {
-        gotoxy(x, y - 1); printf("^|");
-        gotoxy(x, y);     printf(" |");
-        gotoxy(x, y + 1); printf("~|");
-    }
-    else if (x == 149) //¿ìÃø È­¸é¿¡ ºÙÀ¸¸é
-    {
-        gotoxy(x - 1, y - 1); printf("|^");
-        gotoxy(x - 1, y);     printf("| ");
-        gotoxy(x - 1, y + 1); printf("|~");
-    }
-    else
-    {
-        gotoxy(x - 1, y - 1); printf("|^|");
-        gotoxy(x - 1, y);     printf("| |");
-        gotoxy(x - 1, y + 1); printf("|~|");
+        for (int j = 0; j < range; j++)
+        {
+            gotoxy(x + j, y + i);
+            if (up == true)
+                printf("%c", car_up[i][j]);
+            else
+                printf("%c", car_down[i][j]);
+        }
     }
     Textcolor(black, white);
 }
-//ÁÂÇ¥¸¦ ¹Þ¾Æ ÀÚµ¿Â÷ Áö¿ì±â
+//ì¢Œí‘œë¥¼ ë°›ì•„ ìžë™ì°¨ ì§€ìš°ê¸°
 void Remove_car(short x, short y)
 {
-    if (x == 0) //ÁÂÃø È­¸é¿¡ ºÙÀ¸¸é
+    short range = 7;
+    if (x > 143) range = 150 - x; //ë²”ìœ„ê°€ ë„˜ì–´ê°€ë©´ ìž˜ë¦¬ë„ë¡ êµ¬í˜„
+    for (int i = 0; i < 5; i++)
     {
-        gotoxy(x, y - 1); printf("  ");
-        gotoxy(x, y);     printf("  ");
-        gotoxy(x, y + 1); printf("  ");
-    }
-    else if (x == 149) //¿ìÃø È­¸é¿¡ ºÙÀ¸¸é
-    {
-        gotoxy(x - 1, y - 1); printf("  ");
-        gotoxy(x - 1, y);     printf("  ");
-        gotoxy(x - 1, y + 1); printf("  ");
-    }
-    else
-    {
-        gotoxy(x - 1, y - 1); printf("   ");
-        gotoxy(x - 1, y);     printf("   ");
-        gotoxy(x - 1, y + 1); printf("   ");
+        for (int j = 0; j < range; j++)
+        {
+            gotoxy(x + j, y + i);
+            printf(" ");
+        }
     }
 }
-//ÁÂÇ¥¸¦ ¹Þ¾Æ °­ ±×¸®±â
+
+//ì¢Œí‘œë¥¼ ë°›ì•„ ê°• ê·¸ë¦¬ê¸°
 void Draw_river(short x, int num)
 {
     srand((unsigned int)time(NULL));
-    Textcolor(blue, black);
-    for (int i = 0; i < 40; i++) //°­ ¹è°æ ±×¸®±â
+    short range = 10; //ê°•ì˜ ìµœëŒ€ê¸¸ì´ 10
+    if (x > 140) range = 150 - x; //ë²”ìœ„ê°€ ë„˜ì–´ê°€ë©´ ìž˜ë¦¬ë„ë¡ êµ¬í˜„
+    short x_range = x; //xì¢Œí‘œê°€ 0ì´í•˜ë¡œ ë„˜ì–´ê°€ëŠ” ê²½ìš°ë¥¼ ì§€ì •í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
+    if (x < 0) //0ì¢Œí‘œë¡œ ë‚´ë ¤ê°€ë©´
     {
-        for (int j = 0; j < 10; j++)
+        x_range = 0; range += x; //0ìœ¼ë¡œ ê³ ì •í•˜ê³  ê°•ì˜ ê¸¸ì´ë¥¼ ì¤„ìž„
+        if (x <= -4) //ê°•ì´ ë²½ì— ë‹¿ì•„ ì‚¬ë¼ì§€ë ¤í•˜ë©´
         {
-            gotoxy(x + j, i); printf(" ");
+            Delete_river(num); return; //ê°ì²´ ì œê±°
         }
     }
-
+    Textcolor(blue, black);
+    for (int i = 1; i < 40; i++) //ê°• ë°°ê²½ ê·¸ë¦¬ê¸°
+    {
+        for (int j = 0; j < range; j++)
+        {
+            gotoxy(x_range + j, i); printf(" ");
+        }
+    }
     Textcolor(green, green);
-    for (int i = 0; i < RIVER; i++) //¿¬²É ´Ù¸® ±×¸®±â
+    for (int i = 0; i < RIVER; i++) //ì—°ê½ƒ ë‹¤ë¦¬ ê·¸ë¦¬ê¸°
     {
         if (rivers[num].bridge[i] != 0 && rivers[num].bridge[i] != 40) 
-        { //¿¬²É ´Ù¸®ÀÇ yÁÂÇ¥°¡ 0°ú 40ÀÌ ¾Æ´Ò¶§¸¸
-            gotoxy(x, rivers[num].bridge[i]);
-            for (int j = 0; j < 10; j++) printf(" ");
+        { //ì—°ê½ƒ ë‹¤ë¦¬ì˜ yì¢Œí‘œê°€ 0ê³¼ 40ì´ ì•„ë‹ë•Œë§Œ
+            gotoxy(x_range, rivers[num].bridge[i]);
+            for (int j = 0; j < range; j++) printf(" ");
         }
     }
     Textcolor(black, white);
 }
-//ÁÂÇ¥¸¦ ¹Þ¾Æ °­ Áö¿ì±â
+//ì¢Œí‘œë¥¼ ë°›ì•„ ê°• ì§€ìš°ê¸°
 void Remove_river(short x)
 {
-    for (int i = 0; i < 40; i++)
+    short range = 10; //ê°•ì˜ ìµœëŒ€ê¸¸ì´ 10
+    if (x > 140) range = 150 - x; //ë²”ìœ„ê°€ ë„˜ì–´ê°€ë©´ ìž˜ë¦¬ë„ë¡ êµ¬í˜„
+    for (int i = 1; i < 40; i++)
     {
         for (int j = 0; j < 10; j++)
         {
@@ -105,46 +120,46 @@ void Remove_river(short x)
     }
 }
 
-//ÀÚµ¿Â÷ °´Ã¼¿Í ´ê¾Ò´ÂÁö¸¦ ÆÇº°ÇÏ´Â ÇÔ¼ö
+//ìžë™ì°¨ ê°ì²´ì™€ ë‹¿ì•˜ëŠ”ì§€ë¥¼ íŒë³„í•˜ëŠ” í•¨ìˆ˜
 bool Check_over(short x, short y)
 {
-    for (int i = 0; i < CARS; i++) //¸ðµç ÀÚµ¿Â÷ °´Ã¼¸¦ °Ë»ç
+    for (int i = 0; i < CARS; i++) //ëª¨ë“  ìžë™ì°¨ ê°ì²´ë¥¼ ê²€ì‚¬
     {
-        if (cars[i].on == true) //°´Ã¼°¡ È°¼ºÈ­µÇ¾î ÀÖ´Ù¸é
+        if (cars[i].on == true) //ê°ì²´ê°€ í™œì„±í™”ë˜ì–´ ìžˆë‹¤ë©´
         {
-            if (cars[i].x - 1 <= x && x <= cars[i].x + 1 &&
-                cars[i].y - 1 <= y && y <= cars[i].y + 1)
-                return 1; //ÀÚµ¿Â÷ °´Ã¼ÀÇ ¹üÀ§¿Í °ãÄ¡¸é 1À» ¹ÝÈ¯
+            if (cars[i].x <= x && x <= cars[i].x + 5 &&
+                cars[i].y <= y && y <= cars[i].y + 4)
+                return 1; //ìžë™ì°¨ ê°ì²´ì˜ ë²”ìœ„ì™€ ê²¹ì¹˜ë©´ 1ì„ ë°˜í™˜
         }
     }
 
-    if (help_screen_car.on == true) //°ÔÀÓ¼³¸íÈ­¸éÀÇ ÀÚµ¿Â÷ °´Ã¼
+    if (help_screen_car.on == true) //ê²Œìž„ì„¤ëª…í™”ë©´ì˜ ìžë™ì°¨ ê°ì²´
     {
         if (help_screen_car.x - 1 <= x && x <= help_screen_car.x + 1 &&
             help_screen_car.y - 1 <= y && y <= help_screen_car.y + 1)
-            return 1; //ÀÚµ¿Â÷ °´Ã¼ÀÇ ¹üÀ§¿Í °ãÄ¡¸é 1À» ¹ÝÈ¯
+            return 1; //ìžë™ì°¨ ê°ì²´ì˜ ë²”ìœ„ì™€ ê²¹ì¹˜ë©´ 1ì„ ë°˜í™˜
     }
 
-    return 0; //¾È°ãÄ¡¸é 0À» ¹ÝÈ¯
+    return 0; //ì•ˆê²¹ì¹˜ë©´ 0ì„ ë°˜í™˜
 }
-//ÄÚÀÎ °´Ã¼¿Í ´ê¾Ò´ÂÁö¸¦ ÆÇº°ÇÏ´Â ÇÔ¼ö
+//ì½”ì¸ ê°ì²´ì™€ ë‹¿ì•˜ëŠ”ì§€ë¥¼ íŒë³„í•˜ëŠ” í•¨ìˆ˜
 bool Check_coin(short x, short y)
 {
-    for (int i = 0; i < COINS; i++) //¸ðµç ÀÚµ¿Â÷ °´Ã¼¸¦ °Ë»ç
+    for (int i = 0; i < COINS; i++) //ëª¨ë“  ìžë™ì°¨ ê°ì²´ë¥¼ ê²€ì‚¬
     {
-        if (coins[i].on == true) //°´Ã¼°¡ È°¼ºÈ­µÇ¾î ÀÖ´Ù¸é
+        if (coins[i].on == true) //ê°ì²´ê°€ í™œì„±í™”ë˜ì–´ ìžˆë‹¤ë©´
         {
             if (coins[i].x <= x && x <= coins[i].x + 1 &&
-                coins[i].y == y) //ÄÚÀÎ °´Ã¼ÀÇ ÁÂÇ¥¿Í °ãÄ¡¸é  
+                coins[i].y == y) //ì½”ì¸ ê°ì²´ì˜ ì¢Œí‘œì™€ ê²¹ì¹˜ë©´  
             {
                 Delete_coin(i); Score += 50;
-                Coins++; //ÄÚÀÎ È¹µæ
-                return 1; //ÄÚÀÎÀ» Áö¿ì°í 1À» ¹ÝÈ¯   
+                Coins++; //ì½”ì¸ íšë“
+                return 1; //ì½”ì¸ì„ ì§€ìš°ê³  1ì„ ë°˜í™˜   
             }
         }
     }
 }
-//°­ °´Ã¼ À§¸¦ Áö³ª°¥ ¼ö ÀÖ´ÂÁö¸¦ ÆÇº°ÇÏ´Â ÇÔ¼ö
+//ê°• ê°ì²´ ìœ„ë¥¼ ì§€ë‚˜ê°ˆ ìˆ˜ ìžˆëŠ”ì§€ë¥¼ íŒë³„í•˜ëŠ” í•¨ìˆ˜
 bool Check_river(short x, short y)
 {
     for (int i = 0; i < RIVER; i++)
@@ -169,72 +184,81 @@ bool Check_river(short x, short y)
     return 1;
 }
 
-//ÀÚµ¿Â÷¸¦ ±×¸®°í °´Ã¼ ÇÏ³ªÀÇ ÁÂÇ¥¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+//ìžë™ì°¨ë¥¼ ê·¸ë¦¬ê³  ê°ì²´ í•˜ë‚˜ì˜ ì¢Œí‘œë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
 void Add_car(short x, short y, int num, bool up)
 {
-    Draw_car(x, y);                         //ÇØ´ç À§Ä¡¿¡ ÀÚµ¿Â÷¸¦ ¸ÕÀú ±×¸®°í
-    cars[num].x = x;     cars[num].y = y;   //x, y°ªÀ» °´Ã¼¿¡ Áý¾î³Ö°í
-    cars[num].on = true; cars[num].up = up; //ÇØ´ç °´Ã¼¸¦ È°¼ºÈ­ ÇÔ°ú µ¿½Ã¿¡ ±âº»¼³Á¤Àº À§·Î ÀüÁø
+    Draw_car(x, y, num, up);                         //í•´ë‹¹ ìœ„ì¹˜ì— ìžë™ì°¨ë¥¼ ë¨¼ì € ê·¸ë¦¬ê³ 
+    cars[num].x = x;     cars[num].y = y;   //x, yê°’ì„ ê°ì²´ì— ì§‘ì–´ë„£ê³ 
+    cars[num].on = true; cars[num].up = up; //í•´ë‹¹ ê°ì²´ë¥¼ í™œì„±í™” í•¨ê³¼ ë™ì‹œì— ê¸°ë³¸ì„¤ì •ì€ ìœ„ë¡œ ì „ì§„
 }
-//ÀÚµ¿Â÷ °´Ã¼¸¦ »èÁ¦ÇÏ´Â ÇÔ¼ö
+//ìžë™ì°¨ ê°ì²´ë¥¼ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜
 void Delete_car(int num)
 {
-    Remove_car(cars[num].x, cars[num].y); //ÀÚµ¿Â÷¸¦ Áö¿î´ÙÀ½
-    cars[num].on = false;                 //ÇØ´ç °´Ã¼ ºñÈ°¼ºÈ­
+    Remove_car(cars[num].x, cars[num].y); //ìžë™ì°¨ë¥¼ ì§€ìš´ë‹¤ìŒ
+    cars[num].on = false;                 //í•´ë‹¹ ê°ì²´ ë¹„í™œì„±í™”
 }
-//ÀÚµ¿Â÷ °´Ã¼¸¦ "À§ ¾Æ·¡·Î" ÇÑ Ä­ ÀÌµ¿ÇÏ´Â ÇÔ¼ö
+//ìžë™ì°¨ ê°ì²´ë¥¼ "ìœ„ ì•„ëž˜ë¡œ" í•œ ì¹¸ ì´ë™í•˜ëŠ” í•¨ìˆ˜
 void Move_car(int num)
 {
-    if (cars[num].on == true) //ÇØ´ç °´Ã¼°¡ È°¼ºÈ­µÇ¾î ÀÖ¾î¾ß¸¸ ÇÔ¼ö Àü¹® ¹ßµ¿
+    if (cars[num].on == true) //í•´ë‹¹ ê°ì²´ê°€ í™œì„±í™”ë˜ì–´ ìžˆì–´ì•¼ë§Œ í•¨ìˆ˜ ì „ë¬¸ ë°œë™
     {
-        if (cars[num].up == true) //ÇØ´ç °´Ã¼°¡ À§·Î ÀüÁøÀÌ¶ó¸é
+        bool up = true;
+        if (cars[num].up == true) //í•´ë‹¹ ê°ì²´ê°€ ìœ„ë¡œ ì „ì§„ì´ë¼ë©´
         {
-            Remove_car(cars[num].x, cars[num].y--); //ÀÚµ¿Â÷¸¦ Áö¿ò°ú µ¿½Ã¿¡ yÁÂÇ¥ ¼öÁ¤
-            if (cars[num].y <= 1) cars[num].y = 39; //¸¸¾à ÄÜ¼ÖÃ¢À» ¹þ¾î³ª¸é ´Ù½Ã ¹ØÀ¸·Î º¸³¿
+            up = true;
+            Remove_car(cars[num].x, cars[num].y--); //ìžë™ì°¨ë¥¼ ì§€ì›€ê³¼ ë™ì‹œì— yì¢Œí‘œ ìˆ˜ì •
+            if (cars[num].y < 1) cars[num].y = 35; //ë§Œì•½ ì½˜ì†”ì°½ì„ ë²—ì–´ë‚˜ë©´ ë‹¤ì‹œ ë°‘ìœ¼ë¡œ ë³´ëƒ„
         }
-        else                      //ÇØ´ç °´Ã¼°¡ ¾Æ·¡·Î ÀüÁøÀÌ¶ó¸é
+        else                      //í•´ë‹¹ ê°ì²´ê°€ ì•„ëž˜ë¡œ ì „ì§„ì´ë¼ë©´
         {
-            Remove_car(cars[num].x, cars[num].y++); //ÀÚµ¿Â÷¸¦ Áö¿ò°ú µ¿½Ã¿¡ yÁÂÇ¥ ¼öÁ¤
-            if (cars[num].y >= 40) cars[num].y = 1; //¸¸¾à ÄÜ¼ÖÃ¢À» ¹þ¾î³ª¸é ´Ù½Ã À§·Î º¸³¿
+            up = false;
+            Remove_car(cars[num].x, cars[num].y++); //ìžë™ì°¨ë¥¼ ì§€ì›€ê³¼ ë™ì‹œì— yì¢Œí‘œ ìˆ˜ì •
+            if (cars[num].y > 35) cars[num].y = 1; //ë§Œì•½ ì½˜ì†”ì°½ì„ ë²—ì–´ë‚˜ë©´ ë‹¤ì‹œ ìœ„ë¡œ ë³´ëƒ„
         }
-        Draw_car(cars[num].x, cars[num].y); //±×·¸°Ô ÁÂÇ¥ ¼öÁ¤ÀÌ ¸ðµÎ ¿Ï·áµÇ¸é ÀÚµ¿Â÷¸¦ ±×·Á ¿òÁ÷ÀÓ Ç¥Çö
+        Draw_car(cars[num].x, cars[num].y, num, up); //ê·¸ë ‡ê²Œ ì¢Œí‘œ ìˆ˜ì •ì´ ëª¨ë‘ ì™„ë£Œë˜ë©´ ìžë™ì°¨ë¥¼ ê·¸ë ¤ ì›€ì§ìž„ í‘œí˜„
     }
 }
-//È­¸éÀÌ ¿òÁ÷ÀÓ¿¡ µû¶ó ÀÚµ¿Â÷ °´Ã¼¸¦ ÀÌµ¿ÇÏ´Â ÇÔ¼ö
+//í™”ë©´ì´ ì›€ì§ìž„ì— ë”°ë¼ ìžë™ì°¨ ê°ì²´ë¥¼ ì´ë™í•˜ëŠ” í•¨ìˆ˜
 void Floating_car(bool direction)
-{ //directionÀÌ 0 ÀÌ¸é ÁÂÃø, directionÀÌ 1 ÀÌ¸é ¿ìÃø
-    for (int i = 0; i < CARS; i++) //¸ðµç ÀÚµ¿Â÷ °´Ã¼¸¦ °Ë»ç
+{ //directionì´ 0 ì´ë©´ ì¢Œì¸¡, directionì´ 1 ì´ë©´ ìš°ì¸¡
+    for (int i = 0; i < CARS; i++) //ëª¨ë“  ìžë™ì°¨ ê°ì²´ë¥¼ ê²€ì‚¬
     {
-        if (cars[i].on == true) //ÇØ´ç °´Ã¼°¡ È°¼ºÈ­µÇ¾î ÀÖ´Ù¸é
+        if (cars[i].on == true) //í•´ë‹¹ ê°ì²´ê°€ í™œì„±í™”ë˜ì–´ ìžˆë‹¤ë©´
         {
-            Remove_car(cars[i].x, cars[i].y); //ÀÚµ¿Â÷¸¦ ¸ÕÀú Áö¿ì°í
-            if (direction == 0) cars[i].x--;  //¿ÞÂÊ ¿À¸¥ÂÊ ¹æÇâÀ» ÀÐ¾î xÁÂÇ¥ ¼öÁ¤
+            Remove_car(cars[i].x, cars[i].y); //ìžë™ì°¨ë¥¼ ë¨¼ì € ì§€ìš°ê³ 
+            if (direction == 0) cars[i].x--;  //ì™¼ìª½ ì˜¤ë¥¸ìª½ ë°©í–¥ì„ ì½ì–´ xì¢Œí‘œ ìˆ˜ì •
             else cars[i].x++;
-            if (cars[i].x < 0 || cars[i].x > 149) //¸¸¾à ÁÂ¿ì ÄÜ¼ÖÃ¢À» ¹þ¾î³­´Ù¸é
-                Delete_car(i);                    //°´Ã¼ »èÁ¦
+            if (cars[i].x < 1)
+                Delete_car(i);
             else
-                Draw_car(cars[i].x, cars[i].y);   //Á¤»óÀÌ¶ó¸é ÀÚµ¿Â÷¸¦ ±×¸®¸ç ¿òÁ÷ÀÓ Ç¥Çö
+            {
+                if(cars[i].up == true)
+                    Draw_car(cars[i].x, cars[i].y, i, true);   //ì •ìƒì´ë¼ë©´ ìžë™ì°¨ë¥¼ ê·¸ë¦¬ë©° ì›€ì§ìž„ í‘œí˜„
+                else
+                    Draw_car(cars[i].x, cars[i].y, i, false);
+            }
+                
         }
     }
 }
 
-//ÄÚÀÎÀ» ±×¸®°í °´Ã¼ ÇÏ³ªÀÇ ÁÂÇ¥¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+//ì½”ì¸ì„ ê·¸ë¦¬ê³  ê°ì²´ í•˜ë‚˜ì˜ ì¢Œí‘œë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
 void Add_coin(short x, short y, int num)
 {
     Draw_coin(x, y);
-    coins[num].x = x;     coins[num].y = y; //±¸Á¶ À§¿Í µ¿ÀÏ
+    coins[num].x = x;     coins[num].y = y; //êµ¬ì¡° ìœ„ì™€ ë™ì¼
     coins[num].on = true;
 }
-//ÄÚÀÎ °´Ã¼¸¦ »èÁ¦ÇÏ´Â ÇÔ¼ö
+//ì½”ì¸ ê°ì²´ë¥¼ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜
 void Delete_coin(int num)
 {
-    Remove_coin(coins[num].x, coins[num].y); //ÄÚÀÎÀ» Áö¿î´ÙÀ½
-    coins[num].on = false;                   //ÇØ´ç °´Ã¼ ºñÈ°¼ºÈ­
+    Remove_coin(coins[num].x, coins[num].y); //ì½”ì¸ì„ ì§€ìš´ë‹¤ìŒ
+    coins[num].on = false;                   //í•´ë‹¹ ê°ì²´ ë¹„í™œì„±í™”
 }
-//È­¸éÀÌ ¿òÁ÷ÀÓ¿¡ µû¶ó ÄÚÀÎ °´Ã¼¸¦ ÀÌµ¿ÇÏ´Â ÇÔ¼ö
+//í™”ë©´ì´ ì›€ì§ìž„ì— ë”°ë¼ ì½”ì¸ ê°ì²´ë¥¼ ì´ë™í•˜ëŠ” í•¨ìˆ˜
 void Floating_coin(bool direction)
-{ //directionÀÌ 0 ÀÌ¸é ÁÂÃø, directionÀÌ 1 ÀÌ¸é ¿ìÃø
-    for (int i = 0; i < COINS; i++) //±¸Á¶ À§¿Í µ¿ÀÏ
+{ //directionì´ 0 ì´ë©´ ì¢Œì¸¡, directionì´ 1 ì´ë©´ ìš°ì¸¡
+    for (int i = 0; i < COINS; i++) //êµ¬ì¡° ìœ„ì™€ ë™ì¼
     {
         if (coins[i].on == true)
         {
@@ -249,58 +273,68 @@ void Floating_coin(bool direction)
     }
 }
 
-//°­À» ±×¸®°í °´Ã¼ ÇÏ³ªÀÇ ÁÂÇ¥¸¦ ¼³Á¤ÇÏ´Â ÇÔ¼ö
+//ê°•ì„ ê·¸ë¦¬ê³  ê°ì²´ í•˜ë‚˜ì˜ ì¢Œí‘œë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
 void Add_river(short x, int num)
 {
     srand((unsigned int)time(NULL));
-    rivers[num].x = x;      // xÁÂÇ¥ ¼³Á¤
-    rivers[num].on = true;  //°´Ã¼ È°¼ºÈ­
+    rivers[num].x = x;      // xì¢Œí‘œ ì„¤ì •
+    rivers[num].on = true;  //ê°ì²´ í™œì„±í™”
     for (int i = 0; i < rand() % 5 + 1; i++)
     {
-        short bridge_y = rand() % 40; //¿¬²É ´Ù¸®ÀÇ yÃà ·£´ý »ý¼º
-        //Áßº¹¹æÁö Ãß°¡¿ä¸Á, 0°ú 40µµ ¾ÈµÊ
-        rivers[num].bridge[i] = bridge_y; //¿¬²É ´Ù¸® yÃà ÁöÁ¤
+        short bridge_y = rand() % 40; //ì—°ê½ƒ ë‹¤ë¦¬ì˜ yì¶• ëžœë¤ ìƒì„±
+        //ì¤‘ë³µë°©ì§€ ì¶”ê°€ìš”ë§, 0ê³¼ 40ë„ ì•ˆë¨
+        rivers[num].bridge[i] = bridge_y; //ì—°ê½ƒ ë‹¤ë¦¬ yì¶• ì§€ì •
     }
     Draw_river(x, num);
 }
-//°­ °´Ã¼¸¦ »èÁ¦ÇÏ´Â ÇÔ¼ö
+//ê°• ê°ì²´ë¥¼ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜
 void Delete_river(int num)
 {
     Remove_river(rivers[num].x);
-    rivers[num].on = false; //°´Ã¼ ºñÈ°¼ºÈ­
+    rivers[num].on = false; //ê°ì²´ ë¹„í™œì„±í™”
     for (int i = 0; i < RIVER; i++)
     {
-        rivers[num].bridge[i] = 0; //¸ðµç ´Ù¸®ÀÇ ÁÂÇ¥¸¦ 0À¸·Î ¼³Á¤ÇÏ¿© ÃÊ±âÈ­
+        rivers[num].bridge[i] = 0; //ëª¨ë“  ë‹¤ë¦¬ì˜ ì¢Œí‘œë¥¼ 0ìœ¼ë¡œ ì„¤ì •í•˜ì—¬ ì´ˆê¸°í™”
     }
 }
-//È­¸éÀÌ ¿òÁ÷ÀÓ¿¡ µû¶ó °­ °´Ã¼¸¦ ÀÌµ¿ÇÏ´Â ÇÔ¼ö
+//í™”ë©´ì´ ì›€ì§ìž„ì— ë”°ë¼ ê°• ê°ì²´ë¥¼ ì´ë™í•˜ëŠ” í•¨ìˆ˜
 void Floating_river(bool direction)
-{ //directionÀÌ 0 ÀÌ¸é ÁÂÃø, directionÀÌ 1 ÀÌ¸é ¿ìÃø
-    for (int i = 0; i < RIVER; i++) //¸ðµç °­ °´Ã¼¸¦ °Ë»ç
+{ //directionì´ 0 ì´ë©´ ì¢Œì¸¡, directionì´ 1 ì´ë©´ ìš°ì¸¡
+    for (int i = 0; i < RIVER; i++) //ëª¨ë“  ê°• ê°ì²´ë¥¼ ê²€ì‚¬
     {
-        if (rivers[i].on == true) //ÇØ´ç °´Ã¼°¡ È°¼ºÈ­µÇ¾î ÀÖ´Ù¸é
+        if (rivers[i].on == true) //í•´ë‹¹ ê°ì²´ê°€ í™œì„±í™”ë˜ì–´ ìžˆë‹¤ë©´
         {
-            Remove_river(rivers[i].x); //°­À» ¸ÕÀú Áö¿ì°í
+            Remove_river(rivers[i].x); //ê°•ì„ ë¨¼ì € ì§€ìš°ê³ 
 
-            if (direction == 0) rivers[i].x--;  //¿ÞÂÊ ¿À¸¥ÂÊ ¹æÇâÀ» ÀÐ¾î xÁÂÇ¥ ¼öÁ¤
+            if (direction == 0) rivers[i].x--;  //ì™¼ìª½ ì˜¤ë¥¸ìª½ ë°©í–¥ì„ ì½ì–´ xì¢Œí‘œ ìˆ˜ì •
             else rivers[i].x++;
-            if (rivers[i].x < 0 || rivers[i].x > 149) //¸¸¾à ÁÂ¿ì ÄÜ¼ÖÃ¢À» ¹þ¾î³­´Ù¸é
-                Delete_river(i);      //¼öÁ¤¿ä¸Á                //°´Ã¼ »èÁ¦
-            else
-                Draw_river(rivers[i].x, i);
+            Draw_river(rivers[i].x, i);
         }
     }
 }
 
-//È°¼ºÈ­µÇÁö ¾ÊÀº °´Ã¼ ¹øÈ£¸¦ Ã£´Â ÇÔ¼ö
-short Find_car() //ÀÚµ¿Â÷
+//í™œì„±í™”ë˜ì§€ ì•Šì€ ê°ì²´ ë²ˆí˜¸ë¥¼ ì°¾ëŠ” í•¨ìˆ˜
+short Find_car() //ìžë™ì°¨
 {
-    for (int i = 0; i < CARS; i++) //¸ðµç °´Ã¼¸¦ °Ë»ç
+    for (int i = 0; i < CARS; i++) //ëª¨ë“  ê°ì²´ë¥¼ ê²€ì‚¬
         if (cars[i].on == false) return i;
-    //¸¸¾à È°¼ºÈ­µÇÁö ¾ÊÀº °´Ã¼ÀÇ ¹øÈ£¸¦ Ã£À¸¸é ¹øÈ£¸¦ ¹ÝÈ¯ÇÏ¸ç °ð¹Ù·Î ÇÔ¼ö Á¾·á
+    //ë§Œì•½ í™œì„±í™”ë˜ì§€ ì•Šì€ ê°ì²´ì˜ ë²ˆí˜¸ë¥¼ ì°¾ìœ¼ë©´ ë²ˆí˜¸ë¥¼ ë°˜í™˜í•˜ë©° ê³§ë°”ë¡œ í•¨ìˆ˜ ì¢…ë£Œ
 }
-short Find_coin() //ÄÚÀÎ
+short Find_coin() //ì½”ì¸
 {
     for (int i = 0; i < COINS; i++)
         if (coins[i].on == false) return i;
+}
+short Find_river() //ê°•
+{
+    for (int i = 0; i < RIVER; i++)
+        if (rivers[i].on == false) return i;
+}
+
+//í”Œë¡œíŒ…ì‹œ ë‚˜ì˜¬ ê°ì²´ë¥¼ ì„ íƒí•˜ëŠ” í•¨ìˆ˜
+unsigned short Choose_object()
+{
+    static int choose = 1;
+    choose++;
+    return choose % 2 + 1;
 }

@@ -135,6 +135,7 @@ void Game()
             }
             if (input == LEFT && x > 0) //왼쪽 이동
             {
+                if (Check_river(x, y) == 0) continue; //강 위를 지나갈 수 없다면 돌아감
                 Remove_player(x--, y);
                 Draw_player(x, y);
                 Sleep(10); //약간의 딜레이

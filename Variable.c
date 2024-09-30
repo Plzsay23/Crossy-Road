@@ -1,6 +1,21 @@
 #include <stdio.h>
 #include "Variable.h"
 
+char car_down[5][7] = { //자동차 DOWN
+    {"n_ww_ "},
+    {"@l   l"},
+    {" l   l"},
+    {"@l___l"},
+    {" l__l "}
+};
+char car_up[5][7] = { //자동차 UP
+    {" l--l "},
+    {"@l- -l"},
+    {" l   l"},
+    {"@l   l"},
+    {"u-mm- "}
+};
+
 char Name[30];  //게임 시작 시 이름을 입력받는 곳
 
 Cars cars[CARS]; //자동차 객체 배열
@@ -9,6 +24,7 @@ River rivers[RIVER]; //강 객체 배열
 
 Cars help_screen_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
 Coin help_screen_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체
+River help_screen_river = { 50, {10, 17, 24, 31, 38}, 0 }; //게임 설명 화면에서 쓸 강 객체
 
 User Ranking[RANKING]; //랭킹을 저장할 배열
 

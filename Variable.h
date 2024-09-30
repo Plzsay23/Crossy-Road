@@ -46,19 +46,25 @@ typedef struct River {
 //랭킹 구조체
 typedef struct User {
     int score;           //점수
-    char name[30];      //사용자 이름
+    char name[30];       //사용자 이름
     unsigned int coins;  //코인 개수
 } User;
 
 //게임 관련 전역 변수 선언
+
+//자동차 디자인
+extern char car_down[5][7];
+extern char car_up[5][7];
+
 extern char Name[30];            //게임 시작 시 이름을 입력받는 곳
 
 extern Cars cars[CARS];          //자동차 객체 배열
 extern Coin coins[COINS];        //코인 객체 배열
-extern River rivers[RIVER];       //강 객체 배열
+extern River rivers[RIVER];      //강 객체 배열
 
 extern Cars help_screen_car;     //게임 설명 화면에서 쓸 자동차 객체
 extern Coin help_screen_coin;    //게임 설명 화면에서 쓸 코인 객체
+extern River help_screen_river;  //게임 설명 화면에서 쓸 강 객체
 
 extern User Ranking[RANKING];    //랭킹을 저장할 배열
 

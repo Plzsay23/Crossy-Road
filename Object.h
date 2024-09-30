@@ -5,15 +5,12 @@
 #include <stdbool.h>
 #include "Variable.h"
 
-extern char car_down[5][7];
-extern char car_up[5][7];
-
 //객체를 단순히 그리고 지우는 함수들
 void Draw_player(short x, short y);
 void Remove_player(short x, short y);
 void Draw_coin(short x, short y);
 void Remove_coin(short x, short y);
-void Draw_car(short x, short y, int num);
+void Draw_car(short x, short y, bool up);
 void Remove_car(short x, short y);
 void Draw_river(short x, int num);
 void Remove_river(short x);

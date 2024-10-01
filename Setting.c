@@ -1,5 +1,7 @@
 #include "Setting.h"
 #include "Variable.h"
+#include <mmsystem.h> //브금
+#pragma comment(lib,"winmm.lib") //브금
 
 //이미지 주소를 담을 포인터 변수 선언
 typedef const char* Image; //별칭 생성
@@ -128,13 +130,85 @@ void Read_ranking()
     fclose(Rank);
 }
 
-//이미지를 정적 배열에 읽어오는 함수
-void ReadImage(const char* filePath, unsigned char* image)
+//브금을 재생하는 함수
+void Play_bgm(const char* filename, bool loop)
 {
-    FILE* fp = fopen(filePath, "rb"); //이진법으로 파일 오픈
-    if (fp == NULL) { return; } //파일이 읽히지 않으면 충돌을 막기 위해 함수 종료
-    fread(image, 1, IMAGE_SIZE, fp); //이미지 데이터를 읽음
+    int filenameLength = strlen(filename) + 1;
+    int bufferSize = MultiByteToWideChar(CP_UTF8, 0, filename, filenameLength, NULL, 0);
+    TCHAR* wideFilename = (TCHAR*)malloc(bufferSize * sizeof(TCHAR));
+    MultiByteToWideChar(CP_UTF8, 0, filename, filenameLength, wideFilename, bufferSize);
+    PlaySound(NULL, NULL, 0);
+    if (loop == 1) //반복재생하는 경우
+        PlaySound(wideFilename, NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+    else //한 번만 재생하는 경우
+        PlaySound(wideFilename, NULL, SND_FILENAME | SND_ASYNC);
+    free(wideFilename);
+}
+
+//반복재생된 브금을 끝내는 함수
+void Stop_bgm()
+{
+    PlaySound(NULL, NULL, 0);
+}
+
+//이미지를 읽어 불러오는 함수
+void ReadImage(const char* filePath, unsigned char** image)
+{
+    FILE* fp = fopen(filePath, "rb");
+    fread(*image, 1, 256 * 256, fp);
     fclose(fp);
 }
 
-//이미지 출력 함수 잠시 제거
+//256x256 크기의 이미지를 그리는 함수
+void Draw_image_256(const char* filePath, HDC hdc, int offsetX, int offsetY)
+{
+    //힙 메모리에 이미지 배열 할당
+    unsigned char* image = (unsigned char*)malloc(256 * 256 * sizeof(unsigned char));
+    if (image == NULL) return;
+    ReadImage(filePath, &image); //이미지 파일을 읽어옴
+    //이미지를 그대로 출력
+    for (int r = 0; r < 256; r++)
+    {
+        for (int c = 0; c < 256; c++)
+        {
+            int gray = image[r * 256 + c];
+            SetPixel(hdc, c + offsetX, r + offsetY, RGB(gray, gray, gray));
+        }
+    }
+    free(image); //힙 메모리 해제
+}
+
+//256x256 크기의 이미지를 128x128로 축소하여 그리는 함수
+void Draw_image_128(const char* filePath, HDC hdc, int offsetX, int offsetY)
+{
+    //힙 메모리에 이미지 배열 할당
+    unsigned char* image = (unsigned char*)malloc(256 * 256 * sizeof(unsigned char));
+    if (image == NULL) return;
+    ReadImage(filePath, &image); //이미지 파일을 읽어옴
+    //128x128 크기의 축소된 이미지 배열을 힙 메모리에 할당
+    unsigned char* smallImage = (unsigned char*)malloc(128 * 128 * sizeof(unsigned char));
+    if (smallImage == NULL) return;
+    //이미지 크기 축소
+    for (int r = 0; r < 128; r++)
+    {
+        for (int c = 0; c < 128; c++)
+        {
+            int sum = image[2 * r * 256 + 2 * c] +
+                image[2 * r * 256 + 2 * c + 1] +
+                image[(2 * r + 1) * 256 + 2 * c] +
+                image[(2 * r + 1) * 256 + 2 * c + 1];
+            smallImage[r * 128 + c] = sum / 4;
+        }
+    }
+    //축소된 이미지를 출력
+    for (int r = 0; r < 128; r++)
+    {
+        for (int c = 0; c < 128; c++)
+        {
+            int gray = smallImage[r * 128 + c];
+            SetPixel(hdc, c + offsetX, r + offsetY, RGB(gray, gray, gray));
+        }
+    }
+    free(image); //힙 메모리 해제
+    free(smallImage);
+}

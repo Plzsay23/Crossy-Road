@@ -65,10 +65,10 @@ void Main_screen()
     Textcolor(black, white);
     Main_screen_cloud();
 
-    gotoxy(21, 25); printf("새로하기 : 1");
-    gotoxy(53, 25); printf("이어하기 : 2");
-    gotoxy(85, 25); printf("게임설명 : 3");
-    gotoxy(117, 25); printf("랭킹보기 : 4");
+    gotoxy(21, 35); printf("새로하기 : 1");
+    gotoxy(53, 35); printf("이어하기 : 2");
+    gotoxy(85, 35); printf("게임설명 : 3");
+    gotoxy(117, 35); printf("랭킹보기 : 4");
 
     clock_t letter = clock(); //텍스트 점멸을 위한 시간 저장
 

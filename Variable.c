@@ -34,3 +34,10 @@ unsigned int Coins = 0; //플레이어의 코인 개수를 저장할 곳
 long extra_display = 0; //화면 플로팅
 
 short start_x = 77, start_y = 29; // x, y의 초기값
+
+//이미지 출력 관련 설정 코드
+HWND hwnd; //현재 포그라운드 윈도우의 핸들을 가져옴
+HDC hdc; //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
+
+//이미지 파일들의 주소를 담을 변수
+const char* Adrenaline = "Images\\Adrenaline.raw"; //예시

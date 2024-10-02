@@ -148,42 +148,40 @@ bool Check_river(short x, short y)
 {
     for (int i = 0; i < RIVER; i++) //모든 강 객체 검사
     {
-        if (rivers[i].on == true) //해당 객체가 활성화되어 있다면
+        if (rivers[i].on == true) //강 객체가 활성화되어있다면
         {
-            if (rivers[i].x - 1 <= x && x < rivers[i].x + 11) //x축의 범위 지정
+            if (rivers[i].x <= x && x <= rivers[i].x + 9) //x좌표가 강의 위라면
             {
-                int found = 0; //찾았는지를 저장할 변수
-                for (int j = 0; j < RIVER; j++) //모든 연꽃 다리를 검사
+                bool is_over = true;
+                for (int j = 0; j < RIVER; j++) //모든 연꽃 다리 검사
                 {
-                    if (rivers[i].bridge[j] == y) //연꽃 다리의 y좌표와 같다면
+                    if (1 <= rivers[i].bridge[j] && rivers[i].bridge[j] <= 39 
+                        && y == rivers[i].bridge[j]) //하나라도 연꽃다리와 y축이 겹치면
                     {
-                        found++; return 1; //찾았음을 알리고 1을 반환
+                        is_over = false; break; //문제 없음 is_over = false
                     }
                 }
-                if (found == 0) //못 찾았다면 지나갈 수 없음, 0을 반환
-                    return 0;
+                if (is_over == true) return 1; //하나라도 겹치면 1을 반환
             }
         }
     }
-
-    //게임 설명 화면의 강 객체
-    if (help_screen_river.on == true)
+    if (help_screen_river.on == true) //위와 동일
     {
-        if (help_screen_river.x - 1 <= x && x < help_screen_river.x + 11)
+        if (help_screen_river.x <= x && x <= help_screen_river.x + 9)
         {
-            int found = 0;
-            for (int i = 0; i < RIVER; i++)
+            bool is_over = true;
+            for (int j = 0; j < RIVER; j++)
             {
-                if (help_screen_river.bridge[i] == y)
+                if (1 <= help_screen_river.bridge[j] && help_screen_river.bridge[j] <= 39 
+                    && y == help_screen_river.bridge[j])
                 {
-                    found++; return 1;
+                    is_over = false; break;
                 }
             }
-            if (found == 0)
-                return 0;
+            if (is_over == true) return 1;
         }
     }
-    return 1;
+    return 0;
 }
 
 //자동차를 그리고 객체 하나의 좌표를 설정하는 함수

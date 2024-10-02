@@ -65,10 +65,12 @@ void Main_screen()
     Textcolor(black, white);
     Main_screen_cloud();
 
-    gotoxy(21, 35); printf("새로하기 : 1");
-    gotoxy(53, 35); printf("이어하기 : 2");
-    gotoxy(85, 35); printf("게임설명 : 3");
-    gotoxy(117, 35); printf("랭킹보기 : 4");
+    gotoxy(21, 25); printf("새로하기 : 1");
+    gotoxy(53, 25); printf("이어하기 : 2");
+    gotoxy(85, 25); printf("게임설명 : 3");
+    gotoxy(117, 25); printf("랭킹보기 : 4");
+    gotoxy(53, 30); printf("상점보기 : 5 (구현 미확정)");
+    gotoxy(85, 30); printf("도감보기 : 6 (구현 거의확정)");
 
     clock_t letter = clock(); //텍스트 점멸을 위한 시간 저장
 
@@ -253,14 +255,12 @@ void Help_screen()
             input = _getch();
             if (input == RIGHT && x < 147) //우측 이동
             {
-                if (Check_river(x, y) == 0) continue; //강 위를 지나갈 수 없다면 돌아감
                 Remove_player(x++, y); //공 지우면서 좌표 이동
                 Draw_player(x, y); 
                 Sleep(33);
             }
             if (input == LEFT && x > 2) //좌측 이동
             {
-                if (Check_river(x, y) == 0) continue; //강 위를 지나갈 수 없다면 돌아감
                 Remove_player(x--, y);
                 Draw_player(x, y);
                 Sleep(33);
@@ -299,11 +299,17 @@ void Help_screen()
             {
                 Remove_coin(help_screen_coin.x, help_screen_coin.y); //코인 지우고
                 Draw_player(x, y); coin++;
+                Textcolor(black, green);
                 gotoxy(26, 4); printf("코인 : %d", coin); //코인 갯수 최신화
+                Textcolor(black, white);
                 help_screen_coin.on = false; //코인 객체 제거
             }
         }
 
+        if (Check_river(x, y) == 1)
+        {
+            Help_screen(); break;
+        }
         if (Check_over(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
         {
             Help_screen(); break;

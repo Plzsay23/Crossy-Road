@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <time.h>
 #include <stdbool.h>
+#include <malloc.h>
 
 void Textcolor(int bgcolor, int txcolor);
 void Setting();

@@ -2,6 +2,7 @@
 #define VARIABLE_H
 
 #include <stdbool.h>
+#include <Windows.h>
 
 #define IMAGE_SIZE (256 * 256)
 #define LEFT 75
@@ -74,5 +75,11 @@ extern unsigned int Coins;       //플레이어의 코인 개수를 저장할 곳
 extern long extra_display;       //화면 플로팅, 얼마나 움직였는지를 저장할 변수
 
 extern short start_x, start_y;   // x, y의 초기값
+
+extern HWND hwnd;                //현재 포그라운드 윈도우의 핸들을 가져옴
+extern HDC hdc;                  //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
+
+//이미지 파일들의 주소를 담을 변수
+extern const char* Adrenaline;   //예시
 
 #endif

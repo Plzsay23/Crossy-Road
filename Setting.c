@@ -14,10 +14,6 @@ void Textcolor(int bgcolor, int txcolor)
     SetConsoleTextAttribute(handle, (bgcolor << 4) + txcolor);
 }
 
-//이미지 출력 관련 설정 코드, GPT 사용
-HWND hwnd; //현재 포그라운드 윈도우의 핸들을 가져옴
-HDC hdc; //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
-
 //각종 세팅 함수
 //https://blockdmask.tistory.com/344
 //https://blog.naver.com/ifthe1201/221056588399

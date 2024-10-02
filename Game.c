@@ -26,6 +26,7 @@ void Recycle()
         for (int j = 0; j < RIVER; j++)
             rivers[i].bridge[j] = 0;
     }
+    extra_display = 0;
 }
 
 //인게임
@@ -44,13 +45,10 @@ void Game()
 
     Draw_player(x, y);
 
-
     for (int i = 10; i < 150; i += 10) //초기 화면을 덮을만큼만 자동차 객체 활성화 & 소환
     {
         Add_car(i, rand() % 39 + 1, Find_car(), rand() % 2); //각 인자는 Add_car 함수 참고
     }
-
-    //Add_river(146, 0);
 
     while (1) //행동 선택
     {
@@ -60,8 +58,6 @@ void Game()
             input = _getch();
             if (input == RIGHT && x < 148) //오른쪽 이동
             {
-                if (Check_river(x, y) == 0) continue; //강 위로 지나갈 수 없다면 돌아감
-
                 if (extra_display < 1000 && x >= start_x) //우측으로 1000칸만 플로팅 되도록 설정
                 { //현재 임시로 1000칸, 이후 늘릴지 말지 결정
                     Floating_car(0); //자동차들이 왼쪽으로 밀려나며 이동을 표현
@@ -78,7 +74,7 @@ void Game()
                     switch (choose)
                     {
                     case 1: //자동차
-                        if (extra_display - floating_x <= 80)
+                        if (extra_display - floating_x <= 60)
                         {
                             if (extra_display % 10 == 0) //10칸마다 소환
                             {
@@ -91,9 +87,9 @@ void Game()
                         else choose = 0;
                         break;
                     case 2: //강
-                        if (extra_display - floating_x < 40)
+                        if (extra_display - floating_x < 10)
                         {
-                            if (is_spawn == false && extra_display - floating_x > 10)
+                            if (is_spawn == false && extra_display - floating_x > 5)
                             {
                                 Add_river(148, Find_river());
                                 Score += 100; is_spawn = 1;
@@ -133,20 +129,19 @@ void Game()
                 }
                 Sleep(10); //약간의 딜레이
             }
-            if (input == LEFT && x > 0) //왼쪽 이동
+            else if (input == LEFT && x > 0) //왼쪽 이동
             {
-                if (Check_river(x, y) == 0) continue; //강 위를 지나갈 수 없다면 돌아감
                 Remove_player(x--, y);
                 Draw_player(x, y);
                 Sleep(10); //약간의 딜레이
             }
-            if (input == UP && y > 0) //위쪽 이동
+            else if (input == UP && y > 0) //위쪽 이동
             {
                 Remove_player(x, y--);
                 Draw_player(x, y);
                 Sleep(10);
             }
-            if (input == DOWN && y < 40) //아래쪽 이동
+            else if (input == DOWN && y < 40) //아래쪽 이동
             {
                 Remove_player(x, y++);
                 Draw_player(x, y);
@@ -167,14 +162,18 @@ void Game()
             Move_car(car); //하나의 자동차만 가속
             cars_speed = clock(); //시간 초기화
         }
-        */
+        
         if (Check_over(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
+        {
+            Game_over(x, y); break;
+        }
+        */
+        if (Check_river(x, y) == 1)
         {
             Game_over(x, y); break;
         }
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면
         {
-
             Draw_player(x, y);
         }
     }

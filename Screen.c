@@ -288,7 +288,7 @@ void Help_screen()
         {
             Remove_car(help_screen_car.x, help_screen_car.y++); //자동차를 지움과 동시에 y좌표 수정
             if (help_screen_car.y >= 35) help_screen_car.y = 2; //만약 콘솔창을 벗어나면 다시 위로 보냄
-            Draw_car(help_screen_car.x, help_screen_car.y); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
+            Draw_car(help_screen_car.x, help_screen_car.y, 0); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
             car = clock(); //시간 초기화
         }
 

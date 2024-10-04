@@ -14,6 +14,8 @@ void Draw_car(short x, short y, bool up);
 void Remove_car(short x, short y);
 void Draw_river(short x, int num);
 void Remove_river(short x);
+void Draw_monster(short x, short y);
+void Remove_monster(short x, short y);
 
 //객체와 플레이어의 충돌 감지 함수들
 bool Check_over(short x, short y);
@@ -36,6 +38,12 @@ void Floating_coin(bool direction);
 void Add_river(short x, int num);
 void Delete_river(int num);
 void Floating_river(bool direction);
+
+//몬스터
+void Add_monster(short x, short y, int num, bool up);
+void Delete_monster(int num);
+void Move_monster(int num);
+void Floating_monster(bool direction);
 
 //비어있는 객체를 찾는 함수들
 short Find_car();

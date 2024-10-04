@@ -103,6 +103,36 @@ void Remove_river(short x)
         }
     }
 }
+//좌표를 받아 몬스터 그리기
+void Draw_monster(short x, short y)
+{
+    Textcolor(black, red);
+    short range = 5; //몬스터의 최대길이 5
+    if (x > 145) range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < range; j++)
+        {
+            gotoxy(x + j, y + i);
+            printf("%c", monster[i][j]);
+        }
+    }
+    Textcolor(black, white);
+}
+//좌표를 받아 몬스터 지우기
+void Remove_monster(short x, short y)
+{
+    short range = 5; //몬스터의 최대길이 5
+    if (x > 145) range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < range; j++)
+        {
+            gotoxy(x + j, y + i);
+            printf(" ");
+        }
+    }
+}
 
 //자동차 객체와 닿았는지를 판별하는 함수
 bool Check_over(short x, short y)
@@ -320,6 +350,57 @@ void Floating_river(bool direction)
     }
 }
 
+//몬스터를 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_monster(short x, short y, int num, bool up)
+{
+    Draw_monster(x, y);                             //해당 위치에 몬스터를 먼저 그리고
+    monsters[num].x = x;     monsters[num].y = y;   //x, y값을 객체에 집어넣고
+    monsters[num].on = true; monsters[num].up = up; //해당 객체를 활성화 함과 동시에 기본설정은 위로 전진
+}
+//몬스터 객체를 삭제하는 함수
+void Delete_monster(int num)
+{
+    Remove_monster(monsters[num].x, monsters[num].y); //몬스터를 지운다음
+    monsters[num].on = false;                         //해당 객체 비활성화
+}
+//몬스터 객체를 "위 아래로" 한 칸 이동하는 함수
+void Move_monster(int num)
+{
+    if (monsters[num].on == true) //해당 객체가 활성화되어 있어야만 함수 전문 발동
+    {
+        if (monsters[num].up == true) //해당 객체가 위로 전진이라면
+        {
+            Remove_monster(monsters[num].x, monsters[num].y--); //몬스터를 지움과 동시에 y좌표 수정
+            if (monsters[num].y < 0) monsters[num].y = 38; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+        }
+        else                      //해당 객체가 아래로 전진이라면
+        {
+            Remove_monster(monsters[num].x, monsters[num].y++); //몬스터를 지움과 동시에 y좌표 수정
+            if (monsters[num].y > 38) monsters[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
+        }
+        Draw_monster(monsters[num].x, monsters[num].y); //그렇게 좌표 수정이 모두 완료되면 몬스터를 그려 움직임 표현
+    }
+}
+//화면이 움직임에 따라 몬스터 객체를 이동하는 함수
+void Floating_monster(bool direction)
+{ //direction이 0 이면 좌측, direction이 1 이면 우측
+    for (int i = 0; i < CARS; i++) //모든 몬스터 객체를 검사
+    {
+        if (monsters[i].on == true) //해당 객체가 활성화되어 있다면
+        {
+            Remove_monster(monsters[i].x, monsters[i].y); //몬스터를 먼저 지우고
+            if (direction == 0) monsters[i].x--;  //왼쪽 오른쪽 방향을 읽어 x좌표 수정
+            else monsters[i].x++;
+            if (monsters[i].x < 2)
+                Delete_monster(i);
+            else
+            {
+                Draw_monster(monsters[i].x, monsters[i].y);   //정상이라면 몬스터를 그리며 움직임 표현
+            }
+        }
+    }
+}
+
 //활성화되지 않은 객체 번호를 찾는 함수
 short Find_car() //자동차
 {
@@ -336,6 +417,11 @@ short Find_river() //강
 {
     for (int i = 0; i < RIVER; i++)
         if (rivers[i].on == false) return i;
+}
+short Find_monster() //몬스터
+{
+    for (int i = 0; i < MONSTER; i++)
+        if (monsters[i].on == false) return i;
 }
 
 //플로팅시 나올 객체를 선택하는 함수

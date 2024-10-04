@@ -14,6 +14,7 @@
 #define CARS 30 // x 길이 150의 콘솔창에선 딱 30개가 한계
 #define COINS 30 //현재 최대 코인 값 30개
 #define RIVER 5 //강
+#define MONSTER 30 //몬스터
 
 //색깔 구조체, ex) Textcolor(black, white) 이러면 배경은 검정, 글자는 흰색으로 지정됨
 //https://makerejoicegames.tistory.com/115
@@ -44,6 +45,14 @@ typedef struct River {
     bool on;             //객체의 활성화 유무
 } River;
 
+//몬스터 구조체
+typedef struct Monster {
+    short x;    // x 좌표
+    short y;    // y 좌표
+    bool on;    //객체의 활성화 유무
+    bool up;    //객체가 위로 갈지 아래로 갈지 (1이면 위로, 0이면 아래로)
+} Monster;
+
 //랭킹 구조체
 typedef struct User {
     int score;           //점수
@@ -54,14 +63,17 @@ typedef struct User {
 //게임 관련 전역 변수 선언
 
 //자동차 디자인
-extern char car_down[5][7];
-extern char car_up[5][7];
+extern const char car_down[5][7];
+extern const char car_up[5][7];
+
+extern const char monster[3][6];
 
 extern char Name[30];            //게임 시작 시 이름을 입력받는 곳
 
 extern Cars cars[CARS];          //자동차 객체 배열
 extern Coin coins[COINS];        //코인 객체 배열
 extern River rivers[RIVER];      //강 객체 배열
+extern Monster monsters[MONSTER];//몬스터 객체 배열
 
 extern Cars help_screen_car;     //게임 설명 화면에서 쓸 자동차 객체
 extern Coin help_screen_coin;    //게임 설명 화면에서 쓸 코인 객체

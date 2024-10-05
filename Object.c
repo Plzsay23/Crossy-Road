@@ -80,7 +80,7 @@ void Draw_river(short x, int num)
         }
     }
     Textcolor(green, green);
-    for (int i = 0; i < RIVER; i++) //연꽃 다리 그리기
+    for (int i = 0; i < RIVERS; i++) //연꽃 다리 그리기
     {
         if (rivers[num].bridge[i] != 0 && rivers[num].bridge[i] != 40) 
         { //연꽃 다리의 y좌표가 0과 40이 아닐때만
@@ -114,7 +114,7 @@ void Draw_monster(short x, short y)
         for (int j = 0; j < range; j++)
         {
             gotoxy(x + j, y + i);
-            printf("%c", monster[i][j]);
+            printf("%c", monster1[i][j]);
         }
     }
     Textcolor(black, white);
@@ -122,7 +122,7 @@ void Draw_monster(short x, short y)
 //좌표를 받아 몬스터 지우기
 void Remove_monster(short x, short y)
 {
-    short range = 5; //몬스터의 최대길이 5
+    short range = 6; //몬스터의 최대길이 5
     if (x > 145) range = 149 - x; //범위가 넘어가면 잘리도록 구현
     for (int i = 0; i < 3; i++)
     {
@@ -135,7 +135,7 @@ void Remove_monster(short x, short y)
 }
 
 //자동차 객체와 닿았는지를 판별하는 함수
-bool Check_over(short x, short y)
+bool Check_car(short x, short y)
 {
     for (int i = 0; i < CARS; i++) //모든 자동차 객체를 검사
     {
@@ -149,8 +149,8 @@ bool Check_over(short x, short y)
 
     if (help_screen_car.on == true) //게임설명화면의 자동차 객체
     {
-        if (help_screen_car.x - 1 <= x && x <= help_screen_car.x + 1 &&
-            help_screen_car.y - 1 <= y && y <= help_screen_car.y + 1)
+        if (help_screen_car.x <= x && x <= help_screen_car.x + 5 &&
+            help_screen_car.y <= y && y <= help_screen_car.y + 4)
             return 1; //자동차 객체의 범위와 겹치면 1을 반환
     }
 
@@ -163,8 +163,7 @@ bool Check_coin(short x, short y)
     {
         if (coins[i].on == true) //객체가 활성화되어 있다면
         {
-            if (coins[i].x <= x && x <= coins[i].x + 1 &&
-                coins[i].y == y) //코인 객체의 좌표와 겹치면  
+            if (coins[i].x == x && coins[i].y == y) //코인 객체의 좌표와 겹치면  
             {
                 Delete_coin(i); Score += 50;
                 Coins++; //코인 획득
@@ -176,14 +175,14 @@ bool Check_coin(short x, short y)
 //강 객체 위를 지나갈 수 있는지를 판별하는 함수
 bool Check_river(short x, short y)
 {
-    for (int i = 0; i < RIVER; i++) //모든 강 객체 검사
+    for (int i = 0; i < RIVERS; i++) //모든 강 객체 검사
     {
         if (rivers[i].on == true) //강 객체가 활성화되어있다면
         {
             if (rivers[i].x <= x && x <= rivers[i].x + 9) //x좌표가 강의 위라면
             {
                 bool is_over = true;
-                for (int j = 0; j < RIVER; j++) //모든 연꽃 다리 검사
+                for (int j = 0; j < RIVERS; j++) //모든 연꽃 다리 검사
                 {
                     if (1 <= rivers[i].bridge[j] && rivers[i].bridge[j] <= 39 
                         && y == rivers[i].bridge[j]) //하나라도 연꽃다리와 y축이 겹치면
@@ -200,7 +199,7 @@ bool Check_river(short x, short y)
         if (help_screen_river.x <= x && x <= help_screen_river.x + 9)
         {
             bool is_over = true;
-            for (int j = 0; j < RIVER; j++)
+            for (int j = 0; j < RIVERS; j++)
             {
                 if (1 <= help_screen_river.bridge[j] && help_screen_river.bridge[j] <= 39 
                     && y == help_screen_river.bridge[j])
@@ -212,6 +211,28 @@ bool Check_river(short x, short y)
         }
     }
     return 0;
+}
+//몬스터 객체와 닿았는지를 판별하는 함수
+bool Check_monster(short x, short y)
+{
+    for (int i = 0; i < CARS; i++) //모든 몬스터 객체를 검사
+    {
+        if (cars[i].on == true) //객체가 활성화되어 있다면
+        {
+            if (cars[i].x <= x && x <= cars[i].x + 4 &&
+                cars[i].y <= y && y <= cars[i].y + 3)
+                return 1; //몬스터 객체의 범위와 겹치면 1을 반환
+        }
+    }
+
+    if (help_screen_car.on == true) //게임설명화면의 몬스터 객체
+    {
+        if (help_screen_monster.x <= x && x <= help_screen_monster.x + 4 &&
+            help_screen_monster.y <= y && y <= help_screen_monster.y + 3)
+            return 1; //몬스터 객체의 범위와 겹치면 1을 반환
+    }
+
+    return 0; //안겹치면 0을 반환
 }
 
 //자동차를 그리고 객체 하나의 좌표를 설정하는 함수
@@ -329,7 +350,7 @@ void Delete_river(int num)
 {
     Remove_river(rivers[num].x);
     rivers[num].on = false; //객체 비활성화
-    for (int i = 0; i < RIVER; i++)
+    for (int i = 0; i < RIVERS; i++)
     {
         rivers[num].bridge[i] = 0; //모든 다리의 좌표를 0으로 설정하여 초기화
     }
@@ -337,7 +358,7 @@ void Delete_river(int num)
 //화면이 움직임에 따라 강 객체를 이동하는 함수
 void Floating_river(bool direction)
 { //direction이 0 이면 좌측, direction이 1 이면 우측
-    for (int i = 0; i < RIVER; i++) //모든 강 객체를 검사
+    for (int i = 0; i < RIVERS; i++) //모든 강 객체를 검사
     {
         if (rivers[i].on == true) //해당 객체가 활성화되어 있다면
         {
@@ -371,12 +392,12 @@ void Move_monster(int num)
         if (monsters[num].up == true) //해당 객체가 위로 전진이라면
         {
             Remove_monster(monsters[num].x, monsters[num].y--); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y < 0) monsters[num].y = 38; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+            if (monsters[num].y < 0) monsters[num].y = 37; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
         }
         else                      //해당 객체가 아래로 전진이라면
         {
             Remove_monster(monsters[num].x, monsters[num].y++); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y > 38) monsters[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
+            if (monsters[num].y > 37) monsters[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
         }
         Draw_monster(monsters[num].x, monsters[num].y); //그렇게 좌표 수정이 모두 완료되면 몬스터를 그려 움직임 표현
     }
@@ -384,7 +405,7 @@ void Move_monster(int num)
 //화면이 움직임에 따라 몬스터 객체를 이동하는 함수
 void Floating_monster(bool direction)
 { //direction이 0 이면 좌측, direction이 1 이면 우측
-    for (int i = 0; i < CARS; i++) //모든 몬스터 객체를 검사
+    for (int i = 0; i < MONSTERS; i++) //모든 몬스터 객체를 검사
     {
         if (monsters[i].on == true) //해당 객체가 활성화되어 있다면
         {
@@ -415,12 +436,12 @@ short Find_coin() //코인
 }
 short Find_river() //강
 {
-    for (int i = 0; i < RIVER; i++)
+    for (int i = 0; i < RIVERS; i++)
         if (rivers[i].on == false) return i;
 }
 short Find_monster() //몬스터
 {
-    for (int i = 0; i < MONSTER; i++)
+    for (int i = 0; i < MONSTERS; i++)
         if (monsters[i].on == false) return i;
 }
 
@@ -429,5 +450,5 @@ unsigned short Choose_object()
 {
     static int choose = 1;
     choose++;
-    return choose % 2 + 1;
+    return choose % 3 + 1;
 }

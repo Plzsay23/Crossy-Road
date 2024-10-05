@@ -13,8 +13,8 @@
 #define RANKING 10
 #define CARS 30 // x 길이 150의 콘솔창에선 딱 30개가 한계
 #define COINS 30 //현재 최대 코인 값 30개
-#define RIVER 5 //강
-#define MONSTER 30 //몬스터
+#define RIVERS 5 //강
+#define MONSTERS 50 //몬스터
 
 //색깔 구조체, ex) Textcolor(black, white) 이러면 배경은 검정, 글자는 흰색으로 지정됨
 //https://makerejoicegames.tistory.com/115
@@ -41,7 +41,7 @@ typedef struct Coin {
 //강 구조체
 typedef struct River {
     short x;             //배경이 시작될 x좌표
-    short bridge[RIVER]; //연꽃 다리가 생성될 y좌표, 최대 5개
+    short bridge[RIVERS]; //연꽃 다리가 생성될 y좌표, 최대 5개
     bool on;             //객체의 활성화 유무
 } River;
 
@@ -66,30 +66,32 @@ typedef struct User {
 extern const char car_down[5][7];
 extern const char car_up[5][7];
 
-extern const char monster[3][6];
+//몬스터 디자인
+extern const char monster1[3][6];
 
-extern char Name[30];            //게임 시작 시 이름을 입력받는 곳
+extern char Name[30];                //게임 시작 시 이름을 입력받는 곳
 
-extern Cars cars[CARS];          //자동차 객체 배열
-extern Coin coins[COINS];        //코인 객체 배열
-extern River rivers[RIVER];      //강 객체 배열
-extern Monster monsters[MONSTER];//몬스터 객체 배열
+extern Cars cars[CARS];              //자동차 객체 배열
+extern Coin coins[COINS];            //코인 객체 배열
+extern River rivers[RIVERS];         //강 객체 배열
+extern Monster monsters[MONSTERS];   //몬스터 객체 배열
 
-extern Cars help_screen_car;     //게임 설명 화면에서 쓸 자동차 객체
-extern Coin help_screen_coin;    //게임 설명 화면에서 쓸 코인 객체
-extern River help_screen_river;  //게임 설명 화면에서 쓸 강 객체
+extern Cars help_screen_car;         //게임 설명 화면에서 쓸 자동차 객체
+extern Coin help_screen_coin;        //게임 설명 화면에서 쓸 코인 객체
+extern River help_screen_river;      //게임 설명 화면에서 쓸 강 객체
+extern Monster help_screen_monster;  //게임 설명 화면에서 쓸 몬스터 객체
 
-extern User Ranking[RANKING];    //랭킹을 저장할 배열
+extern User Ranking[RANKING];        //랭킹을 저장할 배열
 
-extern unsigned int Score;       //플레이어의 점수를 저장할 곳
-extern unsigned int Coins;       //플레이어의 코인 개수를 저장할 곳
+extern unsigned int Score;           //플레이어의 점수를 저장할 곳
+extern unsigned int Coins;           //플레이어의 코인 개수를 저장할 곳
 
-extern long extra_display;       //화면 플로팅, 얼마나 움직였는지를 저장할 변수
+extern long extra_display;           //화면 플로팅, 얼마나 움직였는지를 저장할 변수
 
-extern short start_x, start_y;   // x, y의 초기값
+extern short start_x, start_y;       // x, y의 초기값
 
-extern HWND hwnd;                //현재 포그라운드 윈도우의 핸들을 가져옴
-extern HDC hdc;                  //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
+extern HWND hwnd;                    //현재 포그라운드 윈도우의 핸들을 가져옴
+extern HDC hdc;                      //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
 
 //이미지 파일들의 주소를 담을 변수
 extern const char* Adrenaline;   //예시

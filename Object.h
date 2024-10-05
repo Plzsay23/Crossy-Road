@@ -18,9 +18,10 @@ void Draw_monster(short x, short y);
 void Remove_monster(short x, short y);
 
 //객체와 플레이어의 충돌 감지 함수들
-bool Check_over(short x, short y);
+bool Check_car(short x, short y);
 bool Check_coin(short x, short y);
 bool Check_river(short x, short y);
+bool Check_monster(short x, short y);
 
 //객체를 추가하고 제거하고 좌표를 움직이는 함수들
 //자동차

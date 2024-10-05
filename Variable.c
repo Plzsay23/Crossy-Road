@@ -16,7 +16,7 @@ const char car_up[5][7] = { //자동차 UP
     {"u-mm- "}
 };
 
-const char monster[3][6] = {
+const char monster1[3][6] = { //몬스터
     {" @ @ "},
     {"( o )"},
     {" / ＼"}
@@ -26,12 +26,13 @@ char Name[30];  //게임 시작 시 이름을 입력받는 곳
 
 Cars cars[CARS]; //자동차 객체 배열
 Coin coins[COINS]; //코인 객체 배열
-River rivers[RIVER]; //강 객체 배열
-Monster monsters[MONSTER]; //몬스터 객체 배열
+River rivers[RIVERS]; //강 객체 배열
+Monster monsters[MONSTERS]; //몬스터 객체 배열
 
 Cars help_screen_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
 Coin help_screen_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체
 River help_screen_river = { 50, {10, 17, 24, 31, 38}, 0 }; //게임 설명 화면에서 쓸 강 객체
+Monster help_screen_monster = { 91, 3, 0, 0 }; //게임 설명 화면에서 쓸 몬스터 객체
 
 User Ranking[RANKING]; //랭킹을 저장할 배열
 

@@ -219,15 +219,19 @@ void Help_screen()
     short coin = 0;
     gotoxy(26, 4); printf("코인 : %d", coin);
 
+    gotoxy(89, 1); printf("피하세요!");
+
     short x = 2, y = 20; //플레이어의 초기 좌표 선언과 함께 초기화
     help_screen_car.on = true; //자동차 객체 선언
     help_screen_coin.on = true; //코인 객체 선언
     help_screen_river.on = true; //강 객체 선언
+    help_screen_monster.on = true; //몬스터 객체 선언
 
     Draw_player(x, y); 
     Draw_car(help_screen_car.x, help_screen_car.y, 0); //객체 출력
     Draw_coin(help_screen_coin.x, help_screen_coin.y);
     Draw_river(help_screen_river.x, 0);
+    Draw_monster(help_screen_monster.x, help_screen_monster.y);
 
     for (int i = 0; i < 10; i++) { //강 윗 부분 자르기
         for (int j = 0; j < 4; j++) {
@@ -236,7 +240,7 @@ void Help_screen()
     gotoxy(49, 2); printf("강을 건너세요");
 
     Textcolor(green, green);
-    for (int i = 0; i < RIVER; i++) //연꽃 다리 그리기
+    for (int i = 0; i < RIVERS; i++) //연꽃 다리 그리기
     {
         if (help_screen_river.bridge[i] != 0 && help_screen_river.bridge[i] != 40)
         { //연꽃 다리의 y좌표가 0과 40이 아닐때만
@@ -246,6 +250,7 @@ void Help_screen()
     } Textcolor(black, white);
 
     clock_t car = clock(); //시간 저장
+    clock_t monster = clock();
 
     while (1)
     {
@@ -291,6 +296,13 @@ void Help_screen()
             Draw_car(help_screen_car.x, help_screen_car.y, 0); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
             car = clock(); //시간 초기화
         }
+        if (clock() > monster + 200)
+        {
+            Remove_monster(help_screen_monster.x, help_screen_monster.y++);
+            if (help_screen_monster.y >= 37) help_screen_monster.y = 2;
+            Draw_monster(help_screen_monster.x, help_screen_monster.y);
+            monster = clock();
+        }
 
         if (help_screen_coin.on == true) //객체가 활성화되어 있다면
         {
@@ -306,11 +318,15 @@ void Help_screen()
             }
         }
 
+        if (Check_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
+        {
+            Help_screen(); break;
+        }
         if (Check_river(x, y) == 1)
         {
             Help_screen(); break;
         }
-        if (Check_over(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
+        if (Check_monster(x, y) == 1)
         {
             Help_screen(); break;
         }
@@ -318,6 +334,8 @@ void Help_screen()
 
     help_screen_car.on = false; //자동차 객체 제거
     help_screen_coin.on = false; //코인 객체 제거
+    help_screen_river.on = false;
+    help_screen_monster.on = false;
 }
 
 //랭킹 화면

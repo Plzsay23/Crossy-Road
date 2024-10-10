@@ -3,9 +3,11 @@
 #include <mmsystem.h> //브금
 #pragma comment(lib,"winmm.lib") //브금
 
+/*
 //이미지 주소를 담을 포인터 변수 선언
 typedef const char* Image; //별칭 생성
 Image Beer = "Images\\Beer.raw";
+*/
 
 //글자의 배경과 글자 색을 지정하는 함수
 void Textcolor(int bgcolor, int txcolor)

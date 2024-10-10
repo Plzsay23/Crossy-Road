@@ -26,6 +26,16 @@ void Recycle()
         for (int j = 0; j < RIVERS; j++)
             rivers[i].bridge[j] = 0;
     }
+    for (int i = 0; i < MONSTERS; i++)
+    {
+        monsters[i].x = 0; monsters[i].y = 0;
+        monsters[i].on = false; monsters[i].up = false;
+    }
+    for (int i = 0; i < TRAINS; i++)
+    {
+        trains[i].x = 0; trains[i].y = 0;
+        trains[i].on = false; trains[i].cpy = 0;
+    }
     extra_display = 0;
 }
 
@@ -38,6 +48,7 @@ void Game()
     clock_t cars_time = clock();  //자동차가 움직일 시간 저장
     clock_t cars_speed = clock(); //자동차 속도를 조정할 시간 저장
     clock_t monsters_time = clock();
+    clock_t trains_time = clock();
 
     short x = start_x, y = start_y; //공의 초기 좌표 선언과 함께 초기화
     unsigned short choose = 0; //객체를 선택할 변수
@@ -67,7 +78,8 @@ void Game()
                     Floating_car(0); //자동차들이 왼쪽으로 밀려나며 이동을 표현 = 플로팅
                     Floating_coin(0); //코인 플로팅
                     Floating_river(0); //강 플로팅
-                    Floating_monster(0);
+                    Floating_monster(0); //몬스터 플로팅
+                    Floating_train(0); //기차 플로팅
                     extra_display++; //플로팅 이동을 변수에 저장
 
                     if (choose == 0)
@@ -112,16 +124,27 @@ void Game()
                         {
                             if (floating_display % 10 == 0) //10칸마다 소환
                             {
-                                short monster_y = rand() % 10;
                                 for (int i = 0; i < 5; i++)
                                 {
-                                    monster_y += rand() % 4 + 3;
-                                    Add_monster(148, monster_y, Find_monster(), rand() % 2);
+                                    Add_monster(148, rand() % 39, Find_monster(), rand() % 2);
                                 }
                                 Score += 30; //그럴때마다 30점 추가                            
                             }
                         }
                         else choose = 0;
+                        break;
+                    case 4: //기차
+                        if (extra_display - floating_x < 40)
+                        {
+                            if (is_spawn == false)
+                            {
+                                Add_train(148, 1, Find_train());
+                                Score += 200; is_spawn = 1;
+                            }
+                        }
+                        else
+                        { choose = 0; is_spawn = 0; }
+                        break;
                     }
                     Draw_player(x, y);
                 }
@@ -152,7 +175,7 @@ void Game()
             }
         }
 
-        if (clock() > cars_time + 100) //100ms마다 발동
+        if (clock() > cars_time + 50) //100ms마다 발동
         {
             for (int i = 0; i < CARS; i++) Move_car(i); //모든 자동차 객체의 y값을 변경
             cars_time = clock(); //시간 초기화
@@ -162,6 +185,11 @@ void Game()
         {
             for (int i = 0; i < MONSTERS; i++) Move_monster(i);
             monsters_time = clock();
+        }
+        if (clock() > trains_time + 25) //25ms마다 발동
+        {
+            for (int i = 0; i < TRAINS; i++) Move_train(i);
+            trains_time = clock();
         }
         /*
         if (clock() > cars_speed + 5) //랜덤한 객체를 선정해 속도 순간적으로 가속

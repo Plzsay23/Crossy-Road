@@ -69,8 +69,6 @@ void Main_screen()
     gotoxy(53, 25); printf("이어하기 : 2");
     gotoxy(85, 25); printf("게임설명 : 3");
     gotoxy(117, 25); printf("랭킹보기 : 4");
-    gotoxy(53, 30); printf("상점보기 : 5 (구현 미확정)");
-    gotoxy(85, 30); printf("도감보기 : 6 (구현 거의확정)");
 
     clock_t letter = clock(); //텍스트 점멸을 위한 시간 저장
 
@@ -180,7 +178,7 @@ void Continue_screen()
     system("cls"); Draw_square();
     gotoxy(136, 39); printf("뒤로가기 : Q");
     gotoxy(30, 20); printf("이름 입력 : ");
-
+    Draw_image_256(Chicken, hdc, 680, 250);
 
     while (1)
     {
@@ -350,24 +348,59 @@ void Ranking_screen()
     gotoxy(20, 3);
     printf("랭킹\t\t이름\t\t\t점수\t\t\t코인");
 
-    for (int i = 0; i < RANKING; i++)
-    {
-        if (Ranking[i].score > 0) //점수가 있어야만 출력
-        {
-            gotoxy(20, 5 + i * 3);
-            printf("%d\t\t\t%s\t\t\t%d\t\t\t%d", i + 1, Ranking[i].name, Ranking[i].score, Ranking[i].coins);
-        }
-    }
+    clock_t blink_time = clock();  // 깜빡임 효과를 위한 시간 저장 변수
+    int blink_state = 0;           // 0일 때 빨강, 1일 때 분홍
 
-    while (1)
-    {
-        char input;
-        if (_kbhit())
-        {
-            input = _getch();
-            if (input == 'q' || input == 'Q') // Q를 누르면
+    while (1) {
+        for (int i = 0; i < RANKING; i++) {
+            if (Ranking[i].score > 0) // 점수가 있어야만 출력
             {
-                Main_screen(); //메인화면으로 돌아감
+                gotoxy(20, 5 + i * 3);
+
+                // 1위 깜빡임 효과
+                if (i == 0) {
+                    if (blink_state == 0) {
+                        Textcolor(black, red);  // 빨강
+                    }
+                    else {
+                        Textcolor(black, PINK);  // 분홍
+                    }
+                    gotoxy(22, 5 + i * 3);
+                    printf("★");  // 1위에 별 출력
+                }
+                // 2위 및 3위는 색상 고정
+                else if (i == 1) {
+                    Textcolor(black, orange);
+                    gotoxy(22, 5 + i * 3);
+                    printf("★");
+                }
+                else if (i == 2) {
+                    Textcolor(black, YELLOW);
+                    gotoxy(22, 5 + i * 3);
+                    printf("★");
+                }
+                else {
+                    Textcolor(black, white); // 나머지 순위는 흰색 텍스트
+                }
+
+                //이름이 길어지면 한칸씩 밀리길래 하나씩 좌표찍음
+                gotoxy(20, 5 + i * 3); printf("%d", i + 1);
+                gotoxy(40, 5 + i * 3); printf("%s", Ranking[i].name);
+                gotoxy(64, 5 + i * 3); printf("%d", Ranking[i].score);
+                gotoxy(88, 5 + i * 3); printf("%d", Ranking[i].coins);
+            }
+        }
+
+        // 깜빡임 주기 설정 (500ms마다 색상 변경)
+        if (clock() > blink_time + 500) {
+            blink_state = !blink_state;  // 빨강과 분홍으로 깜빡임 전환
+            blink_time = clock();  // 시간 초기화
+        }
+
+        // 사용자가 Q를 누르면 랭킹 화면 종료
+        if (_kbhit()) {
+            char input = _getch();
+            if (input == 'q' || input == 'Q') {
                 break;
             }
         }

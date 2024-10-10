@@ -8,6 +8,9 @@
 #include <stdbool.h>
 #include <malloc.h>
 
+#define YELLOW 14
+#define PINK 13
+
 void Textcolor(int bgcolor, int txcolor);
 void Setting();
 void gotoxy(int x, int y);

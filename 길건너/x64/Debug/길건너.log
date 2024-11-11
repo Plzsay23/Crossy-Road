@@ -1,0 +1,4 @@
+﻿  main.c
+D:\승재\과제\2-2\자료구조 및 실습\길건너\main.c(331,5): warning C4013: 'init_object'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+D:\승재\과제\2-2\자료구조 및 실습\길건너\main.c(335,5): warning C4013: 'free_object'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  길건너.vcxproj -> D:\승재\과제\2-2\자료구조 및 실습\길건너\x64\Debug\길건너.exe

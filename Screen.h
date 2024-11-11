@@ -17,6 +17,8 @@ void Main_screen();
 void Start_screen();
 bool Check_continue();
 void Continue_screen();
+void Color_screen();
+void Color_set_screen(int obj);
 void Help_screen();
 void Ranking_screen();
 

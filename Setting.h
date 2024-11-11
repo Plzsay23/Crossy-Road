@@ -11,7 +11,9 @@
 #define YELLOW 14
 #define PINK 13
 
-void Textcolor(int bgcolor, int txcolor);
+void textcolor(int r, int g, int b);
+void bgcolor(int r, int g, int b);
+void removecolor();
 void Setting();
 void gotoxy(int x, int y);
 void Ranking_sort();

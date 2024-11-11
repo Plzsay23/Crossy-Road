@@ -1,9 +1,32 @@
 ﻿#include "Object.h"
 
+//객체들을 동적으로 할당해주는 함수
+void init_object() 
+{
+    cars = (Car*)malloc(sizeof(Car) * CARS);
+    if (cars == NULL) return 0;
+    coins = (Coin*)malloc(sizeof(Coin) * COINS);
+    if (coins == NULL) return 0;
+    rivers = (River*)malloc(sizeof(River) * RIVERS);
+    if (rivers == NULL) return 0;
+    monsters = (Monster*)malloc(sizeof(Monster) * MONSTERS);
+    if (monsters == NULL) return 0;
+    trains = (Train*)malloc(sizeof(Train) * TRAINS);
+    if (trains == NULL) return 0;
+}
+//프로그램 종료 전 동적 메모리 할당 해제
+void free_object()
+{
+    free(cars); free(coins); free(rivers);
+    free(monsters); free(trains);
+}
+
 //좌표를 받아 플레이어 그리기
 void Draw_player(short x, short y)
 {
+    textcolor(p_rgb.r, p_rgb.g, p_rgb.b);
     gotoxy(x, y); printf("G");
+    removecolor();
 }
 //좌표를 받아 플레이어 지우기
 void Remove_player(short x, short y)
@@ -13,9 +36,9 @@ void Remove_player(short x, short y)
 //좌표를 받아 코인 그리기
 void Draw_coin(short x, short y)
 {
-    Textcolor(black, brightyellow);
+    textcolor(255, 255, 102);
     gotoxy(x, y); printf("o");
-    Textcolor(black, white);
+    removecolor();
 }
 //좌표를 받아 코인 지우기
 //현재 코인과 플레이어 디자인이 같음, 지금만 같은 뿐임
@@ -26,7 +49,7 @@ void Remove_coin(short x, short y)
 //좌표를 받아 자동차 그리기
 void Draw_car(short x, short y, bool up)
 {
-    Textcolor(black, green);
+    textcolor(c_rgb.r, c_rgb.g, c_rgb.b);
     short range = 6; //자동차의 최대길이 6
     if (x > 144) range = 149 - x; //범위가 넘어가면 잘리도록 구현
     for (int i = 0; i < 5; i++)
@@ -40,7 +63,7 @@ void Draw_car(short x, short y, bool up)
                 printf("%c", car_down[i][j]);
         }
     }
-    Textcolor(black, white);
+    removecolor();
 }
 //좌표를 받아 자동차 지우기
 void Remove_car(short x, short y)
@@ -71,7 +94,7 @@ void Draw_river(short x, int num)
             Delete_river(num); return; //객체 제거
         }
     }
-    Textcolor(blue, black);
+    bgcolor(0, 0, 255);
     for (int i = 1; i < 40; i++) //강 배경 그리기
     {
         for (int j = 0; j < range; j++)
@@ -79,7 +102,8 @@ void Draw_river(short x, int num)
             gotoxy(x_range + j, i); printf(" ");
         }
     }
-    Textcolor(green, green);
+    textcolor(0, 255, 0);
+    bgcolor(0, 255, 0);
     for (int i = 0; i < RIVERS; i++) //연꽃 다리 그리기
     {
         if (rivers[num].bridge[i] != 0 && rivers[num].bridge[i] != 40) 
@@ -88,7 +112,7 @@ void Draw_river(short x, int num)
             for (int j = 0; j < range; j++) printf(" ");
         }
     }
-    Textcolor(black, white);
+    removecolor();
 }
 //좌표를 받아 강 지우기
 void Remove_river(short x)
@@ -106,7 +130,7 @@ void Remove_river(short x)
 //좌표를 받아 몬스터 그리기
 void Draw_monster(short x, short y)
 {
-    Textcolor(black, red);
+    textcolor(m_rgb.r, m_rgb.g, m_rgb.b);
     short range = 5; //몬스터의 최대길이 5
     if (x > 145) range = 149 - x; //범위가 넘어가면 잘리도록 구현
     for (int i = 0; i < 3; i++)
@@ -117,7 +141,7 @@ void Draw_monster(short x, short y)
             printf("%c", monster1[i][j]);
         }
     }
-    Textcolor(black, white);
+    removecolor();
 }
 //좌표를 받아 몬스터 지우기
 void Remove_monster(short x, short y)
@@ -136,7 +160,7 @@ void Remove_monster(short x, short y)
 //좌표를 받아 기차 그리기
 void Draw_train(short x, short y)
 {
-    Textcolor(black, orange);
+    textcolor(t_rgb.r, t_rgb.g, t_rgb.b);
     short range = 7; //기차의 너비 최대길이 7
     if (x > 143) range = 149 - x; //범위가 넘어가면 잘리도록 구현
     for (int i = 0; i < 6; i++)
@@ -147,7 +171,7 @@ void Draw_train(short x, short y)
             printf("%c", train[i][j]);
         }
     }
-    Textcolor(black, white);
+    removecolor();
 }
 //좌표를 받아 기차 지우기
 void Remove_train(short x, short y)
@@ -177,10 +201,10 @@ bool Check_car(short x, short y)
         }
     }
 
-    if (help_screen_car.on == true) //게임설명화면의 자동차 객체
+    if (help_car.on == true) //게임설명화면의 자동차 객체
     {
-        if (help_screen_car.x <= x && x <= help_screen_car.x + 5 &&
-            help_screen_car.y <= y && y <= help_screen_car.y + 4)
+        if (help_car.x <= x && x <= help_car.x + 5 &&
+            help_car.y <= y && y <= help_car.y + 4)
             return 1; //자동차 객체의 범위와 겹치면 1을 반환
     }
 
@@ -224,15 +248,15 @@ bool Check_river(short x, short y)
             }
         }
     }
-    if (help_screen_river.on == true) //위와 동일
+    if (help_river.on == true) //위와 동일
     {
-        if (help_screen_river.x <= x && x <= help_screen_river.x + 9)
+        if (help_river.x <= x && x <= help_river.x + 9)
         {
             bool is_over = true;
             for (int j = 0; j < RIVERS; j++)
             {
-                if (1 <= help_screen_river.bridge[j] && help_screen_river.bridge[j] <= 39 
-                    && y == help_screen_river.bridge[j])
+                if (1 <= help_river.bridge[j] && help_river.bridge[j] <= 39 
+                    && y == help_river.bridge[j])
                 {
                     is_over = false; break;
                 }
@@ -255,10 +279,10 @@ bool Check_monster(short x, short y)
         }
     }
 
-    if (help_screen_car.on == true) //게임설명화면의 몬스터 객체
+    if (help_car.on == true) //게임설명화면의 몬스터 객체
     {
-        if (help_screen_monster.x <= x && x <= help_screen_monster.x + 4 &&
-            help_screen_monster.y <= y && y <= help_screen_monster.y + 3)
+        if (help_monster.x <= x && x <= help_monster.x + 4 &&
+            help_monster.y <= y && y <= help_monster.y + 3)
             return 1; //몬스터 객체의 범위와 겹치면 1을 반환
     }
 
@@ -526,7 +550,7 @@ short Find_train() //기차
 //플로팅시 나올 객체를 선택하는 함수
 unsigned short Choose_object()
 {
-    static int choose = 1;
-    choose++;
+    static unsigned short choose = 1;
+    choose++; if (choose >= 65532) choose = 0;
     return choose % 4 + 1;
 }

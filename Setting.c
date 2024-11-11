@@ -9,11 +9,20 @@ typedef const char* Image; //별칭 생성
 Image Beer = "Images\\Beer.raw";
 */
 
-//글자의 배경과 글자 색을 지정하는 함수
-void Textcolor(int bgcolor, int txcolor)
+//글자 색을 지정하는 함수
+void textcolor(int r, int g, int b) 
 {
-    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(handle, (bgcolor << 4) + txcolor);
+    printf("\033[38;2;%d;%d;%dm", r, g, b); //RGB 값으로 글자색 설정
+}
+//글자의 배경 색을 지정하는 함수
+void bgcolor(int r, int g, int b)
+{
+    printf("\033[38;2;%d;%d;%dm", r, g, b); //RGB 값으로 배경색 설정
+}
+//글자와 배경색을 원래대로 되돌리는 함수
+void removecolor()
+{
+    printf("\033[0m"); //Black, White 기본값 복원
 }
 
 //각종 세팅 함수

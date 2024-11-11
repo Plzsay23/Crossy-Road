@@ -17,20 +17,13 @@
 #define MONSTERS 50 //몬스터
 #define TRAINS 20 //기차
 
-//색깔 구조체, ex) Textcolor(black, white) 이러면 배경은 검정, 글자는 흰색으로 지정됨
-//https://makerejoicegames.tistory.com/115
-enum {
-    black, blue, green, skyblue, red, pink, orange, white, gray, lightblue,
-    brightgreen, sky, brightred, brightpink, brightyellow, brightwhite
-};
-
 //자동차 객체 구조체
-typedef struct Cars {
+typedef struct Car {
     short x;    // x 좌표
     short y;    // y 좌표
     bool on;    //객체의 활성화 유무
     bool up;    //객체가 위로 갈지 아래로 갈지 (1이면 위로, 0이면 아래로)
-} Cars;
+} Car;
 
 //코인 구조체
 typedef struct Coin {
@@ -69,6 +62,13 @@ typedef struct User {
     unsigned int coins;  //코인 개수
 } User;
 
+//색상 구조체
+typedef struct Color {
+    int r;  //Red
+    int g;  //Green
+    int b;  //Blue
+} Color;
+
 //게임 관련 전역 변수 선언
 
 //자동차 디자인
@@ -83,19 +83,24 @@ extern const char train[6][8];
 
 extern char Name[30];                //게임 시작 시 이름을 입력받는 곳
 
-extern Cars cars[CARS];              //자동차 객체 배열
-extern Coin coins[COINS];            //코인 객체 배열
-extern River rivers[RIVERS];         //강 객체 배열
-extern Monster monsters[MONSTERS];   //몬스터 객체 배열
-extern Train trains[TRAINS];         //기차 객체 배열
+extern Car* cars;              //자동차 객체 배열
+extern Coin* coins;            //코인 객체 배열
+extern River* rivers;         //강 객체 배열
+extern Monster* monsters;   //몬스터 객체 배열
+extern Train* trains;         //기차 객체 배열
 
-extern Cars help_screen_car;         //게임 설명 화면에서 쓸 자동차 객체
-extern Coin help_screen_coin;        //게임 설명 화면에서 쓸 코인 객체
-extern River help_screen_river;      //게임 설명 화면에서 쓸 강 객체
-extern Monster help_screen_monster;  //게임 설명 화면에서 쓸 몬스터 객체
-extern Train help_screen_train;      //게임 설명 화면에서 쓸 기차 객체
+extern Car help_car;         //게임 설명 화면에서 쓸 자동차 객체
+extern Coin help_coin;        //게임 설명 화면에서 쓸 코인 객체
+extern River help_river;      //게임 설명 화면에서 쓸 강 객체
+extern Monster help_monster;  //게임 설명 화면에서 쓸 몬스터 객체
+extern Train help_train;      //게임 설명 화면에서 쓸 기차 객체
 
 extern User Ranking[RANKING];        //랭킹을 저장할 배열
+
+extern Color p_rgb; //플레이어 커스텀 색상
+extern Color c_rgb; //자동차
+extern Color m_rgb; //몬스터
+extern Color t_rgb; //기차
 
 extern unsigned int Score;           //플레이어의 점수를 저장할 곳
 extern unsigned int Coins;           //플레이어의 코인 개수를 저장할 곳
@@ -108,7 +113,6 @@ extern HWND hwnd;                    //현재 포그라운드 윈도우의 핸들을 가져옴
 extern HDC hdc;                      //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
 
 //이미지 파일들의 주소를 담을 변수
-extern const char* Adrenaline;   //예시
 extern const char* Chicken; 
 
 #endif

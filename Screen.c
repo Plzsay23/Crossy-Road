@@ -298,6 +298,14 @@ void Color_set_screen(int obj)
     case 3: t_rgb.r = r; t_rgb.g = g; t_rgb.b = b; break; //기차 색상 조정
     }
 
+    //색상 외부 파일에 저장
+    FILE* color = fopen("Color.txt", "w");
+    fprintf(color, "%d %d %d\n", p_rgb.r, p_rgb.g, p_rgb.b);
+    fprintf(color, "%d %d %d\n", c_rgb.r, c_rgb.g, c_rgb.b);
+    fprintf(color, "%d %d %d\n", m_rgb.r, m_rgb.g, m_rgb.b);
+    fprintf(color, "%d %d %d\n", t_rgb.r, t_rgb.g, t_rgb.b);
+    fclose(color);
+
     Color_screen(); return;
 }
 

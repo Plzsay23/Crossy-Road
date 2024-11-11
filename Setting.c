@@ -3,12 +3,6 @@
 #include <mmsystem.h> //브금
 #pragma comment(lib,"winmm.lib") //브금
 
-/*
-//이미지 주소를 담을 포인터 변수 선언
-typedef const char* Image; //별칭 생성
-Image Beer = "Images\\Beer.raw";
-*/
-
 //글자 색을 지정하는 함수
 void textcolor(int r, int g, int b) 
 {
@@ -17,7 +11,7 @@ void textcolor(int r, int g, int b)
 //글자의 배경 색을 지정하는 함수
 void bgcolor(int r, int g, int b)
 {
-    printf("\033[38;2;%d;%d;%dm", r, g, b); //RGB 값으로 배경색 설정
+    printf("\033[48;2;%d;%d;%dm", r, g, b); //RGB 값으로 배경색 설정
 }
 //글자와 배경색을 원래대로 되돌리는 함수
 void removecolor()
@@ -135,6 +129,18 @@ void Read_ranking()
     int i = 0;
     while (fscanf(Rank, "%s %d %d", Ranking[i].name, &Ranking[i].score, &Ranking[i].coins) != EOF) i++;
     fclose(Rank);
+}
+
+//게임 시작시 저장된 색상을 불러오는 함수
+void Read_color()
+{
+    FILE* color = fopen("Color.txt", "r");
+    if (color == NULL) return; //처음 시작이어서 저장된 파일이 없다면 무시하고 진행
+    fscanf(color, "%d %d %d", &p_rgb.r, &p_rgb.g, &p_rgb.b);
+    fscanf(color, "%d %d %d", &c_rgb.r, &c_rgb.g, &c_rgb.b);
+    fscanf(color, "%d %d %d", &m_rgb.r, &m_rgb.g, &m_rgb.b);
+    fscanf(color, "%d %d %d", &t_rgb.r, &t_rgb.g, &t_rgb.b);
+    fclose(color);
 }
 
 //브금을 재생하는 함수

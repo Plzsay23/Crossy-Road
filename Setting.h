@@ -18,6 +18,7 @@ void Setting();
 void gotoxy(int x, int y);
 void Ranking_sort();
 void Read_ranking();
+void Read_color();
 void Play_bgm(const char* filename, bool loop);
 void Stop_bgm();
 void ReadImage(const char* filePath, unsigned char** image);

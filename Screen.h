@@ -6,8 +6,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#include <conio.h>
 #include "Setting.h"
 #include "Variable.h"
+#include "Object.h"
+#include "Game.h"
 
 void Draw_square();
 void Main_screen_letter();

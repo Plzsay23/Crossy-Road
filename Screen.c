@@ -312,6 +312,7 @@ void Color_set_screen(int obj)
 //설명 화면
 void Help_screen()
 {
+    init_object();
     system("cls"); Draw_square();
     gotoxy(136, 39); printf("뒤로가기 : Q");
 
@@ -327,6 +328,9 @@ void Help_screen()
     short coin = 0;
     gotoxy(26, 4); printf("코인 : %d", coin);
 
+    gotoxy(49, 1); printf("연꽃잎을 밟아");
+    gotoxy(49, 2); printf("강을 건너세요");
+
     gotoxy(89, 1); printf("피하세요!");
 
     short x = 2, y = 20; //플레이어의 초기 좌표 선언과 함께 초기화
@@ -338,16 +342,12 @@ void Help_screen()
     Draw_player(x, y); 
     Draw_car(help_car.x, help_car.y, 0); //객체 출력
     Draw_coin(help_coin.x, help_coin.y);
-    Draw_river(help_river.x, 0);
     Draw_monster(help_monster.x, help_monster.y);
-
-    for (int i = 0; i < 10; i++) { //강 윗 부분 자르기
-        for (int j = 0; j < 4; j++) {
-            gotoxy(50 + i, 1 + j); printf(" "); } }
-    gotoxy(49, 1); printf("연꽃잎을 밟아");
-    gotoxy(49, 2); printf("강을 건너세요");
-
-    textcolor(0, 255, 0);
+    
+    bgcolor(0, 0, 255);
+    for (int i = 5; i < 40; i++)
+    { gotoxy(50, i); printf("          "); }
+    
     bgcolor(0, 255, 0);
     for (int i = 0; i < RIVERS; i++) //연꽃 다리 그리기
     {
@@ -356,7 +356,8 @@ void Help_screen()
             gotoxy(help_river.x, help_river.bridge[i]);
             for (int j = 0; j < 10; j++) printf(" ");
         }
-    } removecolor();
+    } 
+    removecolor();
 
     clock_t car = clock(); //시간 저장
     clock_t monster = clock();
@@ -440,7 +441,7 @@ void Help_screen()
             Help_screen(); break;
         }
     }
-
+    free_object();
     help_car.on = false; //자동차 객체 제거
     help_coin.on = false; //코인 객체 제거
     help_river.on = false;

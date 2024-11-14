@@ -43,6 +43,7 @@ void Recycle()
 void Game()
 {
     system("cls"); srand((unsigned int)time(NULL)); //난수 생성을 위해 시드 고정
+    init_object(); //객체 동적 메모리 할당
     Recycle(); //객체 속성값 초기화
 
     clock_t cars_time = clock();  //자동차가 움직일 시간 저장
@@ -57,12 +58,12 @@ void Game()
 
     Draw_player(x, y);
 
+    Sleep(300); //간헐적으로 화면이 밀려나는 오류를 막기 위함
+
     for (int i = 10; i < 150; i += 10) //초기 화면을 덮을만큼만 자동차 객체 활성화 & 소환
     {
         Add_car(i, rand() % 39 + 1, Find_car(), rand() % 2); //각 인자는 Add_car 함수 참고
     }
-
-    Sleep(300); //간헐적으로 화면이 밀려나는 오류를 막기 위함
 
     while (1) //행동 선택
     {
@@ -101,7 +102,7 @@ void Game()
                             }
                             if ((floating_display - 1) % 10 == 0) //자동차와 자동차 사이에 소환되도록 조정
                             {
-                                if (rand() % 100 <= 30) //확률은 30%
+                                if (rand() % 100 <= 100) //확률은 30%
                                     Add_coin(145, rand() % 41, Find_coin()); //코인 객체 생성
                             }
                         } 
@@ -110,14 +111,13 @@ void Game()
                     case 2: //강
                         if (extra_display - floating_x < 10) //10칸 동안 이 상태 유지
                         {
-                            if (is_spawn == false)
+                            if (is_spawn == 0)
                             {
                                 Add_river(148, Find_river());
                                 Score += 100; is_spawn = 1;
                             }
                         }
-                        else
-                        { choose = 0; is_spawn = 0; }
+                        else { choose = 0; is_spawn = 0; }
                         break;
                     case 3: //몬스터
                         if (extra_display - floating_x < 40)
@@ -138,7 +138,7 @@ void Game()
                         {
                             if (is_spawn == false)
                             {
-                                Add_train(148, 1, Find_train());
+                                //Add_train(148, 1, Find_train());
                                 Score += 200; is_spawn = 1;
                             }
                         }
@@ -220,6 +220,8 @@ void Game()
             Draw_player(x, y);
         }
     }
+
+    free_object(); //객체 동적 메모리 해제
 
     Ranking_sort(); //랭킹 정렬
     Ranking_screen(); //랭킹 화면

@@ -8,9 +8,6 @@
 #include <stdbool.h>
 #include <malloc.h>
 
-#define YELLOW 14
-#define PINK 13
-
 void textcolor(int r, int g, int b);
 void bgcolor(int r, int g, int b);
 void removecolor();

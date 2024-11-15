@@ -91,7 +91,7 @@ void Main_screen()
             }
             else if (input == '3') // 3을 누르면 색상 커스텀화면
             {
-                Color_screen(); //색상커스텀화면
+                Into_color_screen(); //색상커스텀화면
                 break;
             }
             else if (input == '4') // 4를 누르면 게임설명화면
@@ -205,20 +205,47 @@ void Continue_screen()
     }
 }
 
+void Into_color_screen()
+{
+    system("cls"); Draw_square();
+    gotoxy(30, 20); printf("이름 입력 : ");
+    gotoxy(136, 39); printf("뒤로가기 : Q");
+
+    while (1)
+    {
+        gotoxy(42, 20); for (int i = 0; i < 15; i++) printf("  ");
+        gotoxy(42, 20); scanf("%s", Name); //이름 입력
+        if (Check_continue() == 1)
+        {
+            Color_screen(); return;
+        }
+        else
+        {
+            gotoxy(30, 22); printf("존재하지 않는 이름입니다.");
+        }
+        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
+        {
+            Main_screen(); return;
+        }
+    }
+}
 //색상 커스텀 화면
 void Color_screen()
 {
     system("cls"); Draw_square();
     gotoxy(136, 39); printf("뒤로가기 : Q");
 
-    Draw_car(30, 5, 1);
-    gotoxy(29, 11); printf("색상 변경");
-    Draw_monster(60, 6);
-    gotoxy(59, 11); printf("색상 변경");
-    Draw_train(90, 4);
-    gotoxy(89, 11); printf("색상 변경");
-    Draw_player(123, 7);
-    gotoxy(119, 11); printf("색상 변경");
+    Draw_car(27, 5, 1);
+    gotoxy(26, 11); printf("색상 변경");
+    Draw_monster(57, 6);
+    gotoxy(56, 11); printf("색상 변경");
+    Draw_train(87, 4);
+    gotoxy(86, 11); printf("색상 변경");
+    Draw_player(120, 7);
+    gotoxy(116, 11); printf("색상 변경");
+    gotoxy(67, 3); printf("색상변경 : 5코인");
+
+    gotoxy(67, 5); printf("현재코인 : %d", Coins);
 
     short x = 75, y = 20;
     Draw_player(x, y);
@@ -261,16 +288,16 @@ void Color_screen()
         }
 
         if (y == 12) {
-            if (29 <= x && x <= 42) {
+            if (26 <= x && x <= 39) {
                 Color_set_screen(1); return;
             }
-            else if (59 <= x && x <= 72) {
+            else if (56 <= x && x <= 69) {
                 Color_set_screen(2); return;
             }
-            else if (89 <= x && x <= 102) {
+            else if (86 <= x && x <= 99) {
                 Color_set_screen(3); return;
             }
-            else if (119 <= x && x <= 132) {
+            else if (116 <= x && x <= 129) {
                 Color_set_screen(0); return;
             }
         }
@@ -279,23 +306,52 @@ void Color_screen()
 //색상의 값을 입력받는 함수
 void Color_set_screen(int obj)
 {
+recolor:
     system("cls"); Draw_square();
 
-    int r, g, b;
+    int r = 0, g = 0, b = 0;
 
-    gotoxy(20, 15); printf("RED : ");
-    gotoxy(65, 15); printf("GREEN : ");
-    gotoxy(110, 15); printf("BLUE : ");
-    gotoxy(26, 15); scanf("%d", &r);
-    gotoxy(73, 15); scanf("%d", &g);
-    gotoxy(117, 15); scanf("%d", &b);
+    gotoxy(58, 8); printf("너무 어두운 색은 사용할 수 없습니다");
 
+    do {
+        gotoxy(20, 15); printf("RED :    ");
+        gotoxy(65, 15); printf("GREEN :    ");
+        gotoxy(110, 15); printf("BLUE :    ");
+        gotoxy(26, 15); scanf("%d", &r);
+        gotoxy(73, 15); scanf("%d", &g);
+        gotoxy(117, 15); scanf("%d", &b);
+    } while (r + g + b < 100 || (r < 50 && g < 50 && b < 50));
+    
     switch (obj)
     {
-    case 0: p_rgb.r = r; p_rgb.g = g; p_rgb.b = b; break; //플레이어 색상 조정
-    case 1: c_rgb.r = r; c_rgb.g = g; c_rgb.b = b; break; //자동차 색상 조정
-    case 2: m_rgb.r = r; m_rgb.g = g; m_rgb.b = b; break; //몬스터 색상 조정
-    case 3: t_rgb.r = r; t_rgb.g = g; t_rgb.b = b; break; //기차 색상 조정
+    case 0: 
+        p_rgb.r = r; p_rgb.g = g; p_rgb.b = b; //플레이어 색상 조정
+        Draw_player(75, 25); break;
+    case 1: 
+        c_rgb.r = r; c_rgb.g = g; c_rgb.b = b; //자동차 색상 조정
+        Draw_car(72, 25, 1); break;
+    case 2: 
+        m_rgb.r = r; m_rgb.g = g; m_rgb.b = b; //몬스터 색상 조정
+        Draw_monster(72, 25); break;
+    case 3: 
+        t_rgb.r = r; t_rgb.g = g; t_rgb.b = b; //기차 색상 조정
+        Draw_train(72, 25); break;
+    }
+
+    gotoxy(64, 33); printf("다시하시겠습니까? (y/n)");
+    while (1)
+    {
+        char input;
+        if (_kbhit())
+        {
+            input = _getch();
+            if (input == 'y' || input == 'Y')
+            {
+                goto recolor; break;
+            }
+            else if (input == 'n' || input == 'N')
+                break;
+        }
     }
 
     //색상 외부 파일에 저장
@@ -305,6 +361,8 @@ void Color_set_screen(int obj)
     fprintf(color, "%d %d %d\n", m_rgb.r, m_rgb.g, m_rgb.b);
     fprintf(color, "%d %d %d\n", t_rgb.r, t_rgb.g, t_rgb.b);
     fclose(color);
+
+    Coins -= 5;
 
     Color_screen(); return;
 }

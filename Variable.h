@@ -16,6 +16,7 @@
 #define RIVERS 5 //강
 #define MONSTERS 40 //몬스터
 #define TRAINS 100 //기차
+#define COLOR 4 //색상
 
 //자동차 객체 구조체
 typedef struct Car {
@@ -55,19 +56,20 @@ typedef struct Train {
     short cpy;  //기차를 줄지어서 생성할 좌표이동값
 } Train;
 
-//랭킹 구조체
-typedef struct User {
-    int score;           //점수
-    char name[30];       //사용자 이름
-    unsigned int coins;  //코인 개수
-} User;
-
 //색상 구조체
 typedef struct Color {
     int r;  //Red
     int g;  //Green
     int b;  //Blue
 } Color;
+
+//랭킹 구조체
+typedef struct User {
+    int score;           //점수
+    char name[30];       //사용자 이름
+    unsigned int coins;  //코인 개수
+    Color color[COLOR];      //색상 값을 저장할 배열
+} User;
 
 /*o게임 관련 전역 변수 선언o*/
 

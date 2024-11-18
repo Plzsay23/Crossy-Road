@@ -173,7 +173,11 @@ bool Check_continue()
         if (strcmp(Name, Ranking[i].name) == 0)
         {
             strcpy(Name, Ranking[i].name); //이름을 집어넣어 이어하기
-            Coins = Ranking[i].coins; //코인 갯수도 불러오기
+            Coins = Ranking[i].coins; //코인 갯수도 불러온 후 색상값도 불러오기
+            p_rgb.r = Ranking[i].color[0].r; p_rgb.g = Ranking[i].color[0].g; p_rgb.b = Ranking[i].color[0].b;
+            c_rgb.r = Ranking[i].color[1].r; c_rgb.g = Ranking[i].color[1].g; c_rgb.b = Ranking[i].color[1].b;
+            m_rgb.r = Ranking[i].color[2].r; m_rgb.g = Ranking[i].color[2].g; m_rgb.b = Ranking[i].color[2].b;
+            t_rgb.r = Ranking[i].color[3].r; t_rgb.g = Ranking[i].color[3].g; t_rgb.b = Ranking[i].color[3].b;
             return 1;
         }
     }
@@ -354,15 +358,17 @@ recolor:
         }
     }
 
-    //색상 외부 파일에 저장
-    FILE* color = fopen("Color.txt", "w");
-    fprintf(color, "%d %d %d\n", p_rgb.r, p_rgb.g, p_rgb.b);
-    fprintf(color, "%d %d %d\n", c_rgb.r, c_rgb.g, c_rgb.b);
-    fprintf(color, "%d %d %d\n", m_rgb.r, m_rgb.g, m_rgb.b);
-    fprintf(color, "%d %d %d\n", t_rgb.r, t_rgb.g, t_rgb.b);
-    fclose(color);
+    //색상 저장
+    for (int i = 0; i < RANKING; i++)
+    {
+        if (strcmp(Name, Ranking[i].name) == 0)
+        {
+            Store_color(i); break;
+        }
+    }
 
     Coins -= 5;
+    Ranking_sort(); //코인 갯수 변동 저장
 
     Color_screen(); return;
 }
@@ -570,6 +576,7 @@ void Ranking_screen()
         if (_kbhit()) {
             char input = _getch();
             if (input == 'q' || input == 'Q') {
+                removecolor();
                 Main_screen(); return;
             }
         }

@@ -133,8 +133,8 @@ void Remove_river(short x)
 void Draw_monster(short x, short y)
 {
     textcolor(m_rgb.r, m_rgb.g, m_rgb.b);
-    short range = 5; //몬스터의 최대길이 5
-    if (x > 145) range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    short range = 6; //몬스터의 최대길이 5
+    if (x > 144) range = 149 - x; //범위가 넘어가면 잘리도록 구현
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < range; j++)
@@ -149,7 +149,7 @@ void Draw_monster(short x, short y)
 void Remove_monster(short x, short y)
 {
     short range = 6; //몬스터의 최대길이 5
-    if (x > 145) range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    if (x > 144) range = 149 - x; //범위가 넘어가면 잘리도록 구현
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < range; j++)

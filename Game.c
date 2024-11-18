@@ -60,9 +60,9 @@ void Game()
 
     Sleep(300); //간헐적으로 화면이 밀려나는 오류를 막기 위함
 
-    for (int i = 10; i < 150; i += 10) //초기 화면을 덮을만큼만 자동차 객체 활성화 & 소환
+    for (int i = 10; i < 149; i += 10) //초기 화면을 덮을만큼만 자동차 객체 활성화 & 소환
     {
-        Add_car(i, rand() % 39 + 1, Find_car(), rand() % 2); //각 인자는 Add_car 함수 참고
+        Add_car(i, rand() % 36 + 1, Find_car(), rand() % 2); //각 파라미터는 Add_car 함수 참고
     }
 
     while (1) //행동 선택
@@ -198,6 +198,7 @@ void Game()
             Move_car(car); //하나의 자동차만 가속
             cars_speed = clock(); //시간 초기화
         }
+        */
         
         if (Check_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
         {
@@ -213,7 +214,7 @@ void Game()
         {
             Game_over(x, y); break;
         }
-        */
+        
         
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면
         {

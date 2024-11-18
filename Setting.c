@@ -59,6 +59,15 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
+//색상을 저장하는 함수
+void Store_color(int i)
+{
+    Ranking[i].color[0].r = p_rgb.r; Ranking[i].color[0].g = p_rgb.g; Ranking[i].color[0].b = p_rgb.b;
+    Ranking[i].color[1].r = c_rgb.r; Ranking[i].color[1].g = c_rgb.g; Ranking[i].color[1].b = c_rgb.b;
+    Ranking[i].color[2].r = m_rgb.r; Ranking[i].color[2].g = m_rgb.g; Ranking[i].color[2].b = m_rgb.b;
+    Ranking[i].color[3].r = t_rgb.r; Ranking[i].color[3].g = t_rgb.g; Ranking[i].color[3].b = t_rgb.b;
+}
+
 //랭킹 정렬
 void Ranking_sort()
 {
@@ -76,6 +85,7 @@ void Ranking_sort()
             if(user.score > Ranking[i].score) //새로 얻은 점수가 더 클 때만 갱신
                 Ranking[i].score = user.score;
             Ranking[i].coins = user.coins;
+            Store_color(i); //색상 저장
             found = 1;
             for (int j = 0; j < RANKING; j++)
             {
@@ -103,6 +113,7 @@ void Ranking_sort()
                     Ranking[j] = Ranking[j - 1];
                 }
                 Ranking[i] = user;
+                Store_color(i);
                 break;
             }
         }
@@ -110,12 +121,14 @@ void Ranking_sort()
 
     //랭킹 외부 파일에 저장
     FILE* Rank = fopen("Ranking.txt", "w");
-
     for (int i = 0; i < RANKING; i++)
     {
         if (Ranking[i].score > 0)
         {
-            fprintf(Rank, "%s %d %d\n", Ranking[i].name, Ranking[i].score, Ranking[i].coins);
+            fprintf(Rank, "%s %d %d ", Ranking[i].name, Ranking[i].score, Ranking[i].coins);
+            for (int j = 0; j < COLOR; j++)
+                fprintf(Rank, "%d %d %d ", Ranking[i].color[j].r, Ranking[i].color[j].g, Ranking[i].color[j].b);
+            fprintf(Rank, "\n");
         }
     }
     fclose(Rank);
@@ -127,20 +140,13 @@ void Read_ranking()
     FILE* Rank = fopen("Ranking.txt", "r");
     if (Rank == NULL) return; //처음 시작이어서 저장된 파일이 없다면 무시하고 진행
     int i = 0;
-    while (fscanf(Rank, "%s %d %d", Ranking[i].name, &Ranking[i].score, &Ranking[i].coins) != EOF) i++;
+    while (fscanf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+        Ranking[i].name, &Ranking[i].score, &Ranking[i].coins,
+        &Ranking[i].color[0].r, &Ranking[i].color[0].g, &Ranking[i].color[0].b, 
+        &Ranking[i].color[1].r, &Ranking[i].color[1].g, &Ranking[i].color[1].b,
+        &Ranking[i].color[2].r, &Ranking[i].color[2].g, &Ranking[i].color[2].b,
+        &Ranking[i].color[3].r, &Ranking[i].color[3].g, &Ranking[i].color[3].b) != EOF) i++;
     fclose(Rank);
-}
-
-//게임 시작시 저장된 색상을 불러오는 함수
-void Read_color()
-{
-    FILE* color = fopen("Color.txt", "r");
-    if (color == NULL) return; //처음 시작이어서 저장된 파일이 없다면 무시하고 진행
-    fscanf(color, "%d %d %d", &p_rgb.r, &p_rgb.g, &p_rgb.b);
-    fscanf(color, "%d %d %d", &c_rgb.r, &c_rgb.g, &c_rgb.b);
-    fscanf(color, "%d %d %d", &m_rgb.r, &m_rgb.g, &m_rgb.b);
-    fscanf(color, "%d %d %d", &t_rgb.r, &t_rgb.g, &t_rgb.b);
-    fclose(color);
 }
 
 //브금을 재생하는 함수

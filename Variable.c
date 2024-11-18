@@ -43,7 +43,7 @@ Car help_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
 Coin help_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체
 River help_river = { 50, {10, 17, 24, 31, 38}, 0 }; //게임 설명 화면에서 쓸 강 객체
 Monster help_monster = { 91, 3, 0, 0 }; //게임 설명 화면에서 쓸 몬스터 객체
-Train help_train = { 111, 3, 0, 0 }; //게임 설명 화면에서 쓸 기차 객체
+Train help_train = { 111, 3, 0}; //게임 설명 화면에서 쓸 기차 객체
 
 User Ranking[RANKING]; //랭킹을 저장할 배열
 

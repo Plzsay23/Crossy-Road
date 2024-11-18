@@ -50,15 +50,21 @@ void Remove_coin(short x, short y)
 void Draw_car(short x, short y, bool up)
 {
     textcolor(c_rgb.r, c_rgb.g, c_rgb.b);
-    short range = 6; //자동차의 최대길이 6
-    if (x > 144) range = 149 - x; //범위가 넘어가면 잘리도록 구현
-    for (int i = 0; i < 5; i++)
+    short x_range = 6; //자동차의 최대길이 6
+    if (x > 144) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    short y_range = 5; //자동차의 길이 5
+    if (y > 36) y_range = 41 - y;
+    //if (y < 0)  y_range += y;
+    for (int i = 0; i < y_range; i++)
     {
-        for (int j = 0; j < range; j++)
+        for (int j = 0; j < x_range; j++)
         {
             gotoxy(x + j, y + i);
             if (up == true)
-                printf("%c", car_up[i][j]);
+            {
+                if (y >= 0) printf("%c", car_up[i][j]);
+                //else { gotoxy(x + j, i); printf("%c", car_up[i - y][j]); }
+            }
             else
                 printf("%c", car_down[i][j]);
         }
@@ -68,11 +74,14 @@ void Draw_car(short x, short y, bool up)
 //좌표를 받아 자동차 지우기
 void Remove_car(short x, short y)
 {
-    short range = 7;
-    if (x > 143) range = 150 - x; //범위가 넘어가면 잘리도록 구현
-    for (int i = 0; i < 5; i++)
+    short x_range = 7;
+    if (x > 143) x_range = 150 - x; //범위가 넘어가면 잘리도록 구현
+    short y_range = 5;
+    if (y > 36) y_range = 41 - y;
+    if (y < 0)  y_range += y;
+    for (int i = 0; i < y_range; i++)
     {
-        for (int j = 0; j < range; j++)
+        for (int j = 0; j < x_range; j++)
         {
             gotoxy(x + j, y + i);
             printf(" ");
@@ -133,11 +142,13 @@ void Remove_river(short x)
 void Draw_monster(short x, short y)
 {
     textcolor(m_rgb.r, m_rgb.g, m_rgb.b);
-    short range = 6; //몬스터의 최대길이 5
-    if (x > 144) range = 149 - x; //범위가 넘어가면 잘리도록 구현
-    for (int i = 0; i < 3; i++)
+    short x_range = 6; //몬스터의 최대길이 5
+    if (x > 144) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    short y_range = 3; //몬스터의 길이 3
+    if (y > 38) y_range = 41 - y;
+    for (int i = 0; i < y_range; i++)
     {
-        for (int j = 0; j < range; j++)
+        for (int j = 0; j < x_range; j++)
         {
             gotoxy(x + j, y + i);
             printf("%c", monster1[i][j]);
@@ -148,11 +159,13 @@ void Draw_monster(short x, short y)
 //좌표를 받아 몬스터 지우기
 void Remove_monster(short x, short y)
 {
-    short range = 6; //몬스터의 최대길이 5
-    if (x > 144) range = 149 - x; //범위가 넘어가면 잘리도록 구현
-    for (int i = 0; i < 3; i++)
+    short x_range = 6; //몬스터의 최대길이 5
+    if (x > 144) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    short y_range = 3;
+    if (y > 38) y_range = 41 - y;
+    for (int i = 0; i < y_range; i++)
     {
-        for (int j = 0; j < range; j++)
+        for (int j = 0; j < x_range; j++)
         {
             gotoxy(x + j, y + i);
             printf(" ");
@@ -163,11 +176,13 @@ void Remove_monster(short x, short y)
 void Draw_train(short x, short y)
 {
     textcolor(t_rgb.r, t_rgb.g, t_rgb.b);
-    short range = 7; //기차의 너비 최대길이 7
-    if (x > 143) range = 149 - x; //범위가 넘어가면 잘리도록 구현
-    for (int i = 0; i < 6; i++)
+    short x_range = 7; //기차의 너비 최대길이 7
+    if (x > 143) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    short y_range = 6; //기차의 길이 6
+    if (y > 35) y_range = 41 - y;
+    for (int i = 0; i < y_range; i++)
     {
-        for (int j = 0; j < range; j++)
+        for (int j = 0; j < x_range; j++)
         {
             gotoxy(x + j, y + i);
             printf("%c", train[i][j]);
@@ -178,11 +193,13 @@ void Draw_train(short x, short y)
 //좌표를 받아 기차 지우기
 void Remove_train(short x, short y)
 {
-    short range = 7; //기차의 최대길이 7
-    if (x > 143) range = 149 - x; //범위가 넘어가면 잘리도록 구현
-    for (int i = 0; i < 6; i++)
+    short x_range = 7; //기차의 최대길이 7
+    if (x > 143) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    short y_range = 6; //기차의 길이 6
+    if (y > 35) y_range = 41 - y;
+    for (int i = 0; i < y_range; i++)
     {
-        for (int j = 0; j < range; j++)
+        for (int j = 0; j < x_range; j++)
         {
             gotoxy(x + j, y + i);
             printf(" ");
@@ -312,13 +329,13 @@ void Move_car(int num)
         {
             up = true;
             Remove_car(cars[num].x, cars[num].y--); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y < 0) cars[num].y = 36; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+            if (cars[num].y < 0) cars[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
         }
         else                      //해당 객체가 아래로 전진이라면
         {
             up = false;
             Remove_car(cars[num].x, cars[num].y++); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y > 36) cars[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
+            if (cars[num].y > 40) cars[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
         }
         Draw_car(cars[num].x, cars[num].y, up); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
     }
@@ -482,12 +499,12 @@ void Move_monster(int num)
         if (monsters[num].up == true) //해당 객체가 위로 전진이라면
         {
             Remove_monster(monsters[num].x, monsters[num].y--); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y < 0) monsters[num].y = 37; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+            if (monsters[num].y < 0) monsters[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
         }
         else                      //해당 객체가 아래로 전진이라면
         {
             Remove_monster(monsters[num].x, monsters[num].y++); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y > 37) monsters[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
+            if (monsters[num].y > 40) monsters[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
         }
         Draw_monster(monsters[num].x, monsters[num].y); //그렇게 좌표 수정이 모두 완료되면 몬스터를 그려 움직임 표현
     }
@@ -527,17 +544,13 @@ void Delete_train(int num)
 //기차 객체를 아래로 한 칸 이동하는 함수
 void Move_train(int num)
 {
-    if (trains[num].on == true) //객체가 활성화되어 있어야만 함수 전문 발동
+    if (trains[0].on == true) //객체가 활성화되어 있어야만 함수 전문 발동
     {
-        Remove_train(trains[num].x, trains[num].y++); //기차를 지움
-        if (trains[num].y > 34) Delete_train(num); //만약 콘솔창을 벗어나면 객체 삭제
-        else Draw_train(trains[num].x, trains[num].y); //좌표 수정 후 기차를 그려 움직임 표현
-    }
-    if (trains[0].on == true)
-    {
-        trains[0].cpy++;
-        if(trains[0].cpy % 6 == 0)
-            Add_train(trains[0].x, 1, Find_train());
+        trains[0].y++; //첫 기차 칸의 좌표를 계속 증가시킴
+        if (trains[0].y % 6 == 0 && trains[0].y <= 36) //일정 범위 내에서 6칸 마다
+            Add_train(trains[0].x, trains[0].y, Find_train()); //기차를 줄지어서 소환
+        else if (trains[0].y > 37) //범위를 벗어나면
+            Delete_train(0); //첫 기차는 삭제
     }
 }
 //화면이 움직임에 따라 기차 객체를 이동하는 함수
@@ -548,13 +561,10 @@ void Floating_train()
         if (trains[i].on == true) //객체가 활성화되어 있다면
         {
             Remove_train(trains[i].x, trains[i].y); //기차를 먼저 지우고
-            trains[i].x--;
-            if (trains[i].x < 2)
+            if (--trains[i].x < 2)
                 Delete_train(i);
             else
-            {
                 Draw_train(trains[i].x, trains[i].y); //정상이라면 기차를 그리며 움직임 표현
-            }
         }
     }
 }

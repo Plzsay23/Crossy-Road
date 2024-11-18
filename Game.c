@@ -34,7 +34,7 @@ void Recycle()
     for (int i = 0; i < TRAINS; i++)
     {
         trains[i].x = 0; trains[i].y = 0;
-        trains[i].on = false; trains[i].cpy = 0;
+        trains[i].on = false;
     }
     extra_display = 0;
 }
@@ -138,7 +138,7 @@ void Game()
                         {
                             if (is_spawn == false)
                             {
-                                //Add_train(148, 1, Find_train());
+                                for (int i = 0; i < 2; i++) Add_train(148, 0, Find_train());
                                 Score += 200; is_spawn = 1;
                             }
                         }
@@ -161,13 +161,13 @@ void Game()
                 Draw_player(x, y);
                 Sleep(10); //약간의 딜레이
             }
-            else if (input == UP && y > 0) //위쪽 이동
+            else if (input == UP && y > 1) //위쪽 이동
             {
                 Remove_player(x, y--);
                 Draw_player(x, y);
                 Sleep(10);
             }
-            else if (input == DOWN && y < 40) //아래쪽 이동
+            else if (input == DOWN && y < 39) //아래쪽 이동
             {
                 Remove_player(x, y++);
                 Draw_player(x, y);
@@ -200,20 +200,20 @@ void Game()
         }
         */
         
-        if (Check_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
-        {
-            Game_over(x, y); break;
-        }
-        
-        if (Check_river(x, y) == 1) //강에 빠졌다면 게임오버
-        {
-            Game_over(x, y); break;
-        }
-        
-        if (Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
-        {
-            Game_over(x, y); break;
-        }
+        //if (Check_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
+        //{
+        //    Game_over(x, y); break;
+        //}
+        //
+        //if (Check_river(x, y) == 1) //강에 빠졌다면 게임오버
+        //{
+        //    Game_over(x, y); break;
+        //}
+        //
+        //if (Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
+        //{
+        //    Game_over(x, y); break;
+        //}
         
         
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면

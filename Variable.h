@@ -15,7 +15,7 @@
 #define COINS 10 //현재 최대 코인 값 30개
 #define RIVERS 5 //강
 #define MONSTERS 40 //몬스터
-#define TRAINS 100 //기차
+#define TRAINS 10 //기차
 #define COLOR 4 //색상
 
 //자동차 객체 구조체
@@ -53,7 +53,6 @@ typedef struct Train {
     short x;    // x 좌표
     short y;    // y 좌표
     bool on;    //객체의 활성화 유무
-    short cpy;  //기차를 줄지어서 생성할 좌표이동값
 } Train;
 
 //색상 구조체

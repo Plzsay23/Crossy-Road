@@ -8,6 +8,8 @@
 #include <stdbool.h>
 #include <malloc.h>
 
+enum object { car, coin, river, monster, train }; //객체의 번호
+
 void textcolor(int r, int g, int b);
 void bgcolor(int r, int g, int b);
 void removecolor();

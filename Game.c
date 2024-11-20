@@ -134,7 +134,7 @@ void Game()
                         else choose = 0;
                         break;
                     case 4: //±âÂ÷
-                        if (extra_display - floating_x < 40)
+                        if (extra_display - floating_x < 50)
                         {
                             if (is_spawn == false)
                             {

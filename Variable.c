@@ -22,7 +22,7 @@ const char monster1[3][7] = { //몬스터
     {" / \\"}
 };
 
-const char train[6][8] = { //기차
+const char train1[6][8] = { //기차
     {" _____ "},
     {"|     |"},
     {"|[]   |"},

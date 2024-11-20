@@ -15,7 +15,7 @@
 #define COINS 10 //현재 최대 코인 값 30개
 #define RIVERS 5 //강
 #define MONSTERS 40 //몬스터
-#define TRAINS 10 //기차
+#define TRAINS 15 //기차
 #define COLOR 4 //색상
 
 //자동차 객체 구조체
@@ -80,7 +80,7 @@ extern const char car_up[5][7];
 extern const char monster1[3][7];
 
 //기차 디자인
-extern const char train[6][8];
+extern const char train1[6][8];
 
 extern char Name[30];          //게임 시작 시 이름을 입력받는 곳
 

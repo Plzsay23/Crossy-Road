@@ -11,6 +11,9 @@ void init_object();
 void free_object();
 
 //객체를 단순히 그리고 지우는 함수들
+void Draw_object(int object, short x, short y, int x_range, int y_range, bool up);
+void Remove_object(short x, short y, int x_range, int y_range);
+
 void Draw_player(short x, short y);
 void Remove_player(short x, short y);
 

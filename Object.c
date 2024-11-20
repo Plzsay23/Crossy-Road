@@ -21,6 +21,20 @@ void free_object()
     free(monsters); free(trains);
 }
 
+//좌표를 받아 길이만큼 지워주는 함수
+void Remove_object(short x, short y, int x_range, int y_range)
+{
+    for (int i = 0; i < y_range; i++)
+    {
+        for (int j = 0; j < x_range; j++)
+        {
+            int x_coord, y_coord;
+            x_coord = (x >= 0) ? x + j : j;
+            y_coord = (y >= 0) ? y + i : i;
+            gotoxy(x_coord, y_coord); printf(" ");
+        }
+    }
+}
 //좌표를 받아 플레이어 그리기
 void Draw_player(short x, short y)
 {
@@ -52,21 +66,24 @@ void Draw_car(short x, short y, bool up)
     textcolor(c_rgb.r, c_rgb.g, c_rgb.b);
     short x_range = 6; //자동차의 최대길이 6
     if (x > 144) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    else if (x < 0) x_range += x;
     short y_range = 5; //자동차의 길이 5
     if (y > 36) y_range = 41 - y;
-    //if (y < 0)  y_range += y;
+    else if (y < 0)  y_range += y;
     for (int i = 0; i < y_range; i++)
     {
         for (int j = 0; j < x_range; j++)
         {
-            gotoxy(x + j, y + i);
+            int x_coord, y_coord, row_index, col_index;
+            x_coord =   (x >= 0) ? x + j : j;
+            y_coord =   (y >= 0) ? y + i : i;
+            row_index = (y >= 0) ? i : i - y;
+            col_index = (x >= 0) ? j : j - x;
+            gotoxy(x_coord, y_coord);
             if (up == true)
-            {
-                if (y >= 0) printf("%c", car_up[i][j]);
-                //else { gotoxy(x + j, i); printf("%c", car_up[i - y][j]); }
-            }
+                printf("%c", car_up[row_index][col_index]);
             else
-                printf("%c", car_down[i][j]);
+                printf("%c", car_down[row_index][col_index]);
         }
     }
     removecolor();
@@ -76,17 +93,21 @@ void Remove_car(short x, short y)
 {
     short x_range = 7;
     if (x > 143) x_range = 150 - x; //범위가 넘어가면 잘리도록 구현
+    else if (x < 0) x_range += x;
     short y_range = 5;
     if (y > 36) y_range = 41 - y;
-    if (y < 0)  y_range += y;
-    for (int i = 0; i < y_range; i++)
+    else if (y < 0)  y_range += y;
+    Remove_object(x, y, x_range, y_range);
+    /*for (int i = 0; i < y_range; i++)
     {
         for (int j = 0; j < x_range; j++)
         {
-            gotoxy(x + j, y + i);
-            printf(" ");
+            int x_coord, y_coord;
+            x_coord = (x >= 0) ? x + j : j;
+            y_coord = (y >= 0) ? y + i : i;
+            gotoxy(x_coord, y_coord); printf(" ");
         }
-    }
+    }*/
 }
 //좌표를 받아 강 그리기
 void Draw_river(short x, int num)
@@ -144,14 +165,21 @@ void Draw_monster(short x, short y)
     textcolor(m_rgb.r, m_rgb.g, m_rgb.b);
     short x_range = 6; //몬스터의 최대길이 5
     if (x > 144) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    else if (x < 0) x_range += x;
     short y_range = 3; //몬스터의 길이 3
     if (y > 38) y_range = 41 - y;
+    else if (y < 0) y_range += y;
     for (int i = 0; i < y_range; i++)
     {
         for (int j = 0; j < x_range; j++)
         {
-            gotoxy(x + j, y + i);
-            printf("%c", monster1[i][j]);
+            int x_coord, y_coord, row_index, col_index;
+            x_coord =   (x >= 0) ? x + j : j;
+            y_coord =   (y >= 0) ? y + i : i;
+            row_index = (y >= 0) ? i : i - y;
+            col_index = (x >= 0) ? j : j - x;
+            gotoxy(x_coord, y_coord);
+            printf("%c", monster1[row_index][col_index]);
         }
     }
     removecolor();
@@ -161,16 +189,21 @@ void Remove_monster(short x, short y)
 {
     short x_range = 6; //몬스터의 최대길이 5
     if (x > 144) x_range = 149 - x; //범위가 넘어가면 잘리도록 구현
+    else if (x < 0) x_range += x;
     short y_range = 3;
     if (y > 38) y_range = 41 - y;
-    for (int i = 0; i < y_range; i++)
+    else if (y < 0) y_range += y;
+    Remove_object(x, y, x_range, y_range);
+    /*for (int i = 0; i < y_range; i++)
     {
         for (int j = 0; j < x_range; j++)
         {
-            gotoxy(x + j, y + i);
-            printf(" ");
+            int x_coord, y_coord;
+            x_coord = (x >= 0) ? x + j : j;
+            y_coord = (y >= 0) ? y + i : i;
+            gotoxy(x_coord, y_coord); printf(" ");
         }
-    }
+    }*/
 }
 //좌표를 받아 기차 그리기
 void Draw_train(short x, short y)
@@ -324,18 +357,18 @@ void Move_car(int num)
 {
     if (cars[num].on == true) //해당 객체가 활성화되어 있어야만 함수 전문 발동
     {
-        bool up = true;
+        bool up;
         if (cars[num].up == true) //해당 객체가 위로 전진이라면
         {
             up = true;
             Remove_car(cars[num].x, cars[num].y--); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y < 0) cars[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+            if (cars[num].y < -4) cars[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
         }
         else                      //해당 객체가 아래로 전진이라면
         {
             up = false;
             Remove_car(cars[num].x, cars[num].y++); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y > 40) cars[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
+            if (cars[num].y > 40) cars[num].y = -4; //만약 콘솔창을 벗어나면 다시 위로 보냄
         }
         Draw_car(cars[num].x, cars[num].y, up); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
     }
@@ -349,7 +382,7 @@ void Floating_car()
         {
             Remove_car(cars[i].x, cars[i].y); //자동차를 먼저 지우고
             cars[i].x--;
-            if (cars[i].x < 2)
+            if (cars[i].x < -5)
                 Delete_car(i);
             else
             {
@@ -499,12 +532,12 @@ void Move_monster(int num)
         if (monsters[num].up == true) //해당 객체가 위로 전진이라면
         {
             Remove_monster(monsters[num].x, monsters[num].y--); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y < 0) monsters[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+            if (monsters[num].y < -2) monsters[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
         }
         else                      //해당 객체가 아래로 전진이라면
         {
             Remove_monster(monsters[num].x, monsters[num].y++); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y > 40) monsters[num].y = 0; //만약 콘솔창을 벗어나면 다시 위로 보냄
+            if (monsters[num].y > 40) monsters[num].y = -2; //만약 콘솔창을 벗어나면 다시 위로 보냄
         }
         Draw_monster(monsters[num].x, monsters[num].y); //그렇게 좌표 수정이 모두 완료되면 몬스터를 그려 움직임 표현
     }
@@ -518,7 +551,7 @@ void Floating_monster()
         {
             Remove_monster(monsters[i].x, monsters[i].y); //몬스터를 먼저 지우고
             monsters[i].x--;
-            if (monsters[i].x < 3)
+            if (monsters[i].x < -4)
                 Delete_monster(i);
             else
             {

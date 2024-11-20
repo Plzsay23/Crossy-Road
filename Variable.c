@@ -19,7 +19,7 @@ const char car_up[5][7] = { //자동차 UP
 const char monster1[3][7] = { //몬스터
     {" @ @ "},
     {"( o )"},
-    {" / ＼"}
+    {" / \\"}
 };
 
 const char train[6][8] = { //기차

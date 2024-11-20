@@ -317,27 +317,27 @@ recolor:
 
     gotoxy(58, 8); printf("너무 어두운 색은 사용할 수 없습니다");
 
-    do {
-        gotoxy(20, 15); printf("RED :    ");
-        gotoxy(65, 15); printf("GREEN :    ");
-        gotoxy(110, 15); printf("BLUE :    ");
-        gotoxy(26, 15); scanf("%d", &r);
-        gotoxy(73, 15); scanf("%d", &g);
-        gotoxy(117, 15); scanf("%d", &b);
-    } while (r + g + b < 100 || (r < 50 && g < 50 && b < 50));
-    
+    gotoxy(20, 15); printf("RED :    ");
+    gotoxy(65, 15); printf("GREEN :    ");
+    gotoxy(110, 15); printf("BLUE :    ");
+    gotoxy(26, 15); scanf("%d", &r);
+    gotoxy(73, 15); scanf("%d", &g);
+    gotoxy(117, 15); scanf("%d", &b);
+    if (r + g + b < 100 || (r < 50 && g < 50 && b < 50))
+        goto recolor;
+
     switch (obj)
     {
-    case 0: 
+    case 0:
         p_rgb.r = r; p_rgb.g = g; p_rgb.b = b; //플레이어 색상 조정
         Draw_player(75, 25); break;
-    case 1: 
+    case 1:
         c_rgb.r = r; c_rgb.g = g; c_rgb.b = b; //자동차 색상 조정
         Draw_car(72, 25, 1); break;
-    case 2: 
+    case 2:
         m_rgb.r = r; m_rgb.g = g; m_rgb.b = b; //몬스터 색상 조정
         Draw_monster(72, 25); break;
-    case 3: 
+    case 3:
         t_rgb.r = r; t_rgb.g = g; t_rgb.b = b; //기차 색상 조정
         Draw_train(72, 25); break;
     }

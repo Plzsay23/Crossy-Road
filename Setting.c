@@ -43,8 +43,8 @@ void Setting()
     RECT r;
     GetWindowRect(console, &r);
     //화면 해상도가 맞지 않으면 임의로 조정가능
-    int x = 1215;
-    int y = 695;
+    int x = 1255; //1215
+    int y = 695;  //695
     MoveWindow(console, r.left, r.top, x, y, TRUE);
 
     //외부 파일에 저장된 랭킹 불러오기

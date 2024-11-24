@@ -195,14 +195,6 @@ void Draw_train(short x, short y)
     short y_range = 6; //기차의 길이 6
     if (y > 35) y_range = 41 - y;
     Draw_object(train, x, y, x_range, y_range, 1);
-    /*for (int i = 0; i < y_range; i++)
-    {
-        for (int j = 0; j < x_range; j++)
-        {
-            gotoxy(x + j, y + i);
-            printf("%c", train1[i][j]);
-        }
-    }*/
     removecolor();
 }
 //좌표를 받아 기차 지우기
@@ -214,14 +206,6 @@ void Remove_train(short x, short y)
     short y_range = 6; //기차의 길이 6
     if (y > 35) y_range = 41 - y;
     Remove_object(x, y, x_range, y_range);
-    /*for (int i = 0; i < y_range; i++)
-    {
-        for (int j = 0; j < x_range; j++)
-        {
-            gotoxy(x + j, y + i);
-            printf(" ");
-        }
-    }*/
 }
 
 //자동차 객체와 닿았는지를 판별하는 함수

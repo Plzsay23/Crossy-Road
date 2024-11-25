@@ -10,13 +10,13 @@
 #define UP 72
 #define DOWN 80
 #define SPACE 32
-#define RANKING 10
-#define CARS 20 // x 길이 150의 콘솔창에선 딱 30개가 한계
-#define COINS 10 //현재 최대 코인 값 30개
-#define RIVERS 5 //강
-#define MONSTERS 40 //몬스터
-#define TRAINS 15 //기차
-#define COLOR 4 //색상
+#define RANKING 10  //랭킹배열 크기 10
+#define CARS 20     //현재 최대 자동차 갯수 20개
+#define COINS 20    //코인    20개
+#define RIVERS 5    //강      5개
+#define MONSTERS 40 //몬스터  40개
+#define TRAINS 8   //기차    15개
+#define COLOR 4     //색상(객체 종류)배열 크기 4
 
 //자동차 객체 구조체
 typedef struct Car {
@@ -77,7 +77,7 @@ extern const char car_down[5][7];
 extern const char car_up[5][7];
 
 //몬스터 디자인
-extern const char monster1[3][7];
+extern const char monster1[3][6];
 
 //기차 디자인
 extern const char train1[6][8];

@@ -30,7 +30,7 @@ void Setting()
 
     //콘솔창 크기와 제목
     system("mode con: cols=150 lines=41");
-    system("title Welcome");
+    system("title Crossy Road");
 
     //커서 깜빡거림 제거
     HANDLE hConsole; CONSOLE_CURSOR_INFO ConsoleCursor;
@@ -42,9 +42,14 @@ void Setting()
     HWND console = GetConsoleWindow();
     RECT r;
     GetWindowRect(console, &r);
+
+    //★★★★★★★★★★★★★★★★★★★★★★//
     //화면 해상도가 맞지 않으면 임의로 조정가능
-    int x = 1255; //1215
+    int x = 1215; //1215
     int y = 695;  //695
+    //★★★★★★★★★★★★★★★★★★★★★★//
+
+    //설정된 값으로 해상도 설정
     MoveWindow(console, r.left, r.top, x, y, TRUE);
 
     //외부 파일에 저장된 랭킹 불러오기
@@ -80,8 +85,8 @@ void Ranking_sort()
 
     //중복된 이름을 찾아서 점수 갱신
     for (int i = 0; i < RANKING; i++) {
-        if (strcmp(user.name, Ranking[i].name) == 0) {
-            //이름이 이미 존재하는 경우 점수, 코인 갱신
+        if (strcmp(user.name, Ranking[i].name) == 0) 
+        {   //이름이 이미 존재하는 경우 점수, 코인 갱신
             if(user.score > Ranking[i].score) //새로 얻은 점수가 더 클 때만 갱신
                 Ranking[i].score = user.score;
             Ranking[i].coins = user.coins;
@@ -91,7 +96,7 @@ void Ranking_sort()
             {
                 for (int h = 0; h < RANKING - j; h++)
                 {
-                    if (Ranking[h].score < Ranking[h + 1].score)
+                    if (Ranking[h].score < Ranking[h + 1].score) //버블 정렬
                     {
                         User tmp = Ranking[h];
                         Ranking[h] = Ranking[h + 1];
@@ -107,11 +112,10 @@ void Ranking_sort()
     if (!found) {
         for (int i = 0; i < RANKING; i++) {
             if (user.score > Ranking[i].score ||
-                (user.score == Ranking[i].score && strcmp(user.name, Ranking[i].name) < 0)) {
-                // 점수가 같다면 알파벳 순으로 정렬
-                for (int j = RANKING - 1; j > i; j--) {
+                (user.score == Ranking[i].score && strcmp(user.name, Ranking[i].name) < 0)) 
+            {   //점수가 같다면 알파벳 순으로 정렬
+                for (int j = RANKING - 1; j > i; j--) 
                     Ranking[j] = Ranking[j - 1];
-                }
                 Ranking[i] = user;
                 Store_color(i);
                 break;
@@ -124,9 +128,9 @@ void Ranking_sort()
     for (int i = 0; i < RANKING; i++)
     {
         if (Ranking[i].score > 0)
-        {
+        {   //이름, 점수, 코인
             fprintf(Rank, "%s %d %d ", Ranking[i].name, Ranking[i].score, Ranking[i].coins);
-            for (int j = 0; j < COLOR; j++)
+            for (int j = 0; j < COLOR; j++) //다른 객체 RGB값
                 fprintf(Rank, "%d %d %d ", Ranking[i].color[j].r, Ranking[i].color[j].g, Ranking[i].color[j].b);
             fprintf(Rank, "\n");
         }
@@ -134,7 +138,7 @@ void Ranking_sort()
     fclose(Rank);
 }
 
-//게임 시작시 저장된 랭킹을 불러오는 함수
+//게임 시작시 저장된 랭킹과 색상값을 불러오는 함수
 void Read_ranking()
 {
     FILE* Rank = fopen("Ranking.txt", "r");

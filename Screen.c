@@ -150,27 +150,28 @@ void Start_screen()
                 found++; break; //중복 변수값 변동
             }
         }
-
-        if (found != 0)
+        if (found != 0) //중복이라면
         {
             gotoxy(30, 22); printf("이미 존재하는 이름입니다.");
         }
+
         if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //뒤로가기 : Q
             break;
     } while (found != 0);
 
-    if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
+    if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //뒤로가기 : Q
         Main_screen();
-    else if (found == 0)
-        Game();
+    else if (found == 0) //중복이 없으면
+        Game(); //게임시작
 }
 
 //이어하기 화면
+//이미 존재하는 이름인지 확인하는 함수
 bool Check_continue()
 {
     for (int i = 0; i < RANKING; i++)
     {
-        if (strcmp(Name, Ranking[i].name) == 0)
+        if (strcmp(Name, Ranking[i].name) == 0) //랭킹 안에 이미 같은 이름이 존재하면
         {
             strcpy(Name, Ranking[i].name); //이름을 집어넣어 이어하기
             Coins = Ranking[i].coins; //코인 갯수도 불러온 후 색상값도 불러오기
@@ -178,11 +179,12 @@ bool Check_continue()
             c_rgb.r = Ranking[i].color[1].r; c_rgb.g = Ranking[i].color[1].g; c_rgb.b = Ranking[i].color[1].b;
             m_rgb.r = Ranking[i].color[2].r; m_rgb.g = Ranking[i].color[2].g; m_rgb.b = Ranking[i].color[2].b;
             t_rgb.r = Ranking[i].color[3].r; t_rgb.g = Ranking[i].color[3].g; t_rgb.b = Ranking[i].color[3].b;
-            return 1;
+            return 1; //참이라는 것을 반환
         }
     }
     return 0;
 }
+//이어하기 화면
 void Continue_screen()
 {
     system("cls"); Draw_square();
@@ -194,21 +196,22 @@ void Continue_screen()
     {
         gotoxy(42, 20); for (int i = 0; i < 15; i++) printf("  ");
         gotoxy(42, 20); scanf("%s", Name); //이름 입력
-        if (Check_continue() == 1)
+        if (Check_continue() == 1) //중복이 있다면
         {
-            Game(); break;
+            Game(); break; //게임 시작
         }
-        else
+        else //중복이 없다면
         {
             gotoxy(30, 22); printf("존재하지 않는 이름입니다.");
         }
-        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
+        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //뒤로가기 : Q
         {
             Main_screen(); break;
         }
     }
 }
 
+//색상화면 진입 전 이름으로 로그인
 void Into_color_screen()
 {
     system("cls"); Draw_square();
@@ -219,15 +222,15 @@ void Into_color_screen()
     {
         gotoxy(42, 20); for (int i = 0; i < 15; i++) printf("  ");
         gotoxy(42, 20); scanf("%s", Name); //이름 입력
-        if (Check_continue() == 1)
+        if (Check_continue() == 1) //중복이 있다면
         {
-            Color_screen(); return;
+            Color_screen(); return; //색상화면 진입
         }
-        else
+        else //중복이 없다면
         {
             gotoxy(30, 22); printf("존재하지 않는 이름입니다.");
         }
-        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
+        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //뒤로가기 : Q
         {
             Main_screen(); return;
         }
@@ -262,8 +265,8 @@ void Color_screen()
             input = _getch();
             if (input == RIGHT && x < 147) //우측 이동
             {
-                Remove_player(x++, y); //공 지우면서 좌표 이동
-                Draw_player(x, y);
+                Remove_player(x++, y); //플레이어 지우면서 좌표 이동
+                Draw_player(x, y);     //플레이어 그려서 이동
                 Sleep(11);
             }
             if (input == LEFT && x > 2) //좌측 이동
@@ -284,24 +287,25 @@ void Color_screen()
                 Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == 'q' || input == 'Q') //Q를 누르면 뒤로가기
+            if (input == 'q' || input == 'Q') //뒤로가기 : Q
             {
                 Main_screen();
                 break;
             }
         }
 
+        //x좌표 값에 따라 어떤 객체의 색상을 바꾸는지 확인하는 부분
         if (y == 12) {
-            if (26 <= x && x <= 39) {
+            if (26 <= x && x <= 39) { //자동차
                 Color_set_screen(1); return;
             }
-            else if (56 <= x && x <= 69) {
+            else if (56 <= x && x <= 69) { //몬스터
                 Color_set_screen(2); return;
             }
-            else if (86 <= x && x <= 99) {
+            else if (86 <= x && x <= 99) { //기차
                 Color_set_screen(3); return;
             }
-            else if (116 <= x && x <= 129) {
+            else if (116 <= x && x <= 129) { //플레이어
                 Color_set_screen(0); return;
             }
         }
@@ -310,7 +314,7 @@ void Color_screen()
 //색상의 값을 입력받는 함수
 void Color_set_screen(int obj)
 {
-recolor:
+recolor: //루프 분기
     system("cls"); Draw_square();
 
     int r = 0, g = 0, b = 0;
@@ -324,7 +328,7 @@ recolor:
     gotoxy(73, 15); scanf("%d", &g);
     gotoxy(117, 15); scanf("%d", &b);
     if (r + g + b < 100 || (r < 50 && g < 50 && b < 50))
-        goto recolor;
+        goto recolor; //색상이 너무 어두우면 루프 분기로 복귀
 
     switch (obj)
     {
@@ -351,7 +355,7 @@ recolor:
             input = _getch();
             if (input == 'y' || input == 'Y')
             {
-                goto recolor; break;
+                goto recolor; break; //다시하기도 루프 분기로 복귀
             }
             else if (input == 'n' || input == 'N')
                 break;
@@ -367,7 +371,7 @@ recolor:
         }
     }
 
-    Coins -= 5;
+    Coins -= 5; //코인 차감
     Ranking_sort(); //코인 갯수 변동 저장
 
     Color_screen(); return;
@@ -376,7 +380,7 @@ recolor:
 //설명 화면
 void Help_screen()
 {
-    init_object();
+    init_object(); //객체 힙 메모리 할당
     system("cls"); Draw_square();
     gotoxy(136, 39); printf("뒤로가기 : Q");
 
@@ -425,6 +429,10 @@ void Help_screen()
 
     clock_t car = clock(); //시간 저장
     clock_t monster = clock();
+    clock_t train = clock();
+    clock_t train_charge = clock();
+    bool train_spawn = 1;
+    for (int i = 0; i < 2; i++) Add_train(111, 3, Find_train());
 
     while (1)
     {
@@ -434,8 +442,8 @@ void Help_screen()
             input = _getch();
             if (input == RIGHT && x < 147) //우측 이동
             {
-                Remove_player(x++, y); //공 지우면서 좌표 이동
-                Draw_player(x, y); 
+                Remove_player(x++, y); //플레이어 지우면서 좌표 이동
+                Draw_player(x, y);     //플레이어 그리면서 이동
                 Sleep(33);
             }
             if (input == LEFT && x > 2) //좌측 이동
@@ -456,7 +464,7 @@ void Help_screen()
                 Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == 'q' || input == 'Q') //Q를 누르면 뒤로가기
+            if (input == 'q' || input == 'Q') //뒤로가기 : Q
             {
                 Main_screen();
                 break;
@@ -467,15 +475,41 @@ void Help_screen()
         {
             Remove_car(help_car.x, help_car.y++); //자동차를 지움과 동시에 y좌표 수정
             if (help_car.y >= 35) help_car.y = 2; //만약 콘솔창을 벗어나면 다시 위로 보냄
-            Draw_car(help_car.x, help_car.y, 0); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
+            Draw_car(help_car.x, help_car.y, 0);  //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
             car = clock(); //시간 초기화
         }
-        if (clock() > monster + 200)
+        if (clock() > monster + 200) //몬스터도 자동차와 동일
         {
             Remove_monster(help_monster.x, help_monster.y++);
             if (help_monster.y >= 37) help_monster.y = 2;
             Draw_monster(help_monster.x, help_monster.y);
             monster = clock();
+        }
+        if (train_spawn && clock() > train_charge + 5000)
+        {
+            if (clock() > train + 50) //25ms마다 발동
+            {
+                for (int i = 0; i < TRAINS; i++) Move_train(i); //기차를 움직임
+                train = clock();
+            }
+            if (trains[0].on == false) //0번 더미 객체가 사라지면
+            {
+                train_spawn = 1; train_charge = clock(); //다음 시퀀스로 넘어감
+            }
+        }
+        if (!train_spawn && clock() > train_charge + 2000) //기차가 줄지어 나온 후
+        {
+            if (clock() > train + 50)
+            {
+                static int index = 1;
+                Delete_train(index++); //기차를 위에서부터 하나씩 지움
+                train = clock();
+                if (index >= 8) //정적 변수가 8이상이 되면
+                {
+                    index = 1; train_spawn = 1; //다시 처음으로 모두 초기화
+                    for (int i = 0; i < 2; i++) Add_train(111, 3, Find_train());
+                }
+            }
         }
 
         if (help_coin.on == true) //객체가 활성화되어 있다면
@@ -505,11 +539,11 @@ void Help_screen()
             Help_screen(); break;
         }
     }
-    free_object();
-    help_car.on = false; //자동차 객체 제거
-    help_coin.on = false; //코인 객체 제거
-    help_river.on = false;
-    help_monster.on = false;
+    free_object(); //힙 메모리 해제
+    help_car.on = false;        //자동차 객체 제거
+    help_coin.on = false;       //코인 객체 제거
+    help_river.on = false;      //강 객체 제거
+    help_monster.on = false;    //몬스터 객체 제거
 }
 
 //랭킹 화면
@@ -520,37 +554,39 @@ void Ranking_screen()
     gotoxy(136, 39);
     printf("뒤로가기 : Q");
 
-    // 타이틀 출력
+    //타이틀 출력
     gotoxy(20, 3);
     printf("랭킹\t\t이름\t\t\t점수\t\t\t코인");
 
-    clock_t blink_time = clock();  // 깜빡임 효과를 위한 시간 저장 변수
-    int blink_state = 0;           // 0일 때 빨강, 1일 때 분홍
+    clock_t blink_time = clock();  //깜빡임 효과를 위한 시간 저장 변수
+    int blink_state = 0;           //0일 때 빨강, 1일 때 분홍
 
-    while (1) {
-        for (int i = 0; i < RANKING; i++) {
+    while (1) 
+    {
+        for (int i = 0; i < RANKING; i++) 
+        {
             if (Ranking[i].score > 0) // 점수가 있어야만 출력
             {
                 gotoxy(20, 5 + i * 3);
 
                 // 1위 깜빡임 효과
                 if (i == 0) {
-                    if (blink_state == 0) {
-                        textcolor(255, 0, 0);  // 빨강
-                    }
-                    else {
-                        textcolor(255, 192, 203);  // 분홍
-                    }
+                    if (blink_state == 0) 
+                        textcolor(255, 0, 0);     //빨강
+                    else 
+                        textcolor(255, 192, 203); //분홍
                     gotoxy(22, 5 + i * 3);
                     printf("★");  // 1위에 별 출력
                 }
                 // 2위 및 3위는 색상 고정
-                else if (i == 1) {
+                else if (i == 1)
+                {
                     textcolor(255, 165, 0);
                     gotoxy(22, 5 + i * 3);
                     printf("★");
                 }
-                else if (i == 2) {
+                else if (i == 2) 
+                {
                     textcolor(255, 255, 0);
                     gotoxy(22, 5 + i * 3);
                     printf("★");
@@ -558,7 +594,6 @@ void Ranking_screen()
                 else 
                     removecolor();
 
-                //이름이 길어지면 한칸씩 밀리길래 하나씩 좌표찍음
                 gotoxy(20, 5 + i * 3); printf("%d", i + 1);
                 gotoxy(40, 5 + i * 3); printf("%s", Ranking[i].name);
                 gotoxy(64, 5 + i * 3); printf("%d", Ranking[i].score);
@@ -566,16 +601,18 @@ void Ranking_screen()
             }
         }
 
-        // 깜빡임 주기 설정 (500ms마다 색상 변경)
-        if (clock() > blink_time + 500) {
-            blink_state = !blink_state;  // 빨강과 분홍으로 깜빡임 전환
-            blink_time = clock();  // 시간 초기화
+        //깜빡임 주기 설정 (500ms마다 색상 변경)
+        if (clock() > blink_time + 500) 
+        {
+            blink_state = !blink_state;  //빨강과 분홍으로 깜빡임 전환
+            blink_time = clock();  //시간 초기화
         }
 
-        // 사용자가 Q를 누르면 랭킹 화면 종료
+        //사용자가 Q를 누르면 랭킹 화면 종료
         if (_kbhit()) {
             char input = _getch();
-            if (input == 'q' || input == 'Q') {
+            if (input == 'q' || input == 'Q') 
+            {
                 removecolor();
                 Main_screen(); return;
             }

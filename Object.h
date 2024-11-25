@@ -34,10 +34,14 @@ void Remove_train(short x, short y);
 
 //객체와 플레이어의 충돌 감지 함수들
 bool Check_car(short x, short y);
+bool Check_help_car(short x, short y);
 bool Check_coin(short x, short y);
 bool Check_river(short x, short y);
+bool Check_help_river(short x, short y);
 bool Check_monster(short x, short y);
+bool Check_help_monster(short x, short y);
 bool Check_train(short x, short y);
+bool Check_help_train(short x, short y);
 
 /*o객체를 추가하고 제거하고 좌표를 움직이는 함수들o*/
 

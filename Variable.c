@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include "Variable.h"
 
+const char player[3][4] = { //플레이어
+    {" @ "},
+    {"/@\\"},
+    {"/ \\"}
+};
+
 const char car_down[5][7] = { //자동차 DOWN
     {"n_ww_ "},
     {"@l   l"},
@@ -33,17 +39,19 @@ const char train1[6][8] = { //기차
 
 char Name[30];  //게임 시작 시 이름을 입력받는 곳
 
+bool bgm_on = 1; //메인화면에서 브금을 틀지 말지 결정하는 변수
+
 Car* cars; //자동차 객체 배열
 Coin* coins; //코인 객체 배열
 River* rivers; //강 객체 배열
 Monster* monsters; //몬스터 객체 배열
 Train* trains; //기차 객체 배열
+short train_x; //항상 기차의 x좌표를 저장할 변수
 
 Car help_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
 Coin help_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체
 River help_river = { 50, {10, 17, 24, 31, 38}, 0 }; //게임 설명 화면에서 쓸 강 객체
 Monster help_monster = { 91, 3, 0, 0 }; //게임 설명 화면에서 쓸 몬스터 객체
-Train help_train = { 111, 3, 0 }; //게임 설명 화면에서 쓸 기차 객체
 
 User Ranking[RANKING]; //랭킹을 저장할 배열
 
@@ -65,3 +73,17 @@ HDC hdc;   //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
 
 //이미지 파일들의 주소를 담을 변수
 const char* Chicken = "Images\\Chicken.raw";
+
+//이미지 파일들의 주소를 담을 변수
+const char* Chicken2 = "Images\\Chicken2.raw";
+const char* Genie = "Images\\Genie.raw";
+
+//사운드 파일들의 주소를 담을 변수
+const char* Main_bgm = "Sounds\\Main_bgm.wav";
+const char* Game_bgm = "Sounds\\Game_bgm.wav";
+const char* Click_sound = "Sounds\\Click_sound.wav";
+const char* Coin_sound = "Sounds\\Coin_sound.wav";
+const char* Gameover_sound = "Sounds\\Gameover_sound.wav";
+const char* Gamestart_sound = "Sounds\\Gamestart_sound.wav";
+const char* Ranking_sound = "Sounds\\Ranking_sound.wav";
+const char* Pick_sound = "Sounds\\Pick_sound.wav";

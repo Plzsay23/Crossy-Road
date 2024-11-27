@@ -11,7 +11,7 @@
 #define DOWN 80
 #define SPACE 32
 #define RANKING 10  //랭킹배열 크기 10
-#define CARS 20     //현재 최대 자동차 갯수 20개
+#define CARS 40     //현재 최대 자동차 갯수 20개
 #define COINS 20    //코인    20개
 #define RIVERS 5    //강      5개
 #define MONSTERS 40 //몬스터  40개
@@ -72,6 +72,8 @@ typedef struct User {
 
 /*o게임 관련 전역 변수 선언o*/
 
+extern const char player[3][4];
+
 //자동차 디자인
 extern const char car_down[5][7];
 extern const char car_up[5][7];
@@ -84,17 +86,19 @@ extern const char train1[6][8];
 
 extern char Name[30];          //게임 시작 시 이름을 입력받는 곳
 
+extern bool bgm_on; //메인화면에서 브금을 틀지 말지 결정하는 변수
+
 extern Car* cars;              //자동차 객체 배열
 extern Coin* coins;            //코인 객체 배열
 extern River* rivers;          //강 객체 배열
 extern Monster* monsters;      //몬스터 객체 배열
 extern Train* trains;          //기차 객체 배열
+extern short train_x;          //항상 기차의 x좌표를 저장할 변수
 
 extern Car help_car;           //게임 설명 화면에서 쓸 자동차 객체
 extern Coin help_coin;         //게임 설명 화면에서 쓸 코인 객체
 extern River help_river;       //게임 설명 화면에서 쓸 강 객체
 extern Monster help_monster;   //게임 설명 화면에서 쓸 몬스터 객체
-extern Train help_train;       //게임 설명 화면에서 쓸 기차 객체
 
 extern User Ranking[RANKING];  //랭킹을 저장할 배열
 
@@ -115,5 +119,20 @@ extern HDC hdc;                //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스
 
 //이미지 파일들의 주소를 담을 변수
 extern const char* Chicken; 
+
+//이미지 파일들의 주소를 담을 변수
+extern const char* Chicken;
+extern const char* Chicken2;
+extern const char* Genie;
+
+//사운드 파일들의 주소를 담을 변수
+extern const char* Main_bgm;
+extern const char* Game_bgm;
+extern const char* Coin_sound;
+extern const char* Click_sound;
+extern const char* Gamestart_sound;
+extern const char* Ranking_sound;
+extern const char* Pick_sound;
+extern const char* Gameover_sound;
 
 #endif

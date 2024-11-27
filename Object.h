@@ -41,7 +41,6 @@ bool Check_help_river(short x, short y);
 bool Check_monster(short x, short y);
 bool Check_help_monster(short x, short y);
 bool Check_train(short x, short y);
-bool Check_help_train(short x, short y);
 
 /*o객체를 추가하고 제거하고 좌표를 움직이는 함수들o*/
 

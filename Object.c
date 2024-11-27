@@ -329,10 +329,6 @@ bool Check_train(short x, short y)
         }
     }
 }
-bool Check_help_train(short x, short y)
-{
-    
-}
 
 //자동차를 그리고 객체 하나의 좌표를 설정하는 함수
 void Add_car(short x, short y, int num, bool up)
@@ -557,7 +553,7 @@ void Move_train(int num)
         train_y++; //1칸씩 증가
         if (train_y % 6 == 0 && train_y <= 36) //일정 범위 내에서 6칸 마다
             Add_train(trains[0].x, train_y, Find_train()); //기차를 줄지어서 소환
-        else if (train_y > 37) //범위를 벗어나면
+        else if (train_y > 36) //범위를 벗어나면
         {
             train_y = 0; trains[0].on = false; //첫 기차는 삭제
         }
@@ -566,6 +562,7 @@ void Move_train(int num)
 //화면이 움직임에 따라 기차 객체를 이동하는 함수
 void Floating_train()
 { 
+    train_x--; //기차의 절대적인 x좌표를 항상 이동
     for (int i = 0; i < TRAINS; i++) //모든 기차 객체를 검사
     {
         if (trains[i].on == true) //객체가 활성화되어 있다면
@@ -614,13 +611,12 @@ short Find_train() //기차
 //플로팅시 나올 객체를 선택하는 함수
 unsigned short Choose_object()
 {
-    static unsigned short choose = 0;
-    choose++; if (choose >= 65532) choose = 0; //unsigned short의 최댓값을 넘어가면 0으로 초기화
-    return choose % 4 + 1;
+    //static unsigned short choose = 0;
+    //choose++; if (choose >= 65532) choose = 0; //unsigned short의 최댓값을 넘어가면 0으로 초기화
+    //return choose % 4 + 1;
 
-    /*
-    int arr[] = {1,1,1,2,1,1,1,3,1,1,1,4};
+    int arr[] = {1,1,2,1,1,3,1,1,4};
     static int index = 0;
+    if(index == 9) index = 0;
     return arr[index++];
-    */
 }

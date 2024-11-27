@@ -1,44 +1,44 @@
-#include "Screen.h"
+ï»¿#include "Screen.h"
 
-//Å×µÎ¸®¸¦ ±×¸®´Â ÇÔ¼ö
+//í…Œë‘ë¦¬ë¥¼ ê·¸ë¦¬ëŠ” í•¨ìˆ˜
 void Draw_square()
 {
-    for (int i = 0; i < 149; i++) { gotoxy(i, 0); printf("¡á"); gotoxy(i, 40); printf("¡á"); }
-    for (int i = 1; i < 40; i++) { gotoxy(0, i); printf("¡á"); gotoxy(148, i); printf("¡á"); }
+    for (int i = 0; i < 149; i++) { gotoxy(i, 0); printf("â– "); gotoxy(i, 40); printf("â– "); }
+    for (int i = 1; i < 40; i++) { gotoxy(0, i); printf("â– "); gotoxy(148, i); printf("â– "); }
 }
 
-//¸ŞÀÎ È­¸é
+//ë©”ì¸ í™”ë©´
 void Main_screen_letter()
 {
-    gotoxy(29, 6);  printf("¡á¡á¡á¡á");  gotoxy(44, 6);  printf("¡á¡á¡á¡á");
-    gotoxy(29, 7);  printf("¡á      ");  gotoxy(44, 7);  printf("¡á    ¡á");
-    gotoxy(29, 8);  printf("¡á      ");  gotoxy(44, 8);  printf("¡á¡á¡á¡á");
-    gotoxy(29, 9);  printf("¡á      ");  gotoxy(44, 9);  printf("¡á  ¡á  ");
-    gotoxy(29, 10); printf("¡á¡á¡á¡á");  gotoxy(44, 10); printf("¡á    ¡á");
+    gotoxy(29, 6);  printf("â– â– â– â– ");  gotoxy(44, 6);  printf("â– â– â– â– ");
+    gotoxy(29, 7);  printf("â–       ");  gotoxy(44, 7);  printf("â–     â– ");
+    gotoxy(29, 8);  printf("â–       ");  gotoxy(44, 8);  printf("â– â– â– â– ");
+    gotoxy(29, 9);  printf("â–       ");  gotoxy(44, 9);  printf("â–   â–   ");
+    gotoxy(29, 10); printf("â– â– â– â– ");  gotoxy(44, 10); printf("â–     â– ");
 
-    gotoxy(59, 6);  printf("¡á¡á¡á¡á");  gotoxy(74, 6);  printf("¡á¡á¡á¡á");
-    gotoxy(59, 7);  printf("¡á    ¡á");  gotoxy(74, 7);  printf("¡á      ");
-    gotoxy(59, 8);  printf("¡á    ¡á");  gotoxy(74, 8);  printf("¡á¡á¡á¡á");
-    gotoxy(59, 9);  printf("¡á    ¡á");  gotoxy(74, 9);  printf("      ¡á");
-    gotoxy(59, 10); printf("¡á¡á¡á¡á");  gotoxy(74, 10); printf("¡á¡á¡á¡á");
+    gotoxy(59, 6);  printf("â– â– â– â– ");  gotoxy(74, 6);  printf("â– â– â– â– ");
+    gotoxy(59, 7);  printf("â–     â– ");  gotoxy(74, 7);  printf("â–       ");
+    gotoxy(59, 8);  printf("â–     â– ");  gotoxy(74, 8);  printf("â– â– â– â– ");
+    gotoxy(59, 9);  printf("â–     â– ");  gotoxy(74, 9);  printf("      â– ");
+    gotoxy(59, 10); printf("â– â– â– â– ");  gotoxy(74, 10); printf("â– â– â– â– ");
 
-    gotoxy(89, 6);  printf("¡á¡á¡á¡á");  gotoxy(104, 6);  printf("¡á      ¡á");
-    gotoxy(89, 7);  printf("¡á      ");  gotoxy(104, 7);  printf(" ¡á    ¡á ");
-    gotoxy(89, 8);  printf("¡á¡á¡á¡á");  gotoxy(104, 8);  printf("  ¡á¡á¡á  ");
-    gotoxy(89, 9);  printf("      ¡á");  gotoxy(104, 9);  printf("    ¡á    ");
-    gotoxy(89, 10); printf("¡á¡á¡á¡á");  gotoxy(104, 10); printf("    ¡á    ");
+    gotoxy(89, 6);  printf("â– â– â– â– ");  gotoxy(104, 6);  printf("â–       â– ");
+    gotoxy(89, 7);  printf("â–       ");  gotoxy(104, 7);  printf(" â–     â–  ");
+    gotoxy(89, 8);  printf("â– â– â– â– ");  gotoxy(104, 8);  printf("  â– â– â–   ");
+    gotoxy(89, 9);  printf("      â– ");  gotoxy(104, 9);  printf("    â–     ");
+    gotoxy(89, 10); printf("â– â– â– â– ");  gotoxy(104, 10); printf("    â–     ");
 
-    gotoxy(64, 12);  printf("¡á¡á¡á¡á");  gotoxy(79, 12);  printf("¡á¡á¡á¡á");
-    gotoxy(64, 13);  printf("¡á    ¡á");  gotoxy(79, 13);  printf("¡á    ¡á");
-    gotoxy(64, 14);  printf("¡á¡á¡á¡á");  gotoxy(79, 14);  printf("¡á    ¡á");
-    gotoxy(64, 15);  printf("¡á  ¡á  ");  gotoxy(79, 15);  printf("¡á    ¡á");
-    gotoxy(64, 16);  printf("¡á    ¡á");  gotoxy(79, 16);  printf("¡á¡á¡á¡á");
+    gotoxy(64, 12);  printf("â– â– â– â– ");  gotoxy(79, 12);  printf("â– â– â– â– ");
+    gotoxy(64, 13);  printf("â–     â– ");  gotoxy(79, 13);  printf("â–     â– ");
+    gotoxy(64, 14);  printf("â– â– â– â– ");  gotoxy(79, 14);  printf("â–     â– ");
+    gotoxy(64, 15);  printf("â–   â–   ");  gotoxy(79, 15);  printf("â–     â– ");
+    gotoxy(64, 16);  printf("â–     â– ");  gotoxy(79, 16);  printf("â– â– â– â– ");
 
-    gotoxy(94, 12);  printf("  ¡á¡á  ");  gotoxy(109, 12);  printf("¡á¡á¡á  ");
-    gotoxy(94, 13);  printf(" ¡á  ¡á ");  gotoxy(109, 13);  printf("¡á    ¡á");
-    gotoxy(94, 14);  printf("¡á¡á¡á¡á");  gotoxy(109, 14);  printf("¡á    ¡á");
-    gotoxy(94, 15);  printf("¡á    ¡á");  gotoxy(109, 15);  printf("¡á    ¡á");
-    gotoxy(94, 16);  printf("¡á    ¡á");  gotoxy(109, 16);  printf("¡á¡á¡á  ");
+    gotoxy(94, 12);  printf("  â– â–   ");  gotoxy(109, 12);  printf("â– â– â–   ");
+    gotoxy(94, 13);  printf(" â–   â–  ");  gotoxy(109, 13);  printf("â–     â– ");
+    gotoxy(94, 14);  printf("â– â– â– â– ");  gotoxy(109, 14);  printf("â–     â– ");
+    gotoxy(94, 15);  printf("â–     â– ");  gotoxy(109, 15);  printf("â–     â– ");
+    gotoxy(94, 16);  printf("â–     â– ");  gotoxy(109, 16);  printf("â– â– â–   ");
 }
 void Main_screen_cloud()
 {
@@ -57,7 +57,8 @@ void Main_screen_car()
 void Main_screen()
 {
     system("cls");
-    Draw_square(); //ÃÊ±âÈ­¸é ±¸¼º
+    Draw_square(); //ì´ˆê¸°í™”ë©´ êµ¬ì„±
+    if (bgm_on == true) Play_bgm(Main_bgm, 1);
     textcolor(135, 206, 235);
     Main_screen_letter();
     textcolor(0, 0, 255);
@@ -65,49 +66,54 @@ void Main_screen()
     removecolor();
     Main_screen_cloud();
 
-    gotoxy(17, 25); printf("»õ·ÎÇÏ±â : 1");
-    gotoxy(43, 25); printf("ÀÌ¾îÇÏ±â : 2");
-    gotoxy(69, 25); printf("»ö»óº¯°æ : 3");
-    gotoxy(95, 25); printf("°ÔÀÓ¼³¸í : 4");
-    gotoxy(121, 25); printf("·©Å·º¸±â : 5");
+    gotoxy(17, 25); printf("ìƒˆë¡œí•˜ê¸° : 1");
+    gotoxy(43, 25); printf("ì´ì–´í•˜ê¸° : 2");
+    gotoxy(69, 25); printf("ìƒ‰ìƒë³€ê²½ : 3");
+    gotoxy(95, 25); printf("ê²Œì„ì„¤ëª… : 4");
+    gotoxy(121, 25); printf("ë­í‚¹ë³´ê¸° : 5");
 
-    clock_t letter = clock(); //ÅØ½ºÆ® Á¡¸êÀ» À§ÇÑ ½Ã°£ ÀúÀå
+    clock_t letter = clock(); //í…ìŠ¤íŠ¸ ì ë©¸ì„ ìœ„í•œ ì‹œê°„ ì €ì¥
 
-    while (1) //»ç¿ëÀÚ°¡ ¿Ã¹Ù¸¥ ÀÔ·ÂÀ» ÇÒ ¶§±îÁö ¹İº¹
+    while (1) //ì‚¬ìš©ìê°€ ì˜¬ë°”ë¥¸ ì…ë ¥ì„ í•  ë•Œê¹Œì§€ ë°˜ë³µ
     {
         char input;
-        if (_kbhit()) //Å°º¸µå°¡ ´­¸®¸é
+        if (_kbhit()) //í‚¤ë³´ë“œê°€ ëˆŒë¦¬ë©´
         {
-            input = _getch(); //Å° ÀÔ·Â¹ŞÀ½
-            if (input == '1') // 1À» ´©¸£¸é »õ·Î½ÃÀÛ
+            input = _getch(); //í‚¤ ì…ë ¥ë°›ìŒ
+            if (input == '1') // 1ì„ ëˆ„ë¥´ë©´ ìƒˆë¡œì‹œì‘
             {
-                Start_screen(); //°ÔÀÓ½ÃÀÛ
+                Play_bgm(Click_sound, 0); bgm_on = 1;
+                Start_screen(); //ê²Œì„ì‹œì‘
                 break;
             }
-            else if (input == '2') // 2¸¦ ´©¸£¸é ÀÌ¾îÇÏ±â
+            else if (input == '2') // 2ë¥¼ ëˆ„ë¥´ë©´ ì´ì–´í•˜ê¸°
             {
-                Continue_screen(); //ÀÌ¾îÇÏ±â
+                Play_bgm(Click_sound, 0); bgm_on = 1;
+                Continue_screen(); //ì´ì–´í•˜ê¸°
                 break;
             }
-            else if (input == '3') // 3À» ´©¸£¸é »ö»ó Ä¿½ºÅÒÈ­¸é
+            else if (input == '3') // 3ì„ ëˆ„ë¥´ë©´ ìƒ‰ìƒ ì»¤ìŠ¤í…€í™”ë©´
             {
-                Into_color_screen(); //»ö»óÄ¿½ºÅÒÈ­¸é
+                bgm_on = 0;
+                Into_color_screen(); //ìƒ‰ìƒì»¤ìŠ¤í…€í™”ë©´
                 break;
             }
-            else if (input == '4') // 4¸¦ ´©¸£¸é °ÔÀÓ¼³¸íÈ­¸é
+            else if (input == '4') // 4ë¥¼ ëˆ„ë¥´ë©´ ê²Œì„ì„¤ëª…í™”ë©´
             {
-                Help_screen(); //°ÔÀÓ¼³¸íÈ­¸é
+                bgm_on = 0;
+                Help_screen(); //ê²Œì„ì„¤ëª…í™”ë©´
                 break;
             }
-            else if (input == '5') // 5¸¦ ´©¸£¸é ·©Å·È­¸é
+            else if (input == '5') // 5ë¥¼ ëˆ„ë¥´ë©´ ë­í‚¹í™”ë©´
             {
-                Ranking_screen(); //·©Å·È­¸é
+                bgm_on = 0;
+                Ranking_screen(); //ë­í‚¹í™”ë©´
                 break;
             }
         }
 
-        //ÅØ½ºÆ® »ö±òÀ» ÁÖ±â¿¡ ¸ÂÃç º¯°æÇÏ°Ô ÇÏ¿© Á¡¸êÇÏ´Â È¿°ú¸¦ ³»´Â ºÎºĞ
-        if (clock() > letter + 500) //500ms¸¶´Ù ¹ßµ¿
+        //í…ìŠ¤íŠ¸ ìƒ‰ê¹”ì„ ì£¼ê¸°ì— ë§ì¶° ë³€ê²½í•˜ê²Œ í•˜ì—¬ ì ë©¸í•˜ëŠ” íš¨ê³¼ë¥¼ ë‚´ëŠ” ë¶€ë¶„
+        if (clock() > letter + 500) //500msë§ˆë‹¤ ë°œë™
         {
             textcolor(0, 0, 255);
             Main_screen_letter();
@@ -116,7 +122,7 @@ void Main_screen()
             removecolor();
             Main_screen_cloud();
         }
-        if (clock() > letter + 1000) //1000ms¸¶´Ù ¹ßµ¿
+        if (clock() > letter + 1000) //1000msë§ˆë‹¤ ë°œë™
         {
             textcolor(135, 206, 235);
             Main_screen_letter();
@@ -124,137 +130,164 @@ void Main_screen()
             Main_screen_car();
             removecolor();
             Main_screen_cloud();
-            letter = clock(); //½Ã°£ ÃÊ±âÈ­
+            letter = clock(); //ì‹œê°„ ì´ˆê¸°í™”
         }
     }
+    Stop_bgm();
 }
-
-//»õ·ÎÇÏ±â È­¸é
+//ìƒˆë¡œí•˜ê¸° í™”ë©´
 void Start_screen()
 {
     system("cls"); Draw_square();
-    gotoxy(136, 39); printf("µÚ·Î°¡±â : Q");
-    gotoxy(30, 20); printf("ÀÌ¸§ ÀÔ·Â : ");
-    Score = 0; //Á¡¼öÃÊ±âÈ­
-    unsigned short found = 0; //Áßº¹°Ë»ç º¯¼ö
+    gotoxy(132, 39); printf("ë’¤ë¡œê°€ê¸° : [ Q ]");
+    gotoxy(10, 20); printf("ì´ë¦„ ì…ë ¥ : ");
 
-    do
+    Score = 0; // ì ìˆ˜ ì´ˆê¸°í™”
+
+    unsigned short found = 0; // ì¤‘ë³µ ê²€ì‚¬ ë³€ìˆ˜
+    char Name[16]; // ì´ë¦„ ìµœëŒ€ ê¸¸ì´ ì œí•œ
+    short car_x = 125, car_y = 2; // ìë™ì°¨ì˜ ì´ˆê¸° ì¢Œí‘œ
+    clock_t car_timer = clock(); // ìë™ì°¨ ì´ë™ ì‹œê°„ ì´ˆê¸°í™”
+    help_car.on = true; //ìë™ì°¨ ê°ì²´ ì„ ì–¸
+
+    Draw_image_256(Chicken, hdc, 500, 300);
+
+    // ì´ë¦„ ì…ë ¥ ë£¨í”„
+    while (1)
     {
-        found = 0;
-        gotoxy(42, 20); for (int i = 0; i < 15; i++) printf("  ");
-        gotoxy(42, 20); scanf("%s", Name); //ÀÌ¸§ ÀÔ·Â
-        for (int i = 0; i < RANKING; i++)
+        // ìë™ì°¨ ì›€ì§ì„
+        if (clock() > car_timer + 100)
         {
-            if (strcmp(Name, Ranking[i].name) == 0)  //ÇÏ³ª¶óµµ Áßº¹ÀÌ ÀÖ´Ù¸é
+            Remove_car(car_x, car_y++); // ìë™ì°¨ ì§€ìš°ê³  yì¢Œí‘œ ì¦ê°€
+            if (car_y >= 40) car_y = 2; // ì½˜ì†”ì°½ ì•„ë˜ë¡œ ë²—ì–´ë‚˜ë©´ ìœ„ë¡œ ë¦¬ì…‹
+            Draw_car(car_x, car_y, 0); // ìƒˆ ìœ„ì¹˜ì— ìë™ì°¨ ì¶œë ¥
+            car_timer = clock(); // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
+        }
+
+        // ì‚¬ìš©ì ì…ë ¥ ì²˜ë¦¬
+        if (_kbhit())
+        {
+            gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  "); // ê¸°ì¡´ ì…ë ¥ ì§€ìš°ê¸°
+            gotoxy(22, 20); scanf("%15s", Name); // ì´ë¦„ ì…ë ¥ (ìµœëŒ€ 15ì)
+
+            if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) // ë’¤ë¡œê°€ê¸°
             {
-                found++; break; //Áßº¹ º¯¼ö°ª º¯µ¿
+                Play_bgm(Main_bgm, 1);
+                Main_screen(); return;
             }
-        }
-        if (found != 0) //Áßº¹ÀÌ¶ó¸é
-        {
-            gotoxy(30, 22); printf("ÀÌ¹Ì Á¸ÀçÇÏ´Â ÀÌ¸§ÀÔ´Ï´Ù.");
-        }
 
-        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //µÚ·Î°¡±â : Q
-            break;
-    } while (found != 0);
+            // ì¤‘ë³µ ê²€ì‚¬
+            found = 0;
+            for (int i = 0; i < RANKING; i++)
+            {
+                if (strcmp(Name, Ranking[i].name) == 0)
+                {
+                    found = 1;
+                    gotoxy(10, 22); printf("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì´ë¦„ì…ë‹ˆë‹¤.");
+                    break;
+                }
+            }
 
-    if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //µÚ·Î°¡±â : Q
-        Main_screen();
-    else if (found == 0) //Áßº¹ÀÌ ¾øÀ¸¸é
-        Game(); //°ÔÀÓ½ÃÀÛ
+            if (found == 0) // ì´ë¦„ ì¤‘ë³µ ì—†ìœ¼ë©´ ë£¨í”„ íƒˆì¶œ
+                break;
+        }
+    }
+
+    // ì´ë¦„ ì…ë ¥ ì„±ê³µ ì‹œ ê²Œì„ ì‹œì‘
+    bgm_on = 1; Game();
 }
 
-//ÀÌ¾îÇÏ±â È­¸é
-//ÀÌ¹Ì Á¸ÀçÇÏ´Â ÀÌ¸§ÀÎÁö È®ÀÎÇÏ´Â ÇÔ¼ö
+//ì´ì–´í•˜ê¸° í™”ë©´
 bool Check_continue()
 {
     for (int i = 0; i < RANKING; i++)
     {
-        if (strcmp(Name, Ranking[i].name) == 0) //·©Å· ¾È¿¡ ÀÌ¹Ì °°Àº ÀÌ¸§ÀÌ Á¸ÀçÇÏ¸é
+        if (strcmp(Name, Ranking[i].name) == 0)
         {
-            strcpy(Name, Ranking[i].name); //ÀÌ¸§À» Áı¾î³Ö¾î ÀÌ¾îÇÏ±â
-            Coins = Ranking[i].coins; //ÄÚÀÎ °¹¼öµµ ºÒ·¯¿Â ÈÄ »ö»ó°ªµµ ºÒ·¯¿À±â
+            strcpy(Name, Ranking[i].name); //ì´ë¦„ì„ ì§‘ì–´ë„£ì–´ ì´ì–´í•˜ê¸°
+            Coins = Ranking[i].coins; //ì½”ì¸ ê°¯ìˆ˜ë„ ë¶ˆëŸ¬ì˜¨ í›„ ìƒ‰ìƒê°’ë„ ë¶ˆëŸ¬ì˜¤ê¸°
             p_rgb.r = Ranking[i].color[0].r; p_rgb.g = Ranking[i].color[0].g; p_rgb.b = Ranking[i].color[0].b;
             c_rgb.r = Ranking[i].color[1].r; c_rgb.g = Ranking[i].color[1].g; c_rgb.b = Ranking[i].color[1].b;
             m_rgb.r = Ranking[i].color[2].r; m_rgb.g = Ranking[i].color[2].g; m_rgb.b = Ranking[i].color[2].b;
             t_rgb.r = Ranking[i].color[3].r; t_rgb.g = Ranking[i].color[3].g; t_rgb.b = Ranking[i].color[3].b;
-            return 1; //ÂüÀÌ¶ó´Â °ÍÀ» ¹İÈ¯
+            return 1;
         }
     }
     return 0;
 }
-//ÀÌ¾îÇÏ±â È­¸é
 void Continue_screen()
 {
     system("cls"); Draw_square();
-    gotoxy(136, 39); printf("µÚ·Î°¡±â : Q");
-    gotoxy(30, 20); printf("ÀÌ¸§ ÀÔ·Â : ");
-    Draw_image_256(Chicken, hdc, 680, 250);
+    gotoxy(132, 39); printf("ë’¤ë¡œê°€ê¸° : [ Q ]");
+    gotoxy(10, 20); printf("ì´ë¦„ ì…ë ¥ : ");
+    Draw_image_256(Chicken2, hdc, 500, 300);
 
     while (1)
     {
-        gotoxy(42, 20); for (int i = 0; i < 15; i++) printf("  ");
-        gotoxy(42, 20); scanf("%s", Name); //ÀÌ¸§ ÀÔ·Â
-        if (Check_continue() == 1) //Áßº¹ÀÌ ÀÖ´Ù¸é
+        gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  ");
+        gotoxy(22, 20); scanf("%s", Name); //ì´ë¦„ ì…ë ¥
+        if (Check_continue() == 1)
         {
-            Game(); break; //°ÔÀÓ ½ÃÀÛ
+            bgm_on = 1; Game(); break;
         }
-        else //Áßº¹ÀÌ ¾ø´Ù¸é
+        else
         {
-            gotoxy(30, 22); printf("Á¸ÀçÇÏÁö ¾Ê´Â ÀÌ¸§ÀÔ´Ï´Ù.");
+            gotoxy(10, 22); printf("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì´ë¦„ì…ë‹ˆë‹¤.");
         }
-        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //µÚ·Î°¡±â : Q
+        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
         {
+            Play_bgm(Main_bgm, 1);
             Main_screen(); break;
         }
     }
 }
 
-//»ö»óÈ­¸é ÁøÀÔ Àü ÀÌ¸§À¸·Î ·Î±×ÀÎ
 void Into_color_screen()
 {
     system("cls"); Draw_square();
-    gotoxy(30, 20); printf("ÀÌ¸§ ÀÔ·Â : ");
-    gotoxy(136, 39); printf("µÚ·Î°¡±â : Q");
+    gotoxy(10, 20); printf("ì´ë¦„ ì…ë ¥ : ");
+    gotoxy(132, 39); printf("ë’¤ë¡œê°€ê¸° : [ Q ]");
 
     while (1)
     {
-        gotoxy(42, 20); for (int i = 0; i < 15; i++) printf("  ");
-        gotoxy(42, 20); scanf("%s", Name); //ÀÌ¸§ ÀÔ·Â
-        if (Check_continue() == 1) //Áßº¹ÀÌ ÀÖ´Ù¸é
+        gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  ");
+        gotoxy(22, 20); scanf("%s", Name); //ì´ë¦„ ì…ë ¥
+        if (Check_continue() == 1)
         {
-            Color_screen(); return; //»ö»óÈ­¸é ÁøÀÔ
+            Color_screen(); return;
         }
-        else //Áßº¹ÀÌ ¾ø´Ù¸é
+        else
         {
-            gotoxy(30, 22); printf("Á¸ÀçÇÏÁö ¾Ê´Â ÀÌ¸§ÀÔ´Ï´Ù.");
+            gotoxy(10, 22); printf("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì´ë¦„ì…ë‹ˆë‹¤.");
         }
-        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //µÚ·Î°¡±â : Q
+        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
         {
             Main_screen(); return;
         }
     }
 }
-//»ö»ó Ä¿½ºÅÒ È­¸é
+//ìƒ‰ìƒ ì»¤ìŠ¤í…€ í™”ë©´
 void Color_screen()
 {
     system("cls"); Draw_square();
-    gotoxy(136, 39); printf("µÚ·Î°¡±â : Q");
+    gotoxy(132, 39); printf("ë’¤ë¡œê°€ê¸° : [ Q ]");
+    gotoxy(16, 5); printf("## ìºë¦­í„°ë¥¼ ì›€ì§ì—¬ ì„ íƒí•˜ì„¸ìš”! ##");
 
-    Draw_car(27, 5, 1);
-    gotoxy(26, 11); printf("»ö»ó º¯°æ");
-    Draw_monster(57, 6);
-    gotoxy(56, 11); printf("»ö»ó º¯°æ");
-    Draw_train(87, 4);
-    gotoxy(86, 11); printf("»ö»ó º¯°æ");
-    Draw_player(120, 7);
-    gotoxy(116, 11); printf("»ö»ó º¯°æ");
-    gotoxy(67, 3); printf("»ö»óº¯°æ : 5ÄÚÀÎ");
+    Draw_car(27, 28, 1);
+    gotoxy(26, 34); printf("ìƒ‰ìƒ ë³€ê²½");
+    Draw_monster(57, 29);
+    gotoxy(56, 34); printf("ìƒ‰ìƒ ë³€ê²½");
+    Draw_train(87, 27);
+    gotoxy(86, 34); printf("ìƒ‰ìƒ ë³€ê²½");
+    Draw_player(120, 30);
+    gotoxy(116, 34); printf("ìƒ‰ìƒ ë³€ê²½");
+    gotoxy(116, 5); printf("ìƒ‰ìƒë³€ê²½ : 5ì½”ì¸");
 
-    gotoxy(67, 5); printf("ÇöÀçÄÚÀÎ : %d", Coins);
+    gotoxy(116, 7); printf("í˜„ì¬ì½”ì¸ : %d", Coins);
 
-    short x = 75, y = 20;
+    //Draw_image_256(Genie, hdc, 180, 150);
+
+    short x = 75, y = 7;
     Draw_player(x, y);
 
     while (1)
@@ -263,106 +296,100 @@ void Color_screen()
         if (_kbhit())
         {
             input = _getch();
-            if (input == RIGHT && x < 147) //¿ìÃø ÀÌµ¿
+            if (input == RIGHT && x < 147) //ìš°ì¸¡ ì´ë™
             {
-                Remove_player(x++, y); //ÇÃ·¹ÀÌ¾î Áö¿ì¸é¼­ ÁÂÇ¥ ÀÌµ¿
-                Draw_player(x, y);     //ÇÃ·¹ÀÌ¾î ±×·Á¼­ ÀÌµ¿
+                Remove_player(x++, y); //ê³µ ì§€ìš°ë©´ì„œ ì¢Œí‘œ ì´ë™
+                Draw_player(x, y);
                 Sleep(11);
             }
-            if (input == LEFT && x > 2) //ÁÂÃø ÀÌµ¿
+            if (input == LEFT && x > 2) //ì¢Œì¸¡ ì´ë™
             {
                 Remove_player(x--, y);
                 Draw_player(x, y);
                 Sleep(11);
             }
-            if (input == UP && y > 12) //À§·Î ÀÌµ¿
+            if (input == UP && y > 12) //ìœ„ë¡œ ì´ë™
             {
                 Remove_player(x, y--);
                 Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == DOWN && y < 39) //¾Æ·¡·Î ÀÌµ¿
+            if (input == DOWN && y < 39) //ì•„ë˜ë¡œ ì´ë™
             {
                 Remove_player(x, y++);
                 Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == 'q' || input == 'Q') //µÚ·Î°¡±â : Q
+            if (input == 'q' || input == 'Q') //Që¥¼ ëˆ„ë¥´ë©´ ë’¤ë¡œê°€ê¸°
             {
                 Main_screen();
                 break;
             }
         }
 
-        //xÁÂÇ¥ °ª¿¡ µû¶ó ¾î¶² °´Ã¼ÀÇ »ö»óÀ» ¹Ù²Ù´ÂÁö È®ÀÎÇÏ´Â ºÎºĞ
-        if (y == 12) {
-            if (26 <= x && x <= 39) { //ÀÚµ¿Â÷
+        if (29 <= y && y <= 35) {
+            if (26 <= x && x <= 39) {
                 Color_set_screen(1); return;
             }
-            else if (56 <= x && x <= 69) { //¸ó½ºÅÍ
+            else if (56 <= x && x <= 69) {
                 Color_set_screen(2); return;
             }
-            else if (86 <= x && x <= 99) { //±âÂ÷
+            else if (86 <= x && x <= 99) {
                 Color_set_screen(3); return;
             }
-            else if (116 <= x && x <= 129) { //ÇÃ·¹ÀÌ¾î
+            else if (116 <= x && x <= 129) {
                 Color_set_screen(0); return;
             }
         }
     }
 }
-//»ö»óÀÇ °ªÀ» ÀÔ·Â¹Ş´Â ÇÔ¼ö
+//ìƒ‰ìƒì˜ ê°’ì„ ì…ë ¥ë°›ëŠ” í•¨ìˆ˜
 void Color_set_screen(int obj)
 {
-recolor: //·çÇÁ ºĞ±â
-    system("cls"); Draw_square();
-
     int r = 0, g = 0, b = 0;
+    char input;
 
-    gotoxy(58, 8); printf("³Ê¹« ¾îµÎ¿î »öÀº »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù");
+    while (1) {
+        system("cls"); Draw_square();
 
-    gotoxy(20, 15); printf("RED :    ");
-    gotoxy(65, 15); printf("GREEN :    ");
-    gotoxy(110, 15); printf("BLUE :    ");
-    gotoxy(26, 15); scanf("%d", &r);
-    gotoxy(73, 15); scanf("%d", &g);
-    gotoxy(117, 15); scanf("%d", &b);
-    if (r + g + b < 100 || (r < 50 && g < 50 && b < 50))
-        goto recolor; //»ö»óÀÌ ³Ê¹« ¾îµÎ¿ì¸é ·çÇÁ ºĞ±â·Î º¹±Í
+        gotoxy(62, 4); printf("ì›í•˜ëŠ” ìƒ‰ ì¡°í•©ì„ ì •í•˜ì„¸ìš”");
+        gotoxy(54, 6); printf("ì˜ˆì‹œì²˜ëŸ¼ ë„ˆë¬´ ì–´ë‘ìš´ ìƒ‰ì€ ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
+        gotoxy(58, 8); printf("EX) red : 10, green : 20, blue : 40");
 
-    switch (obj)
-    {
-    case 0:
-        p_rgb.r = r; p_rgb.g = g; p_rgb.b = b; //ÇÃ·¹ÀÌ¾î »ö»ó Á¶Á¤
-        Draw_player(75, 25); break;
-    case 1:
-        c_rgb.r = r; c_rgb.g = g; c_rgb.b = b; //ÀÚµ¿Â÷ »ö»ó Á¶Á¤
-        Draw_car(72, 25, 1); break;
-    case 2:
-        m_rgb.r = r; m_rgb.g = g; m_rgb.b = b; //¸ó½ºÅÍ »ö»ó Á¶Á¤
-        Draw_monster(72, 25); break;
-    case 3:
-        t_rgb.r = r; t_rgb.g = g; t_rgb.b = b; //±âÂ÷ »ö»ó Á¶Á¤
-        Draw_train(72, 25); break;
-    }
+        textcolor(255, 0, 0);  // ë¹¨ê°•
+        gotoxy(20, 15); printf("RED :    ");
+        textcolor(0, 255, 0);  // ì´ˆë¡
+        gotoxy(65, 15); printf("GREEN :    ");
+        textcolor(0, 0, 255);  // íŒŒë‘
+        gotoxy(110, 15); printf("BLUE :    ");
+        removecolor();
+        gotoxy(26, 15); scanf("%d", &r);
+        gotoxy(73, 15); scanf("%d", &g);
+        gotoxy(117, 15); scanf("%d", &b);
+        if (r + g + b < 100 || (r < 50 && g < 50 && b < 50)) continue;
 
-    gotoxy(64, 33); printf("´Ù½ÃÇÏ½Ã°Ú½À´Ï±î? (y/n)");
-    while (1)
-    {
-        char input;
-        if (_kbhit())
+
+        switch (obj)
         {
-            input = _getch();
-            if (input == 'y' || input == 'Y')
-            {
-                goto recolor; break; //´Ù½ÃÇÏ±âµµ ·çÇÁ ºĞ±â·Î º¹±Í
-            }
-            else if (input == 'n' || input == 'N')
-                break;
+        case 0:
+            p_rgb.r = r; p_rgb.g = g; p_rgb.b = b; //í”Œë ˆì´ì–´ ìƒ‰ìƒ ì¡°ì •
+            Draw_player(75, 25); break;
+        case 1:
+            c_rgb.r = r; c_rgb.g = g; c_rgb.b = b; //ìë™ì°¨ ìƒ‰ìƒ ì¡°ì •
+            Draw_car(72, 25, 1); break;
+        case 2:
+            m_rgb.r = r; m_rgb.g = g; m_rgb.b = b; //ëª¬ìŠ¤í„° ìƒ‰ìƒ ì¡°ì •
+            Draw_monster(72, 25); break;
+        case 3:
+            t_rgb.r = r; t_rgb.g = g; t_rgb.b = b; //ê¸°ì°¨ ìƒ‰ìƒ ì¡°ì •
+            Draw_train(72, 25); break;
         }
-    }
 
-    //»ö»ó ÀúÀå
+        gotoxy(64, 33); printf("ì´ ìƒ‰ìœ¼ë¡œ ë°”ê¾¸ì‹œê² ìŠµë‹ˆê¹Œ? (y/n) : ");
+        scanf(" %c", &input);
+        if (input == 'y' || input == 'Y') break;
+    }
+    //ìƒ‰ìƒ ì €ì¥
     for (int i = 0; i < RANKING; i++)
     {
         if (strcmp(Name, Ranking[i].name) == 0)
@@ -370,69 +397,75 @@ recolor: //·çÇÁ ºĞ±â
             Store_color(i); break;
         }
     }
-
-    Coins -= 5; //ÄÚÀÎ Â÷°¨
-    Ranking_sort(); //ÄÚÀÎ °¹¼ö º¯µ¿ ÀúÀå
+    Coins -= 5;
+    Ranking_sort(); //ì½”ì¸ ê°¯ìˆ˜ ë³€ë™ ì €ì¥
 
     Color_screen(); return;
 }
 
-//¼³¸í È­¸é
+//ì„¤ëª… í™”ë©´
 void Help_screen()
 {
-    init_object(); //°´Ã¼ Èü ¸Ş¸ğ¸® ÇÒ´ç
+    init_object();
+    Recycle();
     system("cls"); Draw_square();
-    gotoxy(136, 39); printf("µÚ·Î°¡±â : Q");
+    gotoxy(132, 39); printf("ë’¤ë¡œê°€ê¸° : [ Q ]");
 
-    gotoxy(68, 5); printf("            ¡è");
-    gotoxy(68, 6); printf("ÀÌµ¿  :  ¡ç    ¡æ");
-    gotoxy(68, 7); printf("            ¡é");
+    gotoxy(68, 5); printf("            â†‘");
+    gotoxy(68, 6); printf("ì´ë™  :  â†    â†’");
+    gotoxy(68, 7); printf("            â†“");
 
-    gotoxy(9, 1); printf("ÇÇÇÏ¼¼¿ä!");
+    gotoxy(9, 1); printf("í”¼í•˜ì„¸ìš”!");
 
-    gotoxy(28, 1); printf("ÄÚÀÎÀ»");
-    gotoxy(26, 2); printf("È¹µæÇÏ¼¼¿ä");
+    gotoxy(28, 1); printf("ì½”ì¸ì„");
+    gotoxy(26, 2); printf("íšë“í•˜ì„¸ìš”");
 
     short coin = 0;
-    gotoxy(26, 4); printf("ÄÚÀÎ : %d", coin);
+    gotoxy(26, 4); printf("ì½”ì¸ : %d", coin);
 
-    gotoxy(49, 1); printf("¿¬²ÉÀÙÀ» ¹â¾Æ");
-    gotoxy(49, 2); printf("°­À» °Ç³Ê¼¼¿ä");
+    gotoxy(49, 1); printf("ì—°ê½ƒìì„ ë°Ÿì•„");
+    gotoxy(49, 2); printf("ê°•ì„ ê±´ë„ˆì„¸ìš”");
 
-    gotoxy(89, 1); printf("ÇÇÇÏ¼¼¿ä!");
+    gotoxy(89, 1); printf("í”¼í•˜ì„¸ìš”!");
 
-    short x = 2, y = 20; //ÇÃ·¹ÀÌ¾îÀÇ ÃÊ±â ÁÂÇ¥ ¼±¾ğ°ú ÇÔ²² ÃÊ±âÈ­
-    help_car.on = true; //ÀÚµ¿Â÷ °´Ã¼ ¼±¾ğ
-    help_coin.on = true; //ÄÚÀÎ °´Ã¼ ¼±¾ğ
-    help_river.on = true; //°­ °´Ã¼ ¼±¾ğ
-    help_monster.on = true; //¸ó½ºÅÍ °´Ã¼ ¼±¾ğ
+    gotoxy(110, 1); printf("í”¼í•˜ì„¸ìš”!");
 
-    Draw_player(x, y); 
-    Draw_car(help_car.x, help_car.y, 0); //°´Ã¼ Ãâ·Â
+    short x = 2, y = 20; //í”Œë ˆì´ì–´ì˜ ì´ˆê¸° ì¢Œí‘œ ì„ ì–¸ê³¼ í•¨ê»˜ ì´ˆê¸°í™”
+    help_car.on = true; //ìë™ì°¨ ê°ì²´ ì„ ì–¸
+    help_coin.on = true; //ì½”ì¸ ê°ì²´ ì„ ì–¸
+    help_river.on = true; //ê°• ê°ì²´ ì„ ì–¸
+    help_monster.on = true; //ëª¬ìŠ¤í„° ê°ì²´ ì„ ì–¸
+
+    Draw_player(x, y);
+    Draw_car(help_car.x, help_car.y, 0); //ê°ì²´ ì¶œë ¥
     Draw_coin(help_coin.x, help_coin.y);
     Draw_monster(help_monster.x, help_monster.y);
-    
+
+    //ê°• ë°°ê²½ ê·¸ë¦¬ê¸°
     bgcolor(0, 0, 255);
     for (int i = 5; i < 40; i++)
-    { gotoxy(50, i); printf("          "); }
-    
+    {
+        gotoxy(50, i); printf("          ");
+    }
+    //ì—°ê½ƒ ë‹¤ë¦¬ ê·¸ë¦¬ê¸°
     bgcolor(0, 255, 0);
-    for (int i = 0; i < RIVERS; i++) //¿¬²É ´Ù¸® ±×¸®±â
+    for (int i = 0; i < RIVERS; i++) 
     {
         if (help_river.bridge[i] != 0 && help_river.bridge[i] != 40)
-        { //¿¬²É ´Ù¸®ÀÇ yÁÂÇ¥°¡ 0°ú 40ÀÌ ¾Æ´Ò¶§¸¸
+        { //ì—°ê½ƒ ë‹¤ë¦¬ì˜ yì¢Œí‘œê°€ 0ê³¼ 40ì´ ì•„ë‹ë•Œë§Œ
             gotoxy(help_river.x, help_river.bridge[i]);
             for (int j = 0; j < 10; j++) printf(" ");
         }
-    } 
+    }
     removecolor();
 
-    clock_t car = clock(); //½Ã°£ ÀúÀå
+    for (int i = 0; i < 2; i++) Add_train(111, 6, Find_train());
+
+    bool train_spawn = true; //ê¸°ì°¨ì˜ ì¶œë°œ ì—¬ë¶€
+    clock_t car = clock(); //ì‹œê°„ ì €ì¥
     clock_t monster = clock();
     clock_t train = clock();
     clock_t train_charge = clock();
-    bool train_spawn = 1;
-    for (int i = 0; i < 2; i++) Add_train(111, 3, Find_train());
 
     while (1)
     {
@@ -440,31 +473,31 @@ void Help_screen()
         if (_kbhit())
         {
             input = _getch();
-            if (input == RIGHT && x < 147) //¿ìÃø ÀÌµ¿
+            if (input == RIGHT && x < 147) //ìš°ì¸¡ ì´ë™
             {
-                Remove_player(x++, y); //ÇÃ·¹ÀÌ¾î Áö¿ì¸é¼­ ÁÂÇ¥ ÀÌµ¿
-                Draw_player(x, y);     //ÇÃ·¹ÀÌ¾î ±×¸®¸é¼­ ÀÌµ¿
+                Remove_player(x++, y); //ê³µ ì§€ìš°ë©´ì„œ ì¢Œí‘œ ì´ë™
+                Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == LEFT && x > 2) //ÁÂÃø ÀÌµ¿
+            if (input == LEFT && x > 2) //ì¢Œì¸¡ ì´ë™
             {
                 Remove_player(x--, y);
                 Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == UP && y > 9) //À§·Î ÀÌµ¿
+            if (input == UP && y > 9) //ìœ„ë¡œ ì´ë™
             {
                 Remove_player(x, y--);
                 Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == DOWN && y < 39) //¾Æ·¡·Î ÀÌµ¿
+            if (input == DOWN && y < 39) //ì•„ë˜ë¡œ ì´ë™
             {
                 Remove_player(x, y++);
                 Draw_player(x, y);
                 Sleep(33);
             }
-            if (input == 'q' || input == 'Q') //µÚ·Î°¡±â : Q
+            if (input == 'q' || input == 'Q') //Që¥¼ ëˆ„ë¥´ë©´ ë’¤ë¡œê°€ê¸°
             {
                 Main_screen();
                 break;
@@ -473,127 +506,155 @@ void Help_screen()
 
         if (clock() > car + 100)
         {
-            Remove_car(help_car.x, help_car.y++); //ÀÚµ¿Â÷¸¦ Áö¿ò°ú µ¿½Ã¿¡ yÁÂÇ¥ ¼öÁ¤
-            if (help_car.y >= 35) help_car.y = 2; //¸¸¾à ÄÜ¼ÖÃ¢À» ¹ş¾î³ª¸é ´Ù½Ã À§·Î º¸³¿
-            Draw_car(help_car.x, help_car.y, 0);  //±×·¸°Ô ÁÂÇ¥ ¼öÁ¤ÀÌ ¸ğµÎ ¿Ï·áµÇ¸é ÀÚµ¿Â÷¸¦ ±×·Á ¿òÁ÷ÀÓ Ç¥Çö
-            car = clock(); //½Ã°£ ÃÊ±âÈ­
+            Remove_car(help_car.x, help_car.y++); //ìë™ì°¨ë¥¼ ì§€ì›€ê³¼ ë™ì‹œì— yì¢Œí‘œ ìˆ˜ì •
+            if (help_car.y >= 35) help_car.y = 2; //ë§Œì•½ ì½˜ì†”ì°½ì„ ë²—ì–´ë‚˜ë©´ ë‹¤ì‹œ ìœ„ë¡œ ë³´ëƒ„
+            Draw_car(help_car.x, help_car.y, 0); //ê·¸ë ‡ê²Œ ì¢Œí‘œ ìˆ˜ì •ì´ ëª¨ë‘ ì™„ë£Œë˜ë©´ ìë™ì°¨ë¥¼ ê·¸ë ¤ ì›€ì§ì„ í‘œí˜„
+            car = clock(); //ì‹œê°„ ì´ˆê¸°í™”
         }
-        if (clock() > monster + 200) //¸ó½ºÅÍµµ ÀÚµ¿Â÷¿Í µ¿ÀÏ
+        if (clock() > monster + 200)
         {
             Remove_monster(help_monster.x, help_monster.y++);
             if (help_monster.y >= 37) help_monster.y = 2;
             Draw_monster(help_monster.x, help_monster.y);
             monster = clock();
         }
-        if (train_spawn && clock() > train_charge + 5000)
+        if (train_spawn && clock() > train_charge + 3000)
         {
-            if (clock() > train + 50) //25ms¸¶´Ù ¹ßµ¿
+            if (clock() > train + 10 && trains[0].on) //10msë§ˆë‹¤ ë°œë™
             {
-                for (int i = 0; i < TRAINS; i++) Move_train(i); //±âÂ÷¸¦ ¿òÁ÷ÀÓ
+                static short train_y = 6; //yê°’ì„ ì €ì¥í•  ì •ì  ë³€ìˆ˜
+                train_y++; //1ì¹¸ì”© ì¦ê°€
+                if (train_y % 6 == 0 && train_y <= 30) //ì¼ì • ë²”ìœ„ ë‚´ì—ì„œ 6ì¹¸ ë§ˆë‹¤
+                    Add_train(trains[0].x, train_y, Find_train()); //ê¸°ì°¨ë¥¼ ì¤„ì§€ì–´ì„œ ì†Œí™˜
+                else if (train_y > 30) //ë²”ìœ„ë¥¼ ë²—ì–´ë‚˜ë©´
+                {
+                    train_y = 6; trains[0].on = false; //ì²« ê¸°ì°¨ëŠ” ì‚­ì œ
+                }
                 train = clock();
             }
-            if (trains[0].on == false) //0¹ø ´õ¹Ì °´Ã¼°¡ »ç¶óÁö¸é
+            if (trains[0].on == false) //0ë²ˆ ë”ë¯¸ ê°ì²´ê°€ ì‚¬ë¼ì§€ë©´
             {
-                train_spawn = 1; train_charge = clock(); //´ÙÀ½ ½ÃÄö½º·Î ³Ñ¾î°¨
+                train_spawn = false; train_charge = clock(); //ë‹¤ìŒ ì‹œí€€ìŠ¤ë¡œ ë„˜ì–´ê°
             }
         }
-        if (!train_spawn && clock() > train_charge + 2000) //±âÂ÷°¡ ÁÙÁö¾î ³ª¿Â ÈÄ
+        if (!train_spawn && clock() > train_charge + 1000) //ê¸°ì°¨ê°€ ì¤„ì§€ì–´ ë‚˜ì˜¨ í›„
         {
             if (clock() > train + 50)
             {
                 static int index = 1;
-                Delete_train(index++); //±âÂ÷¸¦ À§¿¡¼­ºÎÅÍ ÇÏ³ª¾¿ Áö¿ò
+                Delete_train(index++); //ê¸°ì°¨ë¥¼ ìœ„ì—ì„œë¶€í„° í•˜ë‚˜ì”© ì§€ì›€
                 train = clock();
-                if (index >= 8) //Á¤Àû º¯¼ö°¡ 8ÀÌ»óÀÌ µÇ¸é
+                if (index >= 6) //ì •ì  ë³€ìˆ˜ê°€ 6ì´ìƒì´ ë˜ë©´
                 {
-                    index = 1; train_spawn = 1; //´Ù½Ã Ã³À½À¸·Î ¸ğµÎ ÃÊ±âÈ­
-                    for (int i = 0; i < 2; i++) Add_train(111, 3, Find_train());
+                    index = 1; train_spawn = 1; train_charge = clock(); //ë‹¤ì‹œ ì²˜ìŒìœ¼ë¡œ ëª¨ë‘ ì´ˆê¸°í™”
+                    for (int i = 0; i < 2; i++) Add_train(111, 6, Find_train()); //ë‹¤ì‹œ ê¸°ì°¨ ì†Œí™˜
                 }
             }
         }
 
-        if (help_coin.on == true) //°´Ã¼°¡ È°¼ºÈ­µÇ¾î ÀÖ´Ù¸é
+        if (help_coin.on == true) //ê°ì²´ê°€ í™œì„±í™”ë˜ì–´ ìˆë‹¤ë©´
         {
-            if (help_coin.x <= x && x <= help_coin.x + 1 &&
-                help_coin.y == y) //ÄÚÀÎ °´Ã¼ÀÇ ÁÂÇ¥¿Í °ãÄ¡¸é  
-            {
-                Remove_coin(help_coin.x, help_coin.y); //ÄÚÀÎ Áö¿ì°í
+            if (help_coin.x <= x && x <= help_coin.x + 1 && help_coin.y == y)   
+            {   //ì½”ì¸ ê°ì²´ì˜ ì¢Œí‘œì™€ ê²¹ì¹˜ë©´
+                Remove_coin(help_coin.x, help_coin.y); //ì½”ì¸ ì§€ìš°ê³ 
                 Draw_player(x, y); coin++;
                 textcolor(0, 255, 0);
-                gotoxy(26, 4); printf("ÄÚÀÎ : %d", coin); //ÄÚÀÎ °¹¼ö ÃÖ½ÅÈ­
+                gotoxy(26, 4); printf("ì½”ì¸ : %d", coin); //ì½”ì¸ ê°¯ìˆ˜ ìµœì‹ í™”
                 removecolor();
-                help_coin.on = false; //ÄÚÀÎ °´Ã¼ Á¦°Å
+                help_coin.on = false; //ì½”ì¸ ê°ì²´ ì œê±°
             }
         }
-
-        if (Check_car(x, y) == 1) //Ãæµ¹°¨Áö ÇÔ¼ö°¡ 1À» ¹İÈ¯ÇÏ¸é °ÔÀÓ¿À¹ö
+        if (Check_help_car(x, y) == 1) //ì¶©ëŒê°ì§€ í•¨ìˆ˜ê°€ 1ì„ ë°˜í™˜í•˜ë©´ ê²Œì„ì˜¤ë²„
         {
             Help_screen(); break;
         }
-        if (Check_river(x, y) == 1)
+        if (Check_help_river(x, y) == 1)
         {
             Help_screen(); break;
         }
-        if (Check_monster(x, y) == 1)
+        if (Check_help_monster(x, y) == 1)
+        {
+            Help_screen(); break;
+        }
+        if (Check_train(x, y) == 1)
         {
             Help_screen(); break;
         }
     }
-    free_object(); //Èü ¸Ş¸ğ¸® ÇØÁ¦
-    help_car.on = false;        //ÀÚµ¿Â÷ °´Ã¼ Á¦°Å
-    help_coin.on = false;       //ÄÚÀÎ °´Ã¼ Á¦°Å
-    help_river.on = false;      //°­ °´Ã¼ Á¦°Å
-    help_monster.on = false;    //¸ó½ºÅÍ °´Ã¼ Á¦°Å
+    Stop_bgm();
+    free_object();
+    help_car.on = false; //ìë™ì°¨ ê°ì²´ ì œê±°
+    help_coin.on = false; //ì½”ì¸ ê°ì²´ ì œê±°
+    help_river.on = false;
+    help_monster.on = false;
 }
 
-//·©Å· È­¸é
+//ë­í‚¹ í™”ë©´
 void Ranking_screen()
 {
     system("cls");
     Draw_square();
-    gotoxy(136, 39);
-    printf("µÚ·Î°¡±â : Q");
+    gotoxy(132, 39);
+    printf("ë’¤ë¡œê°€ê¸° : [ Q ]");
 
-    //Å¸ÀÌÆ² Ãâ·Â
+    // íƒ€ì´í‹€ ì¶œë ¥
     gotoxy(20, 3);
-    printf("·©Å·\t\tÀÌ¸§\t\t\tÁ¡¼ö\t\t\tÄÚÀÎ");
-
-    clock_t blink_time = clock();  //±ôºıÀÓ È¿°ú¸¦ À§ÇÑ ½Ã°£ ÀúÀå º¯¼ö
-    int blink_state = 0;           //0ÀÏ ¶§ »¡°­, 1ÀÏ ¶§ ºĞÈ«
-
-    while (1) 
+    printf("ë­í‚¹\t\tì´ë¦„\t\t\tì ìˆ˜\t\t\tì½”ì¸");
+    gotoxy(111, 5); printf("**********");
+    gotoxy(111, 6); printf("*         *");
+    gotoxy(110, 7); printf("*           *");
+    gotoxy(110, 8); printf("*     1     *");
+    gotoxy(110, 9); printf("*           *");
+    gotoxy(111, 10); printf("*         *");
+    gotoxy(111, 11); printf("**********");
+    for (int i = 5; i < 28; i++) 
     {
-        for (int i = 0; i < RANKING; i++) 
-        {
-            if (Ranking[i].score > 0) // Á¡¼ö°¡ ÀÖ¾î¾ß¸¸ Ãâ·Â
+        gotoxy(110, i); printf("*");
+    }
+
+    gotoxy(111, 20); printf(".. /ï¿£|");
+    gotoxy(111, 21); printf("ã€€ï½œ ï½œ");
+    gotoxy(111, 22); printf(",â€•â€²|. âˆ§  âˆ§");
+    gotoxy(111, 23); printf("| ï¼¿_ï¼‰(ï¼¾Ï‰ï¼¾)");
+    gotoxy(111, 24); printf("| ï¼¿_ï¼‰|âŠ‚)");
+    gotoxy(111, 25); printf("| ï¼¿_ï¼‰|-ï¼ª");
+    gotoxy(111, 26); printf("ãƒ½ï¼¿)ãƒ");
+
+    clock_t blink_time = clock();  // ê¹œë¹¡ì„ íš¨ê³¼ë¥¼ ìœ„í•œ ì‹œê°„ ì €ì¥ ë³€ìˆ˜
+    int blink_state = 0;           // 0ì¼ ë•Œ ë¹¨ê°•, 1ì¼ ë•Œ ë¶„í™
+
+    while (1) {
+        for (int i = 0; i < RANKING; i++) {
+            if (Ranking[i].score > 0) // ì ìˆ˜ê°€ ìˆì–´ì•¼ë§Œ ì¶œë ¥
             {
                 gotoxy(20, 5 + i * 3);
 
-                // 1À§ ±ôºıÀÓ È¿°ú
+                // 1ìœ„ ê¹œë¹¡ì„ íš¨ê³¼
                 if (i == 0) {
-                    if (blink_state == 0) 
-                        textcolor(255, 0, 0);     //»¡°­
-                    else 
-                        textcolor(255, 192, 203); //ºĞÈ«
+                    if (blink_state == 0) {
+                        textcolor(255, 0, 0);  // ë¹¨ê°•
+                    }
+                    else {
+                        textcolor(255, 192, 203);  // ë¶„í™
+                    }
                     gotoxy(22, 5 + i * 3);
-                    printf("¡Ú");  // 1À§¿¡ º° Ãâ·Â
+                    printf("â˜…");  // 1ìœ„ì— ë³„ ì¶œë ¥
                 }
-                // 2À§ ¹× 3À§´Â »ö»ó °íÁ¤
-                else if (i == 1)
-                {
+                // 2ìœ„ ë° 3ìœ„ëŠ” ìƒ‰ìƒ ê³ ì •
+                else if (i == 1) {
                     textcolor(255, 165, 0);
                     gotoxy(22, 5 + i * 3);
-                    printf("¡Ú");
+                    printf("â˜…");
                 }
-                else if (i == 2) 
-                {
+                else if (i == 2) {
                     textcolor(255, 255, 0);
                     gotoxy(22, 5 + i * 3);
-                    printf("¡Ú");
+                    printf("â˜…");
                 }
-                else 
+                else
                     removecolor();
 
+                //ì´ë¦„ì´ ê¸¸ì–´ì§€ë©´ í•œì¹¸ì”© ë°€ë¦¬ê¸¸ë˜ í•˜ë‚˜ì”© ì¢Œí‘œì°ìŒ
                 gotoxy(20, 5 + i * 3); printf("%d", i + 1);
                 gotoxy(40, 5 + i * 3); printf("%s", Ranking[i].name);
                 gotoxy(64, 5 + i * 3); printf("%d", Ranking[i].score);
@@ -601,18 +662,17 @@ void Ranking_screen()
             }
         }
 
-        //±ôºıÀÓ ÁÖ±â ¼³Á¤ (500ms¸¶´Ù »ö»ó º¯°æ)
+        // ê¹œë¹¡ì„ ì£¼ê¸° ì„¤ì • (500msë§ˆë‹¤ ìƒ‰ìƒ ë³€ê²½)
         if (clock() > blink_time + 500) 
         {
-            blink_state = !blink_state;  //»¡°­°ú ºĞÈ«À¸·Î ±ôºıÀÓ ÀüÈ¯
-            blink_time = clock();  //½Ã°£ ÃÊ±âÈ­
+            blink_state = !blink_state;  // ë¹¨ê°•ê³¼ ë¶„í™ìœ¼ë¡œ ê¹œë¹¡ì„ ì „í™˜
+            blink_time = clock();  // ì‹œê°„ ì´ˆê¸°í™”
         }
 
-        //»ç¿ëÀÚ°¡ Q¸¦ ´©¸£¸é ·©Å· È­¸é Á¾·á
+        // ì‚¬ìš©ìê°€ Që¥¼ ëˆ„ë¥´ë©´ ë­í‚¹ í™”ë©´ ì¢…ë£Œ
         if (_kbhit()) {
             char input = _getch();
-            if (input == 'q' || input == 'Q') 
-            {
+            if (input == 'q' || input == 'Q') {
                 removecolor();
                 Main_screen(); return;
             }

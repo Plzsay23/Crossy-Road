@@ -1,4 +1,5 @@
-﻿#include "Object.h"
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include "Object.h"
 
 //객체들을 동적으로 할당해주는 함수
 void init_object() 
@@ -13,12 +14,14 @@ void init_object()
     if (monsters == NULL) return 0;
     trains = (Train*)malloc(sizeof(Train) * TRAINS);
     if (trains == NULL) return 0;
+    items = (Item*)malloc(sizeof(Item) * ITEMS);
+    if (items == NULL) return 0;
 }
 //프로그램 종료 전 동적 메모리 할당 해제
 void free_object()
 {
     free(cars); free(coins); free(rivers);
-    free(monsters); free(trains);
+    free(monsters); free(trains); free(items);
 }
 
 //좌표를 받아 객체를 그려주는 함수
@@ -63,10 +66,13 @@ void Remove_object(short x, short y, int x_range, int y_range)
         }
     }
 }
+
 //좌표를 받아 플레이어 그리기
 void Draw_player(short x, short y)
 {
-    textcolor(p_rgb.r, p_rgb.g, p_rgb.b); //색상 지정
+    if (varrier_on) textcolor(152, 255, 152);       //배리어 색상 지정
+    else if (invincible_on) textcolor(255, 215, 0); //무적 색상 지정
+    else textcolor(p_rgb.r, p_rgb.g, p_rgb.b);      //평소 색상 지정
     gotoxy(x, y); printf("G");            //좌표 이동 후 그림
     removecolor();                        //색상 삭제
 }
@@ -75,18 +81,11 @@ void Remove_player(short x, short y)
 {
     gotoxy(x, y); printf(" ");
 }
-//좌표를 받아 코인 그리기
-void Draw_coin(short x, short y)
-{
-    textcolor(255, 255, 102);  //코인은 색상 고정
-    gotoxy(x, y); printf("o");
-    removecolor();
-}
-//좌표를 받아 코인 지우기
-void Remove_coin(short x, short y)
-{
-    gotoxy(x, y); printf(" ");
-}
+
+
+/*자동차 객체 관련 함수*/
+
+
 //좌표를 받아 자동차 그리기
 void Draw_car(short x, short y, bool up)
 {
@@ -111,6 +110,111 @@ void Remove_car(short x, short y)
     else if (y < 0)  y_range += y;  //범위를 넘어가면 위부터 잘리도록 구현
     Remove_object(x, y, x_range, y_range);
 }
+//자동차를 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_car(short x, short y, int num, bool up)
+{
+    Draw_car(x, y, up);                         //해당 위치에 자동차를 먼저 그리고
+    cars[num].x = x;     cars[num].y = y;       //x, y값을 객체에 집어넣고
+    cars[num].on = true; cars[num].up = up;     //해당 객체를 활성화 함과 동시에 기본설정은 위로 전진
+}
+//자동차 객체를 삭제하는 함수
+void Delete_car(int num)
+{
+    Remove_car(cars[num].x, cars[num].y); //자동차를 지운다음
+    cars[num].on = false;                 //해당 객체 비활성화
+}
+//자동차 객체를 "위 아래로" 한 칸 이동하는 함수
+void Move_car(int num)
+{
+    if (cars[num].on == true) //해당 객체가 활성화되어 있어야만 함수 전문 발동
+    {
+        bool up;
+        if (cars[num].up == true) //해당 객체가 위로 전진이라면
+        {
+            up = true;
+            Remove_car(cars[num].x, cars[num].y--); //자동차를 지움과 동시에 y좌표 수정
+            if (cars[num].y < -4) cars[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+        }
+        else                      //해당 객체가 아래로 전진이라면
+        {
+            up = false;
+            Remove_car(cars[num].x, cars[num].y++); //자동차를 지움과 동시에 y좌표 수정
+            if (cars[num].y > 40) cars[num].y = -4; //만약 콘솔창을 벗어나면 다시 위로 보냄
+        }
+        Draw_car(cars[num].x, cars[num].y, up); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
+    }
+}
+//화면이 움직임에 따라 자동차 객체를 이동하는 함수
+void Floating_car()
+{
+    for (int i = 0; i < CARS; i++) //모든 자동차 객체를 검사
+    {
+        if (cars[i].on == true) //해당 객체가 활성화되어 있다면
+        {
+            Remove_car(cars[i].x--, cars[i].y); //자동차를 먼저 지우고
+            if (cars[i].x < -5) //좌표를 벗어나면 삭제
+                Delete_car(i);
+            else
+            {
+                if (cars[i].up == true)
+                    Draw_car(cars[i].x, cars[i].y, true); //정상이라면 자동차를 그리며 움직임 표현
+                else
+                    Draw_car(cars[i].x, cars[i].y, false);
+            }
+
+        }
+    }
+}
+
+
+/*코인 객체 관련 함수*/
+
+
+//좌표를 받아 코인 그리기
+void Draw_coin(short x, short y)
+{
+    textcolor(255, 255, 102);  //코인은 색상 고정
+    gotoxy(x, y); printf("o");
+    removecolor();
+}
+//좌표를 받아 코인 지우기
+void Remove_coin(short x, short y)
+{
+    gotoxy(x, y); printf(" ");
+}
+//코인을 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_coin(short x, short y, int num)
+{
+    Draw_coin(x, y);                        //해당 위치에 코인을 먼저 그리고
+    coins[num].x = x;     coins[num].y = y; //x,y 값을 객체에 집어넣고
+    coins[num].on = true;                   //해당 객체를 활성화
+}
+//코인 객체를 삭제하는 함수
+void Delete_coin(int num)
+{
+    Remove_coin(coins[num].x, coins[num].y); //코인을 지운다음
+    coins[num].on = false;                   //해당 객체 비활성화
+}
+//화면이 움직임에 따라 코인 객체를 이동하는 함수
+void Floating_coin()
+{
+    for (int i = 0; i < COINS; i++) //구조 위와 동일
+    {
+        if (coins[i].on == true)
+        {
+            Remove_coin(coins[i].x--, coins[i].y);
+            if (coins[i].x < 0 || coins[i].x > 149)
+                Delete_coin(i);
+            else
+                Draw_coin(coins[i].x, coins[i].y);
+        }
+    }
+}
+
+
+/*강 객체 관련 함수*/
+
+
 //좌표를 받아 강 그리기
 void Draw_river(short x, int num)
 {
@@ -161,6 +265,78 @@ void Remove_river(short x)
         }
     }
 }
+//강을 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_river(short x, int num)
+{
+    srand((unsigned int)time(NULL));
+    rivers[num].x = x;      // x좌표 설정
+    rivers[num].on = true;  //객체 활성화
+    for (int i = 0; i < rand() % 5 + 1; i++) //연꽃 다리 2~5개 랜덤
+    {
+        short bridge_y;
+    overlap: //조건 루프
+        bridge_y = rand() % 39 + 1; //1~39의 랜덤한 y축 선택
+        for (int j = 0; j < i; j++)
+        {
+            if (rivers[num].bridge[j] - 1 <= bridge_y &&
+                rivers[num].bridge[j] + 1 >= bridge_y) goto overlap; //중복 값이 나오면 다시 goto
+        }
+        rivers[num].bridge[i] = bridge_y; //연꽃 다리 y축 지정
+    }
+    Draw_river(x, num); //모두 확인 후 강 그리기
+}
+//강 객체를 삭제하는 함수
+void Delete_river(int num)
+{
+    Remove_river(rivers[num].x); //강 지우고
+    rivers[num].on = false; //객체 비활성화
+    for (int i = 0; i < RIVERS; i++)
+        rivers[num].bridge[i] = 0; //모든 다리의 좌표를 0으로 설정하여 초기화
+}
+//화면이 움직임에 따라 강 객체를 이동하는 함수
+void Floating_river()
+{
+    for (int i = 0; i < RIVERS; i++) //모든 강 객체를 검사
+    {
+        if (rivers[i].on == true) //해당 객체가 활성화되어 있다면
+        {
+            if (--rivers[i].x <= -10) Delete_river(i); //범위를 벗어나면 객체 삭제
+            else
+            {
+                for (int j = 0; j <= 40; j++)
+                {
+                    bgcolor(0, 0, 255);
+                    if (rivers[i].x >= 0) //x좌표가 0이상이면 좌측으로 1칸 이동 표현
+                    {
+                        gotoxy(rivers[i].x, j); printf(" ");
+                    }
+                    removecolor();
+                    if (rivers[i].x < 140) //우측의 한 줄 삭제
+                    {
+                        gotoxy(rivers[i].x + 10, j); printf(" ");
+                    }
+                }
+                bgcolor(0, 255, 0);
+                for (int j = 0; j < RIVERS; j++) //연꽃 다리 그리기
+                {
+                    if (rivers[i].bridge[j] != 0 && rivers[i].bridge[j] != 40)
+                    {
+                        if (rivers[i].x >= 0) //x좌표가 0이상일 때만 좌측에 출력
+                        {
+                            gotoxy(rivers[i].x, rivers[i].bridge[j]); printf(" ");
+                        }
+                    }
+                }
+                removecolor();
+            }
+        }
+    }
+}
+
+
+/*몬스터 객체 관련 함수*/
+
+
 //좌표를 받아 몬스터 그리기
 void Draw_monster(short x, short y)
 {
@@ -185,6 +361,58 @@ void Remove_monster(short x, short y)
     else if (y < 0) y_range += y;           //범위를 넘어가면 위부터 잘리도록 구현
     Remove_object(x, y, x_range, y_range);
 }
+//몬스터를 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_monster(short x, short y, int num, bool up)
+{
+    Draw_monster(x, y);                             //해당 위치에 몬스터를 먼저 그리고
+    monsters[num].x = x;     monsters[num].y = y;   //x, y값을 객체에 집어넣고
+    monsters[num].on = true; monsters[num].up = up; //해당 객체를 활성화 함과 동시에 기본설정은 위로 전진
+}
+//몬스터 객체를 삭제하는 함수
+void Delete_monster(int num)
+{
+    Remove_monster(monsters[num].x, monsters[num].y); //몬스터를 지운다음
+    monsters[num].on = false;                         //해당 객체 비활성화
+}
+//몬스터 객체를 "위 아래로" 한 칸 이동하는 함수
+void Move_monster(int num)
+{
+    if (monsters[num].on == true) //해당 객체가 활성화되어 있어야만 함수 전문 발동
+    {
+        if (monsters[num].up == true) //해당 객체가 위로 전진이라면
+        {
+            Remove_monster(monsters[num].x, monsters[num].y--); //몬스터를 지움과 동시에 y좌표 수정
+            if (monsters[num].y < -2) monsters[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
+        }
+        else                      //해당 객체가 아래로 전진이라면
+        {
+            Remove_monster(monsters[num].x, monsters[num].y++); //몬스터를 지움과 동시에 y좌표 수정
+            if (monsters[num].y > 40) monsters[num].y = -2; //만약 콘솔창을 벗어나면 다시 위로 보냄
+        }
+        Draw_monster(monsters[num].x, monsters[num].y); //그렇게 좌표 수정이 모두 완료되면 몬스터를 그려 움직임 표현
+    }
+}
+//화면이 움직임에 따라 몬스터 객체를 이동하는 함수
+void Floating_monster()
+{
+    for (int i = 0; i < MONSTERS; i++) //모든 몬스터 객체를 검사
+    {
+        if (monsters[i].on == true) //해당 객체가 활성화되어 있다면
+        {
+            Remove_monster(monsters[i].x--, monsters[i].y); //몬스터를 먼저 지우고
+            if (monsters[i].x < -5) Delete_monster(i); //좌표를 벗어나면 삭제
+            else
+            {
+                Draw_monster(monsters[i].x, monsters[i].y);   //정상이라면 몬스터를 그리며 움직임 표현
+            }
+        }
+    }
+}
+
+
+/*기차 객체 관련 함수*/
+
+
 //좌표를 받아 기차 그리기
 void Draw_train(short x, short y)
 {
@@ -207,6 +435,138 @@ void Remove_train(short x, short y)
     if (y > 35) y_range = 41 - y;           //범위를 넘어가면 잘리도록 구현
     Remove_object(x, y, x_range, y_range);
 }
+//기차를 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_train(short x, short y, int num)
+{
+    Draw_train(x, y);                       //해당 위치에 기차를 먼저 그리고
+    trains[num].x = x; trains[num].y = y;   //x, y값을 객체에 집어넣고
+    trains[num].on = true;                  //해당 객체를 활성화
+}
+//기차 객체를 삭제하는 함수
+void Delete_train(int num)
+{
+    Remove_train(trains[num].x, trains[num].y); //기차를 지운다음
+    trains[num].on = false;                     //객체 비활성화
+}
+//기차 객체를 아래로 한 칸 이동하는 함수
+void Move_train(int num)
+{
+    if (trains[0].on == true) //객체가 활성화되어 있어야만 함수 전문 발동
+    {
+        static short train_y = 0; //y값을 저장할 정적 변수
+        train_y++; //1칸씩 증가
+        if (train_y % 6 == 0 && train_y <= 36) //일정 범위 내에서 6칸 마다
+            Add_train(trains[0].x, train_y, Find_train()); //기차를 줄지어서 소환
+        else if (train_y > 36) //범위를 벗어나면
+        {
+            train_y = 0; trains[0].on = false; //첫 기차는 삭제
+        }
+    }
+}
+//화면이 움직임에 따라 기차 객체를 이동하는 함수
+void Floating_train()
+{
+    train_x--; //기차의 절대적인 x좌표를 항상 이동
+    for (int i = 0; i < TRAINS; i++) //모든 기차 객체를 검사
+    {
+        if (trains[i].on == true) //객체가 활성화되어 있다면
+        {
+            Remove_train(trains[i].x--, trains[i].y); //기차를 먼저 지우고
+            if (trains[i].x < -6) Delete_train(i); //좌표를 벗어나면 삭제
+            else
+                Draw_train(trains[i].x, trains[i].y); //정상이라면 기차를 그리며 움직임 표현
+        }
+    }
+}
+
+
+/*아이템 객체 관련 함수*/
+
+
+//좌표를 받아 아이템 그리기
+void Draw_item(short x, short y, int kind)
+{
+    int r = 0, g = 0, b = 0; char item[3] = " "; gotoxy(x, y);
+    switch (kind)
+    {
+    case varrier:
+        r = 100; g = 100; b = 100;
+        strcpy(item, "ⓥ"); break;
+    case speed:
+        r = 200; g = 200; b = 200;
+        strcpy(item, "ⓢ"); break;
+    case point:
+        r = 150, g = 50, b = 255;
+        strcpy(item, "ⓟ"); break;
+    case invincible:
+        r = 50, g = 255, b = 150;
+        strcpy(item, "ⓘ"); break;
+    case fiver:
+        r = 100, g = 0, b = 255;
+        strcpy(item, "ⓕ"); break;
+    case _time:
+        r = 75, g = 175, b = 255;
+        strcpy(item, "ⓣ"); break;
+    default: break;
+    }
+    textcolor(r, g, b); 
+    printf("%s", item);
+    removecolor();
+}
+//좌표를 받아 아이템 지우기
+void Remove_item(short x, short y)
+{
+    gotoxy(x, y); printf("  ");
+}
+//아이템을 그리고 객체 하나의 좌표를 설정하는 함수
+void Add_item(short x, short y, int num, int kind)
+{
+    Draw_item(x, y, kind);                        //해당 위치에 아이템을 먼저 그리고
+    items[num].x = x;     items[num].y = y;       //x,y 값을 객체에 집어넣고
+    items[num].on = true; items[num].kind = kind; //해당 객체를 활성화
+}
+//아이템 객체를 삭제하는 함수
+void Delete_item(int num)
+{
+    Remove_item(items[num].x, items[num].y); //아이템을 지운다음
+    items[num].on = false;                   //해당 객체 비활성화
+}
+//화면이 움직임에 따라 아이템 객체를 이동하는 함수
+void Floating_item()
+{
+    for (int i = 0; i < ITEMS; i++) //구조 위와 동일
+    {
+        if (items[i].on == true)
+        {
+            Remove_item(items[i].x--, items[i].y);
+            if (items[i].x < 0 || items[i].x > 148)
+                Delete_item(i);
+            else
+                Draw_item(items[i].x, items[i].y, items[i].kind);
+        }
+    }
+}
+//배리어 아이템 사용 함수 & 버릴 수도
+void Item_varrier()
+{
+    varrier_on = true; //배리어 온
+}
+//질주 아이템 사용 함수 & 버릴 수도
+void Item_speed(int time)
+{
+    speed_on = true; //질주 온
+    speed_duration = time; //지속시간 설정
+}
+//무적 아이템 사용 함수
+void Item_invincible(int time)
+{
+    invincible_on = true; //무적 온
+    invincible_duration = time; //지속시간 설정
+}
+
+
+/*충돌 감지 함수들*/
+
 
 //자동차 객체와 닿았는지를 판별하는 함수
 bool Check_car(short x, short y)
@@ -217,7 +577,14 @@ bool Check_car(short x, short y)
         {
             if (cars[i].x <= x && x <= cars[i].x + 5 &&
                 cars[i].y <= y && y <= cars[i].y + 4)
-                return 1; //자동차 객체의 범위와 겹치면 1을 반환
+            {
+                if (varrier_on) //배리어가 있다면
+                {
+                    varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
+                    return 0; //충돌 1회 방어
+                }
+                else return 1; //자동차 객체의 범위와 겹치면 1을 반환
+            }
         }
     }
     return 0; //안겹치면 0을 반환
@@ -301,7 +668,14 @@ bool Check_monster(short x, short y)
         {
             if (cars[i].x <= x && x <= cars[i].x + 4 &&
                 cars[i].y <= y && y <= cars[i].y + 2)
-                return 1; //몬스터 객체의 범위와 겹치면 1을 반환
+            {
+                if (varrier_on) //배리어가 있다면
+                {
+                    varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
+                    return 0; //충돌 1회 방어
+                }
+                else return 1; //몬스터 객체의 범위와 겹치면 1을 반환
+            }
         }
     }
     return 0; //안겹치면 0을 반환
@@ -325,257 +699,48 @@ bool Check_train(short x, short y)
         {
             if (trains[i].x <= x && x <= trains[i].x + 6 &&
                 trains[i].y <= y && y <= trains[i].y + 5)
-                return 1; //기차 객체의 범위와 겹치면 1을 반환
-        }
-    }
-}
-
-//자동차를 그리고 객체 하나의 좌표를 설정하는 함수
-void Add_car(short x, short y, int num, bool up)
-{
-    Draw_car(x, y, up);                         //해당 위치에 자동차를 먼저 그리고
-    cars[num].x = x;     cars[num].y = y;       //x, y값을 객체에 집어넣고
-    cars[num].on = true; cars[num].up = up;     //해당 객체를 활성화 함과 동시에 기본설정은 위로 전진
-}
-//자동차 객체를 삭제하는 함수
-void Delete_car(int num)
-{
-    Remove_car(cars[num].x, cars[num].y); //자동차를 지운다음
-    cars[num].on = false;                 //해당 객체 비활성화
-}
-//자동차 객체를 "위 아래로" 한 칸 이동하는 함수
-void Move_car(int num)
-{
-    if (cars[num].on == true) //해당 객체가 활성화되어 있어야만 함수 전문 발동
-    {
-        bool up;
-        if (cars[num].up == true) //해당 객체가 위로 전진이라면
-        {
-            up = true;
-            Remove_car(cars[num].x, cars[num].y--); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y < -4) cars[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
-        }
-        else                      //해당 객체가 아래로 전진이라면
-        {
-            up = false;
-            Remove_car(cars[num].x, cars[num].y++); //자동차를 지움과 동시에 y좌표 수정
-            if (cars[num].y > 40) cars[num].y = -4; //만약 콘솔창을 벗어나면 다시 위로 보냄
-        }
-        Draw_car(cars[num].x, cars[num].y, up); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
-    }
-}
-//화면이 움직임에 따라 자동차 객체를 이동하는 함수
-void Floating_car()
-{ 
-    for (int i = 0; i < CARS; i++) //모든 자동차 객체를 검사
-    {
-        if (cars[i].on == true) //해당 객체가 활성화되어 있다면
-        {
-            Remove_car(cars[i].x--, cars[i].y); //자동차를 먼저 지우고
-            if (cars[i].x < -5) //좌표를 벗어나면 삭제
-                Delete_car(i);
-            else
             {
-                if(cars[i].up == true)
-                    Draw_car(cars[i].x, cars[i].y, true); //정상이라면 자동차를 그리며 움직임 표현
-                else
-                    Draw_car(cars[i].x, cars[i].y, false);
-            }
-                
-        }
-    }
-}
-
-//코인을 그리고 객체 하나의 좌표를 설정하는 함수
-void Add_coin(short x, short y, int num)
-{
-    Draw_coin(x, y);                        //해당 위치에 코인을 먼저 그리고
-    coins[num].x = x;     coins[num].y = y; //x,y 값을 객체에 집어넣고
-    coins[num].on = true;                   //해당 객체를 활성화
-}
-//코인 객체를 삭제하는 함수
-void Delete_coin(int num)
-{
-    Remove_coin(coins[num].x, coins[num].y); //코인을 지운다음
-    coins[num].on = false;                   //해당 객체 비활성화
-}
-//화면이 움직임에 따라 코인 객체를 이동하는 함수
-void Floating_coin()
-{
-    for (int i = 0; i < COINS; i++) //구조 위와 동일
-    {
-        if (coins[i].on == true)
-        {
-            Remove_coin(coins[i].x--, coins[i].y);
-            if (coins[i].x < 0 || coins[i].x > 149)
-                Delete_coin(i);
-            else
-                Draw_coin(coins[i].x, coins[i].y);
-        }
-    }
-}
-
-//강을 그리고 객체 하나의 좌표를 설정하는 함수
-void Add_river(short x, int num)
-{
-    srand((unsigned int)time(NULL));
-    rivers[num].x = x;      // x좌표 설정
-    rivers[num].on = true;  //객체 활성화
-    for (int i = 0; i < rand() % 5 + 1; i++) //연꽃 다리 2~5개 랜덤
-    {
-        short bridge_y;
-    overlap: //조건 루프
-        bridge_y = rand() % 39 + 1; //1~39의 랜덤한 y축 선택
-        for (int j = 0; j < i; j++)
-        {
-            if (rivers[num].bridge[j] - 1 <= bridge_y &&
-                rivers[num].bridge[j] + 1 >= bridge_y) goto overlap; //중복 값이 나오면 다시 goto
-        }
-        rivers[num].bridge[i] = bridge_y; //연꽃 다리 y축 지정
-    }
-    Draw_river(x, num); //모두 확인 후 강 그리기
-}
-//강 객체를 삭제하는 함수
-void Delete_river(int num)
-{
-    Remove_river(rivers[num].x); //강 지우고
-    rivers[num].on = false; //객체 비활성화
-    for (int i = 0; i < RIVERS; i++)
-        rivers[num].bridge[i] = 0; //모든 다리의 좌표를 0으로 설정하여 초기화
-}
-//화면이 움직임에 따라 강 객체를 이동하는 함수
-void Floating_river()
-{
-    for (int i = 0; i < RIVERS; i++) //모든 강 객체를 검사
-    {
-        if (rivers[i].on == true) //해당 객체가 활성화되어 있다면
-        {
-            if (--rivers[i].x <= -10) Delete_river(i); //범위를 벗어나면 객체 삭제
-            else
-            {
-                for (int j = 0; j <= 40; j++)
+                if (varrier_on) //배리어가 있다면
                 {
-                    bgcolor(0, 0, 255);
-                    if (rivers[i].x >= 0) //x좌표가 0이상이면 좌측으로 1칸 이동 표현
-                    {
-                        gotoxy(rivers[i].x, j); printf(" ");
-                    }
-                    removecolor();
-                    if (rivers[i].x < 140) //우측의 한 줄 삭제
-                    { 
-                        gotoxy(rivers[i].x + 10, j); printf(" ");
-                    }
+                    varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
+                    return 0; //충돌 1회 방어
                 }
-                bgcolor(0, 255, 0);
-                for (int j = 0; j < RIVERS; j++) //연꽃 다리 그리기
-                {
-                    if (rivers[i].bridge[j] != 0 && rivers[i].bridge[j] != 40)
-                    {
-                        if (rivers[i].x >= 0) //x좌표가 0이상일 때만 좌측에 출력
-                        {
-                            gotoxy(rivers[i].x, rivers[i].bridge[j]); printf(" ");
-                        }
-                    }
-                }
-                removecolor();
+                else return 1; //기차 객체의 범위와 겹치면 1을 반환
             }
         }
     }
 }
-
-//몬스터를 그리고 객체 하나의 좌표를 설정하는 함수
-void Add_monster(short x, short y, int num, bool up)
+//아이템 객체와 닿았는지를 판별하는 함수
+bool Check_item(short x, short y)
 {
-    Draw_monster(x, y);                             //해당 위치에 몬스터를 먼저 그리고
-    monsters[num].x = x;     monsters[num].y = y;   //x, y값을 객체에 집어넣고
-    monsters[num].on = true; monsters[num].up = up; //해당 객체를 활성화 함과 동시에 기본설정은 위로 전진
-}
-//몬스터 객체를 삭제하는 함수
-void Delete_monster(int num)
-{
-    Remove_monster(monsters[num].x, monsters[num].y); //몬스터를 지운다음
-    monsters[num].on = false;                         //해당 객체 비활성화
-}
-//몬스터 객체를 "위 아래로" 한 칸 이동하는 함수
-void Move_monster(int num)
-{
-    if (monsters[num].on == true) //해당 객체가 활성화되어 있어야만 함수 전문 발동
+    for (int i = 0; i < ITEMS; i++) //모든 아이템 객체를 검사
     {
-        if (monsters[num].up == true) //해당 객체가 위로 전진이라면
+        if (items[i].on == true) //객체가 활성화되어 있다면
         {
-            Remove_monster(monsters[num].x, monsters[num].y--); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y < -2) monsters[num].y = 40; //만약 콘솔창을 벗어나면 다시 밑으로 보냄
-        }
-        else                      //해당 객체가 아래로 전진이라면
-        {
-            Remove_monster(monsters[num].x, monsters[num].y++); //몬스터를 지움과 동시에 y좌표 수정
-            if (monsters[num].y > 40) monsters[num].y = -2; //만약 콘솔창을 벗어나면 다시 위로 보냄
-        }
-        Draw_monster(monsters[num].x, monsters[num].y); //그렇게 좌표 수정이 모두 완료되면 몬스터를 그려 움직임 표현
-    }
-}
-//화면이 움직임에 따라 몬스터 객체를 이동하는 함수
-void Floating_monster()
-{
-    for (int i = 0; i < MONSTERS; i++) //모든 몬스터 객체를 검사
-    {
-        if (monsters[i].on == true) //해당 객체가 활성화되어 있다면
-        {
-            Remove_monster(monsters[i].x--, monsters[i].y); //몬스터를 먼저 지우고
-            if (monsters[i].x < -5) Delete_monster(i); //좌표를 벗어나면 삭제
-            else
+            if (items[i].x <= x && x <= items[i].x + 1 && 
+                items[i].y == y) //아이템 객체의 좌표와 겹치면  
             {
-                Draw_monster(monsters[i].x, monsters[i].y);   //정상이라면 몬스터를 그리며 움직임 표현
+                Delete_item(i); Score += 50;
+                switch (items[i].kind)
+                {
+                case varrier:
+                    Item_varrier(); break;
+                case speed:
+                    Item_speed(3); break;
+                case invincible:
+                    Item_invincible(3); break;
+
+                }
+                return 1; //아이템을 지우고 사용 후 1을 반환   
             }
         }
     }
 }
 
-//기차를 그리고 객체 하나의 좌표를 설정하는 함수
-void Add_train(short x, short y, int num)
-{
-    Draw_train(x, y);                       //해당 위치에 기차를 먼저 그리고
-    trains[num].x = x; trains[num].y = y;   //x, y값을 객체에 집어넣고
-    trains[num].on = true;                  //해당 객체를 활성화
-}
-//기차 객체를 삭제하는 함수
-void Delete_train(int num)
-{
-    Remove_train(trains[num].x, trains[num].y); //기차를 지운다음
-    trains[num].on = false;                     //객체 비활성화
-}
-//기차 객체를 아래로 한 칸 이동하는 함수
-void Move_train(int num)
-{
-    if (trains[0].on == true) //객체가 활성화되어 있어야만 함수 전문 발동
-    {
-        static short train_y = 0; //y값을 저장할 정적 변수
-        train_y++; //1칸씩 증가
-        if (train_y % 6 == 0 && train_y <= 36) //일정 범위 내에서 6칸 마다
-            Add_train(trains[0].x, train_y, Find_train()); //기차를 줄지어서 소환
-        else if (train_y > 36) //범위를 벗어나면
-        {
-            train_y = 0; trains[0].on = false; //첫 기차는 삭제
-        }
-    }
-}
-//화면이 움직임에 따라 기차 객체를 이동하는 함수
-void Floating_train()
-{ 
-    train_x--; //기차의 절대적인 x좌표를 항상 이동
-    for (int i = 0; i < TRAINS; i++) //모든 기차 객체를 검사
-    {
-        if (trains[i].on == true) //객체가 활성화되어 있다면
-        {
-            Remove_train(trains[i].x--, trains[i].y); //기차를 먼저 지우고
-            if (trains[i].x < -6) Delete_train(i); //좌표를 벗어나면 삭제
-            else
-                Draw_train(trains[i].x, trains[i].y); //정상이라면 기차를 그리며 움직임 표현
-        }
-    }
-}
 
-//활성화되지 않은 객체 번호를 찾는 함수
+/*활성화되지 않은 객체 번호를 찾는 함수*/
+
+
 short Find_car() //자동차
 {
     for (int i = 0; i < CARS; i++) //모든 객체를 검사
@@ -605,17 +770,19 @@ short Find_train() //기차
 {
     for (int i = 0; i < TRAINS; i++)
         if (trains[i].on == false) return i;
-    //exit(1);
+    exit(1);
+}
+short Find_item() //아이템
+{
+    for (int i = 0; i < ITEMS; i++)
+        if (items[i].on == false) return i;
+    exit(1);
 }
 
 //플로팅시 나올 객체를 선택하는 함수
 unsigned short Choose_object()
 {
-    //static unsigned short choose = 0;
-    //choose++; if (choose >= 65532) choose = 0; //unsigned short의 최댓값을 넘어가면 0으로 초기화
-    //return choose % 4 + 1;
-
-    int arr[] = {1,1,2,1,1,3,1,1,4};
+    int arr[] = {1,1,2,1,1,3,1,1,4}; //정해진 객체의 등장 배열
     static int index = 0;
     if(index == 9) index = 0;
     return arr[index++];

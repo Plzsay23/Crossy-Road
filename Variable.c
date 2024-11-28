@@ -41,12 +41,13 @@ char Name[30];  //게임 시작 시 이름을 입력받는 곳
 
 bool bgm_on = 1; //메인화면에서 브금을 틀지 말지 결정하는 변수
 
-Car* cars; //자동차 객체 배열
-Coin* coins; //코인 객체 배열
-River* rivers; //강 객체 배열
-Monster* monsters; //몬스터 객체 배열
-Train* trains; //기차 객체 배열
-short train_x; //항상 기차의 x좌표를 저장할 변수
+Car* cars;          //자동차 객체 배열
+Coin* coins;        //코인 객체 배열
+River* rivers;      //강 객체 배열
+Monster* monsters;  //몬스터 객체 배열
+Train* trains;      //기차 객체 배열
+Item* items;        //아이템 객체 배열
+short train_x;      //항상 기차의 x좌표를 저장할 변수
 
 Car help_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
 Coin help_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체
@@ -66,6 +67,12 @@ unsigned int Coins = 0; //플레이어의 코인 개수를 저장할 곳
 long extra_display = 0; //화면 플로팅
 
 short start_x = 77, start_y = 29; // x, y의 초기값
+
+bool varrier_on = 0;            //배리어 상태 변수
+bool speed_on = 0;              //질주 상태 변수
+int speed_duration = 0;         //질주 상태 지속시간
+bool invincible_on = 0;         //무적 상태 변수
+int invincible_duration = 0;    //무적 상태 지속시간
 
 //이미지 출력 관련 설정 코드
 HWND hwnd; //현재 포그라운드 윈도우의 핸들을 가져옴

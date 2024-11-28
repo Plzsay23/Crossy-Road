@@ -15,8 +15,12 @@
 #define COINS 20    //코인    20개
 #define RIVERS 5    //강      5개
 #define MONSTERS 40 //몬스터  40개
-#define TRAINS 8   //기차    15개
+#define TRAINS 8    //기차    15개
+#define ITEMS 20
 #define COLOR 4     //색상(객체 종류)배열 크기 4
+
+enum objects { car = 0, coin, river, monster, train }; //객체의 번호
+enum items { varrier = 0, speed, point, invincible, fiver, _time }; //아이템의 번호
 
 //자동차 객체 구조체
 typedef struct Car {
@@ -55,6 +59,14 @@ typedef struct Train {
     bool on;    //객체의 활성화 유무
 } Train;
 
+//아이템 구조체
+typedef struct Item {
+    short x;    // x 좌표
+    short y;    // y 좌표
+    bool on;    //객체의 활성화 유무
+    int kind;   //아이템 종류
+} Item;
+
 //색상 구조체
 typedef struct Color {
     int r;  //Red
@@ -67,7 +79,7 @@ typedef struct User {
     int score;           //점수
     char name[30];       //사용자 이름
     unsigned int coins;  //코인 개수
-    Color color[COLOR];      //색상 값을 저장할 배열
+    Color color[COLOR];  //색상 값을 저장할 배열
 } User;
 
 /*o게임 관련 전역 변수 선언o*/
@@ -86,13 +98,14 @@ extern const char train1[6][8];
 
 extern char Name[30];          //게임 시작 시 이름을 입력받는 곳
 
-extern bool bgm_on; //메인화면에서 브금을 틀지 말지 결정하는 변수
+extern bool bgm_on;            //메인화면에서 브금을 틀지 말지 결정하는 변수
 
 extern Car* cars;              //자동차 객체 배열
 extern Coin* coins;            //코인 객체 배열
 extern River* rivers;          //강 객체 배열
 extern Monster* monsters;      //몬스터 객체 배열
 extern Train* trains;          //기차 객체 배열
+extern Item* items;            //아이템 객체 배열
 extern short train_x;          //항상 기차의 x좌표를 저장할 변수
 
 extern Car help_car;           //게임 설명 화면에서 쓸 자동차 객체
@@ -113,6 +126,12 @@ extern unsigned int Coins;     //플레이어의 코인 개수를 저장할 곳
 extern long extra_display;     //화면 플로팅, 얼마나 움직였는지를 저장할 변수
 
 extern short start_x, start_y; // x, y의 초기값
+
+extern bool varrier_on;         //배리어 상태 변수
+extern bool speed_on;           //질주 상태 변수
+extern int speed_duration;      //질주 상태 지속시간
+extern bool invincible_on;      //무적 상태 변수
+extern int invincible_duration; //무적 상태 지속시간
 
 extern HWND hwnd;              //현재 포그라운드 윈도우의 핸들을 가져옴
 extern HDC hdc;                //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴

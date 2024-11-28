@@ -390,6 +390,8 @@ help_train을 배열로 생성해서 Object.c 파일과 다르게 독자적으�
 ㄴ (11/27 해결) Check_help_train() 함수가 구현이 안되어 있었음
                 어차피 기차의 경우 배열을 가져와 사용하는것 이기때문에
                 Game() 함수 안에서와 마찬가지로 Check_train()로 대체하여 해결
+
+랭킹에 이름이 안나오는 오류가 있음
 */
 
 #define _CRT_SECURE_NO_WARNINGS

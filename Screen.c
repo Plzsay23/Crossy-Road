@@ -145,7 +145,7 @@ void Start_screen()
     Score = 0; // 점수 초기화
 
     unsigned short found = 0; // 중복 검사 변수
-    char Name[16]; // 이름 최대 길이 제한
+    char Name[20]; // 이름 최대 길이 제한
     short car_x = 125, car_y = 2; // 자동차의 초기 좌표
     clock_t car_timer = clock(); // 자동차 이동 시간 초기화
     help_car.on = true; //자동차 객체 선언
@@ -168,7 +168,7 @@ void Start_screen()
         if (_kbhit())
         {
             gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  "); // 기존 입력 지우기
-            gotoxy(22, 20); scanf("%15s", Name); // 이름 입력 (최대 15자)
+            gotoxy(22, 20); scanf("%s", Name); // 이름 입력 (최대 15자)
 
             if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) // 뒤로가기
             {

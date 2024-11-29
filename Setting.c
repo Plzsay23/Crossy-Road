@@ -45,7 +45,7 @@ void Setting()
 
     //★★★★★★★★★★★★★★★★★★★★★★//
     //화면 해상도가 맞지 않으면 임의로 조정가능
-    int x = 1215; //1215
+    int x = 1235; //1215
     int y = 695;  //695
     //★★★★★★★★★★★★★★★★★★★★★★//
 
@@ -87,14 +87,14 @@ void Ranking_sort()
     for (int i = 0; i < RANKING; i++) {
         if (strcmp(user.name, Ranking[i].name) == 0) 
         {   //이름이 이미 존재하는 경우 점수, 코인 갱신
-            if(user.score > Ranking[i].score) //새로 얻은 점수가 더 클 때만 갱신
+            if (user.score > Ranking[i].score) //새로 얻은 점수가 더 클 때만 갱신
                 Ranking[i].score = user.score;
             Ranking[i].coins = user.coins;
-            Store_color(i); //색상 저장
+            Store_color(i); //색상 저장 
             found = 1;
             for (int j = 0; j < RANKING; j++)
             {
-                for (int h = 0; h < RANKING - j; h++)
+                for (int h = 0; h < RANKING - j - 1; h++)
                 {
                     if (Ranking[h].score < Ranking[h + 1].score) //버블 정렬
                     {
@@ -129,10 +129,12 @@ void Ranking_sort()
     {
         if (Ranking[i].score > 0)
         {   //이름, 점수, 코인
-            fprintf(Rank, "%s %d %d ", Ranking[i].name, Ranking[i].score, Ranking[i].coins);
-            for (int j = 0; j < COLOR; j++) //다른 객체 RGB값
-                fprintf(Rank, "%d %d %d ", Ranking[i].color[j].r, Ranking[i].color[j].g, Ranking[i].color[j].b);
-            fprintf(Rank, "\n");
+            fprintf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", 
+                Ranking[i].name, Ranking[i].score, Ranking[i].coins,
+                Ranking[i].color[0].r, Ranking[i].color[0].g, Ranking[i].color[0].b,
+                Ranking[i].color[1].r, Ranking[i].color[1].g, Ranking[i].color[1].b,
+                Ranking[i].color[2].r, Ranking[i].color[2].g, Ranking[i].color[2].b,
+                Ranking[i].color[3].r, Ranking[i].color[3].g, Ranking[i].color[3].b);
         }
     }
     fclose(Rank);
@@ -148,7 +150,7 @@ void Read_ranking()
     }
 
     int i = 0;
-    while (fscanf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+    while (fscanf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
         Ranking[i].name, &Ranking[i].score, &Ranking[i].coins,
         &Ranking[i].color[0].r, &Ranking[i].color[0].g, &Ranking[i].color[0].b,
         &Ranking[i].color[1].r, &Ranking[i].color[1].g, &Ranking[i].color[1].b,

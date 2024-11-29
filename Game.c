@@ -262,23 +262,23 @@ void Game()
             is_time = 0; time_on = 0;
         }
 
-        ////충돌감지 함수가 1을 반환하면 게임오버
-        //if (!is_invincible && Check_car(x, y) == 1) //자동차와 닿았다면 게임오버
-        //{
-        //    Game_over(x, y); break;
-        //}
-        //if (!is_invincible && Check_river(x, y) == 1) //강에 빠졌다면 게임오버
-        //{
-        //    Game_over(x, y); break;
-        //}
-        //if (!is_invincible && Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
-        //{
-        //    Game_over(x, y); break;
-        //}
-        //if (!is_invincible && Check_train(x, y) == 1) //기차와 닿았다면 게임오버
-        //{
-        //    Game_over(x, y); break;
-        //}
+        //충돌감지 함수가 1을 반환하면 게임오버
+        if (!is_invincible && Check_car(x, y) == 1) //자동차와 닿았다면 게임오버
+        {
+            Game_over(x, y); break;
+        }
+        if (!is_invincible && Check_river(x, y) == 1) //강에 빠졌다면 게임오버
+        {
+            Game_over(x, y); break;
+        }
+        if (!is_invincible && Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
+        {
+            Game_over(x, y); break;
+        }
+        if (!is_invincible && Check_train(x, y) == 1) //기차와 닿았다면 게임오버
+        {
+            Game_over(x, y); break;
+        }
 
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면
             Draw_player(x, y); //지워진 플레이어 다시 그림

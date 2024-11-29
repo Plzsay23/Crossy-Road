@@ -225,6 +225,11 @@ void Continue_screen()
     {
         gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  ");
         gotoxy(22, 20); scanf("%s", Name); //이름 입력
+        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
+        {
+            Play_bgm(Main_bgm, 1);
+            Main_screen(); break;
+        }
         if (Check_continue() == 1)
         {
             bgm_on = 1; Game(); break;
@@ -232,11 +237,6 @@ void Continue_screen()
         else
         {
             gotoxy(10, 22); printf("존재하지 않는 이름입니다.");
-        }
-        if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
-        {
-            Play_bgm(Main_bgm, 1);
-            Main_screen(); break;
         }
     }
 }
@@ -287,7 +287,7 @@ void Color_screen()
     //Draw_image_256(Genie, hdc, 180, 150);
 
     short x = 75, y = 7;
-    Draw_player(x, y);
+    Draw_player(x, y); 
 
     while (1)
     {

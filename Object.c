@@ -71,7 +71,9 @@ void Remove_object(short x, short y, int x_range, int y_range)
 void Draw_player(short x, short y)
 {
     if (varrier_on) textcolor(152, 255, 152);       //배리어 색상 지정
+    else if (point_on) textcolor(122, 201, 88);     //포인트 색상 지정
     else if (invincible_on) textcolor(255, 215, 0); //무적 색상 지정
+    else if (time_on) textcolor(100, 150, 200);     //타임 색상 지정
     else textcolor(p_rgb.r, p_rgb.g, p_rgb.b);      //평소 색상 지정
     gotoxy(x, y); printf("G");            //좌표 이동 후 그림
     removecolor();                        //색상 삭제
@@ -498,12 +500,15 @@ void Draw_item(short x, short y, int type)
     case invincible:
         r = 50, g = 255, b = 150;
         strcpy(item, "ⓘ"); break;
-    case fiver:
+    case fever:
         r = 100, g = 0, b = 255;
         strcpy(item, "ⓕ"); break;
     case _time:
         r = 75, g = 175, b = 255;
         strcpy(item, "ⓣ"); break;
+    case star:
+        r = 255; g = 215; b = 0;
+        strcpy(item, "★"); break;
     default: break;
     }
     textcolor(r, g, b); 
@@ -554,11 +559,25 @@ void Item_point(int time)
     point_on = true; //포인트 온
     point_duration = time; //지속시간 설정
 }
+//피버 아이템 사용 함수
+void Item_fever(int time)
+{
+    point_on = true; //포인트 온
+    point_duration = time; //지속시간 설정
+    invincible_on = true; //무적 온
+    invincible_duration = time; //지속시간 설정
+}
 //무적 아이템 사용 함수
 void Item_invincible(int time)
 {
     invincible_on = true; //무적 온
     invincible_duration = time; //지속시간 설정
+}
+//타임 아이템 사용 함수
+void Item_time(int time)
+{
+    time_on = true; //타임 온
+    time_duration = time; //지속시간 설정
 }
 
 
@@ -722,9 +741,14 @@ Itemcheck Check_item(short x, short y)
                 {
                 case varrier:
                     Item_varrier(); break;
+                case point:
+                    Item_point(3); break;
+                case fever:
+                    Item_fever(2); break;
                 case invincible:
                     Item_invincible(3); break;
-
+                case _time:
+                    Item_time(2); break;
                 }
                 Itemcheck result = { 1, items[i].type };
                 return result; //아이템을 지우고 사용 후 1을 반환   

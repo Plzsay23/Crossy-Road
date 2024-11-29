@@ -409,25 +409,31 @@ void Help_screen()
     Recycle();
     system("cls"); Draw_square();
     gotoxy(132, 39); printf("뒤로가기 : [ Q ]");
-
     gotoxy(68, 5); printf("            ↑");
     gotoxy(68, 6); printf("이동  :  ←    →");
     gotoxy(68, 7); printf("            ↓");
-
     gotoxy(9, 1); printf("피하세요!");
-
     gotoxy(28, 1); printf("코인을");
     gotoxy(26, 2); printf("획득하세요");
-
     short coin = 0;
     gotoxy(26, 4); printf("코인 : %d", coin);
-
     gotoxy(49, 1); printf("연꽃잎을 밟아");
     gotoxy(49, 2); printf("강을 건너세요");
-
     gotoxy(89, 1); printf("피하세요!");
-
     gotoxy(110, 1); printf("피하세요!");
+    gotoxy(124, 1); printf("아이템을 획득하세요!");
+    gotoxy(130, 7); printf("배리어");
+    gotoxy(129, 8); printf("1회 무적");
+    gotoxy(130, 12); printf("포인트");
+    gotoxy(127, 13); printf("3초 점수 두배");
+    gotoxy(131, 17); printf("무적");
+    gotoxy(129, 18); printf("3초 무적");
+    gotoxy(131, 22); printf("피버");
+    gotoxy(126, 23); printf("2초 포인트+무적");
+    gotoxy(131, 27); printf("타임");
+    gotoxy(129, 28); printf("2초 정지");
+    gotoxy(131, 32); printf("스타");
+    gotoxy(129, 33); printf("점수 추가");
 
     short x = 2, y = 20; //플레이어의 초기 좌표 선언과 함께 초기화
     help_car.on = true; //자동차 객체 선언
@@ -439,6 +445,12 @@ void Help_screen()
     Draw_car(help_car.x, help_car.y, 0); //객체 출력
     Draw_coin(help_coin.x, help_coin.y);
     Draw_monster(help_monster.x, help_monster.y);
+    Add_item(132, 9, Find_item(), varrier);
+    Add_item(132, 14, Find_item(), point);
+    Add_item(132, 19, Find_item(), invincible);
+    Add_item(132, 24, Find_item(), fever);
+    Add_item(132, 29, Find_item(), _time);
+    Add_item(132, 34, Find_item(), star);
 
     //강 배경 그리기
     bgcolor(0, 0, 255);
@@ -579,6 +591,9 @@ void Help_screen()
         {
             Help_screen(); break;
         }
+        Itemcheck result = Check_item(x, y); //아이템 충돌
+        if (result.found == 1) //아이템과 부딪혔다면
+            Draw_player(x, y); //지워진 플레이어 다시 그림
     }
     Stop_bgm();
     free_object();

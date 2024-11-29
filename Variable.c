@@ -73,6 +73,8 @@ bool point_on = 0;              //포인트 상태 변수
 int point_duration = 0;         //포인트 상태 지속시간
 bool invincible_on = 0;         //무적 상태 변수
 int invincible_duration = 0;    //무적 상태 지속시간
+bool time_on = 0;               //타임 상태 변수
+int time_duration = 0;          //타임 상태 지속시간
 
 //이미지 출력 관련 설정 코드
 HWND hwnd; //현재 포그라운드 윈도우의 핸들을 가져옴

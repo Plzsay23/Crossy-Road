@@ -11,16 +11,16 @@
 #define DOWN 80
 #define SPACE 32
 #define RANKING 10  //랭킹배열 크기 10
-#define CARS 40     //현재 최대 자동차 갯수 20개
+#define CARS 40     //현재 최대 자동차 갯수 40개
 #define COINS 20    //코인    20개
 #define RIVERS 5    //강      5개
 #define MONSTERS 40 //몬스터  40개
-#define TRAINS 8    //기차    15개
-#define ITEMS 20
+#define TRAINS 8    //기차    8개
+#define ITEMS 20    //아이템  20개
 #define COLOR 4     //색상(객체 종류)배열 크기 4
 
 enum objects { car = 0, coin, river, monster, train }; //객체의 번호
-enum items { varrier = 0, point, invincible, fiver, _time }; //아이템의 번호
+enum items { varrier = 0, point, invincible, fever, _time, star }; //아이템의 번호
 
 //아이템 충돌 함수의 반환 값
 typedef struct Itemcheck {
@@ -138,6 +138,8 @@ extern bool point_on;           //포인트 상태 변수
 extern int point_duration;      //포인트 상태 지속시간
 extern bool invincible_on;      //무적 상태 변수
 extern int invincible_duration; //무적 상태 지속시간
+extern bool time_on;            //타임 상태 변수
+extern int time_duration;       //타임 상태 지속시간
 
 extern HWND hwnd;              //현재 포그라운드 윈도우의 핸들을 가져옴
 extern HDC hdc;                //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴

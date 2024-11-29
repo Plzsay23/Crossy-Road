@@ -64,6 +64,7 @@ void Delete_item(int num);
 void Floating_item();
 void Item_varrier();
 void Item_point(int time);
+void Item_fever(int time);
 void Item_invincible(int time);
 
 //객체와 플레이어의 충돌 감지 함수들

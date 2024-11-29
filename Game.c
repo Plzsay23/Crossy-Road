@@ -58,6 +58,7 @@ void Game()
     clock_t trains_charge = clock();    //기차가 멈춰있을 시간 저장
     clock_t point_time = clock();       //포인트 지속시간 저장
     clock_t invincible_time = clock();  //무적 지속시간 저장
+    clock_t time_time = clock();        //타임 지속시간 저장
 
     short x = start_x + 1, y = start_y;     //공의 초기 좌표 선언과 함께 초기화
     unsigned short choose = 0;              //객체를 선택할 변수
@@ -66,6 +67,7 @@ void Game()
     int train_spawn = 0;                    //기차가 소환되었음을 알리는 변수
     bool is_point = 0;                      //포인트 상태를 판별하는 변수
     bool is_invincible = 0;                 //무적 상태를 판별하는 변수
+    bool is_time = 0;                       //타임 상태를 판별하는 변수
 
     Draw_player(x, y);
 
@@ -113,8 +115,8 @@ void Game()
                                 int i = rand() % 100;
                                 if (i <= 70) //확률은 70%
                                     Add_coin(149, rand() % 41, Find_coin()); //코인 객체 생성
-                                else if (i <= 100) //확률은 10%
-                                    Add_item(148, rand() % 41, Find_item(), 3); //아이템 랜덤 소환
+                                else if (i <= 80) //확률은 10%
+                                    Add_item(148, rand() % 41, Find_item(), rand() % 6); //아이템 랜덤 소환
                             }
                         }
                         else choose = 0; //0으로 초기화
@@ -188,18 +190,18 @@ void Game()
             }
         }
 
-        if (clock() > cars_time + 50) //50ms마다 발동
+        if (!is_time && clock() > cars_time + 50) //50ms마다 발동
         {
             for (int i = 0; i < CARS; i++) Move_car(i); //모든 자동차 객체의 y값을 변경
             cars_time = clock(); //시간 초기화
             if (is_point) Score += 2; else Score++; //0.05초마다 1점 추가
         }
-        if (clock() > monsters_time + 25) //250ms마다 발동
+        if (!is_time && clock() > monsters_time + 25) //250ms마다 발동
         {
             for (int i = 0; i < MONSTERS; i++) Move_monster(i); //모든 몬스터 객체의 y값을 변경
             monsters_time = clock();
         }
-        if (train_spawn == 1 && clock() > trains_charge + 3000) //기차가 소환되면
+        if (!is_time && train_spawn == 1 && clock() > trains_charge + 3000) //기차가 소환되면
         {
             if (clock() > train + 10 && trains[0].on) //10ms마다 발동
             {
@@ -218,7 +220,7 @@ void Game()
                 train_spawn = 2; trains_charge = clock(); //다음 시퀀스로 넘어감
             }
         }
-        if (train_spawn == 2 && clock() > trains_charge + 1000) //기차가 줄지어 나온 후
+        if (!is_time && train_spawn == 2 && clock() > trains_charge + 1000) //기차가 줄지어 나온 후
         {
             if (clock() > trains_time + 50)
             {
@@ -251,6 +253,15 @@ void Game()
             is_invincible = 0; invincible_on = 0;
         }
 
+        //타임이 활성화되었다면
+        if (time_on && !is_time)
+            is_time = 1; //타임임을 알림
+        //지속시간이 지나면
+        if (clock() > time_time + time_duration * 1000)
+        {   //타임종료
+            is_time = 0; time_on = 0;
+        }
+
         ////충돌감지 함수가 1을 반환하면 게임오버
         //if (!is_invincible && Check_car(x, y) == 1) //자동차와 닿았다면 게임오버
         //{
@@ -279,8 +290,14 @@ void Game()
             {
             case point:
                 point_time = clock(); break; //지속시간 초기화
+            case fever:
+                point_time = clock(); invincible_time = clock(); break;
             case invincible:
                 invincible_time = clock(); break; //지속시간 초기화
+            case _time:
+                time_time = clock(); break; //지속시간 초기화
+            case star: //스타의 경우 추가 점수
+                if (is_point) Score += 1000; else Score += 500;
             }
             Draw_player(x, y); //지워진 플레이어 다시 그림
             if (is_point) Score += 200; else Score += 100;

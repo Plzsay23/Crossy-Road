@@ -484,17 +484,14 @@ void Floating_train()
 
 
 //좌표를 받아 아이템 그리기
-void Draw_item(short x, short y, int kind)
+void Draw_item(short x, short y, int type)
 {
     int r = 0, g = 0, b = 0; char item[3] = " "; gotoxy(x, y);
-    switch (kind)
+    switch (type)
     {
     case varrier:
         r = 100; g = 100; b = 100;
         strcpy(item, "ⓥ"); break;
-    case speed:
-        r = 200; g = 200; b = 200;
-        strcpy(item, "ⓢ"); break;
     case point:
         r = 150, g = 50, b = 255;
         strcpy(item, "ⓟ"); break;
@@ -519,11 +516,11 @@ void Remove_item(short x, short y)
     gotoxy(x, y); printf("  ");
 }
 //아이템을 그리고 객체 하나의 좌표를 설정하는 함수
-void Add_item(short x, short y, int num, int kind)
+void Add_item(short x, short y, int num, int type)
 {
-    Draw_item(x, y, kind);                        //해당 위치에 아이템을 먼저 그리고
+    Draw_item(x, y, type);                        //해당 위치에 아이템을 먼저 그리고
     items[num].x = x;     items[num].y = y;       //x,y 값을 객체에 집어넣고
-    items[num].on = true; items[num].kind = kind; //해당 객체를 활성화
+    items[num].on = true; items[num].type = type; //해당 객체를 활성화
 }
 //아이템 객체를 삭제하는 함수
 void Delete_item(int num)
@@ -542,7 +539,7 @@ void Floating_item()
             if (items[i].x < 0 || items[i].x > 148)
                 Delete_item(i);
             else
-                Draw_item(items[i].x, items[i].y, items[i].kind);
+                Draw_item(items[i].x, items[i].y, items[i].type);
         }
     }
 }
@@ -551,11 +548,11 @@ void Item_varrier()
 {
     varrier_on = true; //배리어 온
 }
-//질주 아이템 사용 함수 & 버릴 수도
-void Item_speed(int time)
+//점수 두배 아이템 사용 함수
+void Item_point(int time)
 {
-    speed_on = true; //질주 온
-    speed_duration = time; //지속시간 설정
+    point_on = true; //포인트 온
+    point_duration = time; //지속시간 설정
 }
 //무적 아이템 사용 함수
 void Item_invincible(int time)
@@ -711,7 +708,7 @@ bool Check_train(short x, short y)
     }
 }
 //아이템 객체와 닿았는지를 판별하는 함수
-bool Check_item(short x, short y)
+Itemcheck Check_item(short x, short y)
 {
     for (int i = 0; i < ITEMS; i++) //모든 아이템 객체를 검사
     {
@@ -721,20 +718,21 @@ bool Check_item(short x, short y)
                 items[i].y == y) //아이템 객체의 좌표와 겹치면  
             {
                 Delete_item(i); Score += 50;
-                switch (items[i].kind)
+                switch (items[i].type)
                 {
                 case varrier:
                     Item_varrier(); break;
-                case speed:
-                    Item_speed(3); break;
                 case invincible:
                     Item_invincible(3); break;
 
                 }
-                return 1; //아이템을 지우고 사용 후 1을 반환   
+                Itemcheck result = { 1, items[i].type };
+                return result; //아이템을 지우고 사용 후 1을 반환   
             }
         }
     }
+    Itemcheck result = { 0, 0 };
+    return result;
 }
 
 

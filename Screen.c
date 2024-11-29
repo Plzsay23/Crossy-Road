@@ -144,39 +144,38 @@ void Start_screen()
 
     Score = 0; // 점수 초기화
 
-    unsigned short found = 0; // 중복 검사 변수
-    char Name[20]; // 이름 최대 길이 제한
-    short car_x = 125, car_y = 2; // 자동차의 초기 좌표
-    clock_t car_timer = clock(); // 자동차 이동 시간 초기화
-    help_car.on = true; //자동차 객체 선언
+    unsigned short found = 0; //중복 검사 변수
+    //short car_x = 125, car_y = 2; //자동차의 초기 좌표
+    //clock_t car_timer = clock(); //자동차 이동 시간 초기화
+    //help_car.on = true; //자동차 객체 선언
 
     Draw_image_256(Chicken, hdc, 500, 300);
 
-    // 이름 입력 루프
+    //이름 입력 루프
     while (1)
     {
-        // 자동차 움직임
-        if (clock() > car_timer + 100)
-        {
-            Remove_car(car_x, car_y++); // 자동차 지우고 y좌표 증가
-            if (car_y >= 40) car_y = 2; // 콘솔창 아래로 벗어나면 위로 리셋
-            Draw_car(car_x, car_y, 0); // 새 위치에 자동차 출력
-            car_timer = clock(); // 타이머 초기화
-        }
+        ////자동차 움직임
+        //if (clock() > car_timer + 100)
+        //{
+        //    Remove_car(car_x, car_y++); //자동차 지우고 y좌표 증가
+        //    if (car_y >= 40) car_y = 2; //콘솔창 아래로 벗어나면 위로 리셋
+        //    Draw_car(car_x, car_y, 0); //새 위치에 자동차 출력
+        //    car_timer = clock(); //타이머 초기화
+        //}
 
-        // 사용자 입력 처리
+        //사용자 입력 처리
         if (_kbhit())
         {
-            gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  "); // 기존 입력 지우기
-            gotoxy(22, 20); scanf("%s", Name); // 이름 입력 (최대 15자)
+            gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  "); //기존 입력 지우기
+            gotoxy(22, 20); scanf("%s", Name); //이름 입력 (최대 15자)
 
-            if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) // 뒤로가기
+            if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //뒤로가기
             {
                 Play_bgm(Main_bgm, 1);
                 Main_screen(); return;
             }
 
-            // 중복 검사
+            //중복 검사
             found = 0;
             for (int i = 0; i < RANKING; i++)
             {
@@ -188,12 +187,12 @@ void Start_screen()
                 }
             }
 
-            if (found == 0) // 이름 중복 없으면 루프 탈출
+            if (found == 0) //이름 중복 없으면 루프 탈출
                 break;
         }
     }
 
-    // 이름 입력 성공 시 게임 시작
+    //이름 입력 성공 시 게임 시작
     bgm_on = 1; Game();
 }
 

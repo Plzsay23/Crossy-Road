@@ -63,7 +63,7 @@ void Add_item(short x, short y, int num, int kind);
 void Delete_item(int num);
 void Floating_item();
 void Item_varrier();
-void Item_speed(int time);
+void Item_point(int time);
 void Item_invincible(int time);
 
 //객체와 플레이어의 충돌 감지 함수들
@@ -75,7 +75,7 @@ bool Check_help_river(short x, short y);
 bool Check_monster(short x, short y);
 bool Check_help_monster(short x, short y);
 bool Check_train(short x, short y);
-bool Check_item(short x, short y);
+Itemcheck Check_item(short x, short y);
 
 //비어있는 객체를 찾는 함수들
 short Find_car();

@@ -138,18 +138,25 @@ void Ranking_sort()
     fclose(Rank);
 }
 
-//게임 시작시 저장된 랭킹과 색상값을 불러오는 함수
+//게임 시작시 저장된 랭킹을 불러오는 함수
 void Read_ranking()
 {
     FILE* Rank = fopen("Ranking.txt", "r");
-    if (Rank == NULL) return; //처음 시작이어서 저장된 파일이 없다면 무시하고 진행
+    if (!Rank) {
+        printf("랭킹 파일을 찾을 수 없습니다. 새로운 파일을 생성합니다.\n"); //랭킹파일이 없다면 무시하고 진행
+        return;
+    }
+
     int i = 0;
     while (fscanf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
         Ranking[i].name, &Ranking[i].score, &Ranking[i].coins,
-        &Ranking[i].color[0].r, &Ranking[i].color[0].g, &Ranking[i].color[0].b, 
+        &Ranking[i].color[0].r, &Ranking[i].color[0].g, &Ranking[i].color[0].b,
         &Ranking[i].color[1].r, &Ranking[i].color[1].g, &Ranking[i].color[1].b,
         &Ranking[i].color[2].r, &Ranking[i].color[2].g, &Ranking[i].color[2].b,
-        &Ranking[i].color[3].r, &Ranking[i].color[3].g, &Ranking[i].color[3].b) != EOF) i++;
+        &Ranking[i].color[3].r, &Ranking[i].color[3].g, &Ranking[i].color[3].b) != EOF) {
+        i++;
+        if (i >= RANKING) break; // 배열 초과 방지
+    }
     fclose(Rank);
 }
 

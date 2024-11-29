@@ -6,6 +6,7 @@
 #include <conio.h>
 #include "Variable.h"
 #include "Object.h"
+#include "Screen.h"
 
 //게임 오버 시 잠깐 나올 이벤트
 void Game_over(short x, short y);

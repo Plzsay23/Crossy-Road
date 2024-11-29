@@ -20,7 +20,13 @@
 #define COLOR 4     //색상(객체 종류)배열 크기 4
 
 enum objects { car = 0, coin, river, monster, train }; //객체의 번호
-enum items { varrier = 0, speed, point, invincible, fiver, _time }; //아이템의 번호
+enum items { varrier = 0, point, invincible, fiver, _time }; //아이템의 번호
+
+//아이템 충돌 함수의 반환 값
+typedef struct Itemcheck {
+    bool found; //아이템과 부딪혔는지를 반환하는 값
+    int type;   //아이템의 종류를 반환하는 값
+} Itemcheck;
 
 //자동차 객체 구조체
 typedef struct Car {
@@ -64,7 +70,7 @@ typedef struct Item {
     short x;    // x 좌표
     short y;    // y 좌표
     bool on;    //객체의 활성화 유무
-    int kind;   //아이템 종류
+    int type;   //아이템 종류
 } Item;
 
 //색상 구조체
@@ -128,16 +134,13 @@ extern long extra_display;     //화면 플로팅, 얼마나 움직였는지를 저장할 변수
 extern short start_x, start_y; // x, y의 초기값
 
 extern bool varrier_on;         //배리어 상태 변수
-extern bool speed_on;           //질주 상태 변수
-extern int speed_duration;      //질주 상태 지속시간
+extern bool point_on;           //포인트 상태 변수
+extern int point_duration;      //포인트 상태 지속시간
 extern bool invincible_on;      //무적 상태 변수
 extern int invincible_duration; //무적 상태 지속시간
 
 extern HWND hwnd;              //현재 포그라운드 윈도우의 핸들을 가져옴
 extern HDC hdc;                //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
-
-//이미지 파일들의 주소를 담을 변수
-extern const char* Chicken; 
 
 //이미지 파일들의 주소를 담을 변수
 extern const char* Chicken;

@@ -69,8 +69,8 @@ long extra_display = 0; //화면 플로팅
 short start_x = 77, start_y = 29; // x, y의 초기값
 
 bool varrier_on = 0;            //배리어 상태 변수
-bool speed_on = 0;              //질주 상태 변수
-int speed_duration = 0;         //질주 상태 지속시간
+bool point_on = 0;              //포인트 상태 변수
+int point_duration = 0;         //포인트 상태 지속시간
 bool invincible_on = 0;         //무적 상태 변수
 int invincible_duration = 0;    //무적 상태 지속시간
 
@@ -80,8 +80,6 @@ HDC hdc;   //윈도우의 클라이언트 영역에 대한 디바이스 컨텍스트를 가져옴
 
 //이미지 파일들의 주소를 담을 변수
 const char* Chicken = "Images\\Chicken.raw";
-
-//이미지 파일들의 주소를 담을 변수
 const char* Chicken2 = "Images\\Chicken2.raw";
 const char* Genie = "Images\\Genie.raw";
 

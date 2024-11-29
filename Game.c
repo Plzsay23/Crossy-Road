@@ -39,7 +39,7 @@ void Recycle()
     for (int i = 0; i < ITEMS; i++)
     {
         items[i].x = 0; items[i].y = 0;
-        items[i].on = false; items[i].kind = 0;
+        items[i].on = false; items[i].type = 0;
     }
     extra_display = 0;
 }
@@ -56,16 +56,16 @@ void Game()
     clock_t monsters_time = clock();    //몬스터가 움직일 시간 저장
     clock_t trains_time = clock();      //기차가 움직일 시간 저장
     clock_t trains_charge = clock();    //기차가 멈춰있을 시간 저장
+    clock_t point_time = clock();       //포인트 지속시간 저장
     clock_t invincible_time = clock();  //무적 지속시간 저장
-    clock_t speed_time = clock();       //질주 지속시간 저장
 
     short x = start_x + 1, y = start_y;     //공의 초기 좌표 선언과 함께 초기화
     unsigned short choose = 0;              //객체를 선택할 변수
     long floating_x, floating_display = 0;  //x좌표를 저장할 변수
     bool is_spawn = 0;                      //객체가 소환됐는지 아닌지를 판단할 변수
     int train_spawn = 0;                    //기차가 소환되었음을 알리는 변수
+    bool is_point = 0;                      //포인트 상태를 판별하는 변수
     bool is_invincible = 0;                 //무적 상태를 판별하는 변수
-    bool is_speed = 0;                      //질주 상태를 판별하는 변수
 
     Draw_player(x, y);
 
@@ -83,16 +83,13 @@ void Game()
                 floating_display++;
                 if (x >= start_x) //현재 x좌표가 중앙보다 크다면
                 {
-                    for (int i = 0; i < is_speed + 1; i++)
-                    {
-                        Floating_car();     //자동차들이 왼쪽으로 밀려나며 이동을 표현 = 플로팅
-                        Floating_coin();    //코인 플로팅
-                        Floating_river();   //강 플로팅
-                        Floating_monster(); //몬스터 플로팅
-                        Floating_train();   //기차 플로팅
-                        Floating_item();    //몬스터 플로팅
-                        extra_display++;    //플로팅 이동을 변수에 저장
-                    }
+                    Floating_car();     //자동차들이 왼쪽으로 밀려나며 이동을 표현 = 플로팅
+                    Floating_coin();    //코인 플로팅
+                    Floating_river();   //강 플로팅
+                    Floating_monster(); //몬스터 플로팅
+                    Floating_train();   //기차 플로팅
+                    Floating_item();    //몬스터 플로팅
+                    extra_display++;    //플로팅 이동을 변수에 저장
 
                     if (choose == 0)    //변수가 0으로 초기화되었다면
                     {
@@ -109,15 +106,15 @@ void Game()
                             if (floating_display % 8 == 0) //7칸마다 소환
                             {
                                 Add_car(149, rand() % 41, Find_car(), rand() % 2);
-                                Score += 30; //그럴때마다 30점 추가                            
+                                if (is_point) Score += 60; else Score += 30; //그럴때마다 30점 추가                            
                             }
                             if ((floating_display + 1) % 8 == 0) //자동차와 자동차 사이에 소환되도록 조정
                             {
                                 int i = rand() % 100;
                                 if (i <= 70) //확률은 70%
                                     Add_coin(149, rand() % 41, Find_coin()); //코인 객체 생성
-                                else if (i <= 80) //확률은 10%
-                                    Add_item(148, rand() % 41, Find_item(), rand() % 6); //아이템 랜덤 소환
+                                else if (i <= 100) //확률은 10%
+                                    Add_item(148, rand() % 41, Find_item(), 3); //아이템 랜덤 소환
                             }
                         }
                         else choose = 0; //0으로 초기화
@@ -128,7 +125,7 @@ void Game()
                             if (is_spawn == false) //소환되지 않았다면
                             {
                                 Add_river(149, Find_river()); //강 객체 소환
-                                Score += 100; is_spawn = 1;
+                                if (is_point) Score += 200; else Score += 100; is_spawn = 1;
                             }
                         }
                         else { choose = 0; is_spawn = 0; } //0으로 초기화
@@ -143,7 +140,7 @@ void Game()
                                 int mon_y2 = (mon_y + 20) % 41; //2개를 소환하기 위함
                                 Add_monster(149, mon_y, Find_monster(), up);
                                 Add_monster(149, mon_y2, Find_monster(), up);
-                                Score += 30; //그럴때마다 30점 추가                            
+                                if (is_point) Score += 60; else Score += 30; //그럴때마다 30점 추가                            
                             }
                         }
                         else choose = 0; //0으로 초기화
@@ -155,8 +152,8 @@ void Game()
                             {   //첫 위치에 더미 하나와 진짜 객체 하나씩 소환
                                 for (int i = 0; i < 2; i++) Add_train(149, 0, Find_train());
                                 train_x = 149; //기차의 x좌표 값을 지정
-                                Score += 200; is_spawn = 1; //그럴때마다 점수 추가
-                                train_spawn = 1; trains_charge = clock(); //기차 소환 선언
+                                if (is_point) Score += 400; else Score += 200; //그럴때마다 점수 추가
+                                is_spawn = 1; train_spawn = 1; trains_charge = clock(); //기차 소환 선언
                             }
                         }
                         else { choose = 0; is_spawn = 0; } //0으로 초기화
@@ -195,7 +192,7 @@ void Game()
         {
             for (int i = 0; i < CARS; i++) Move_car(i); //모든 자동차 객체의 y값을 변경
             cars_time = clock(); //시간 초기화
-            Score++; //0.05초마다 1점 추가
+            if (is_point) Score += 2; else Score++; //0.05초마다 1점 추가
         }
         if (clock() > monsters_time + 25) //250ms마다 발동
         {
@@ -235,25 +232,23 @@ void Game()
                 }
             }
         }
+
+        //포인트가 활성화되었다면
+        if (point_on && !is_point)
+            is_point = 1; //포인트임을 알림
+        //지속시간이 지나면
+        if (clock() > point_time + point_duration * 1000)
+        {   //포인트 종료
+            is_point = 0; point_on = 0;
+        }
         
         //무적이 활성화되었다면
-        if (invincible_on && !is_invincible)
-        {   //무적임을 알리고 시간 저장
-            is_invincible = 1; invincible_time = clock();
-        }
+        if (invincible_on && !is_invincible) 
+            is_invincible = 1; //무적임을 알림
         //지속시간이 지나면
         if (clock() > invincible_time + invincible_duration * 1000)
         {   //무적 종료
             is_invincible = 0; invincible_on = 0;
-        }
-        //질주가 활성화되었다면
-        if (speed_on && !is_speed)
-        {   //질주임을 알리고 시간 저장
-            is_speed = 1; speed_time = clock();
-        }
-        if (clock() > speed_time + speed_duration * 1000)
-        {   //질주 종료
-            is_speed = 0; speed_on = 0;
         }
 
         ////충돌감지 함수가 1을 반환하면 게임오버
@@ -276,8 +271,20 @@ void Game()
 
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면
             Draw_player(x, y); //지워진 플레이어 다시 그림
-        if (Check_item(x, y) == 1) //아이템과 부딪혔다면
+
+        Itemcheck result = Check_item(x, y); //아이템 충돌
+        if (result.found == 1) //아이템과 부딪혔다면
+        {
+            switch (result.type) //아이템 종류를 받아서
+            {
+            case point:
+                point_time = clock(); break; //지속시간 초기화
+            case invincible:
+                invincible_time = clock(); break; //지속시간 초기화
+            }
             Draw_player(x, y); //지워진 플레이어 다시 그림
+            if (is_point) Score += 200; else Score += 100;
+        }
     }
 
     free_object(); //객체 동적 메모리 해제

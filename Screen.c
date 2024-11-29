@@ -477,6 +477,12 @@ void Help_screen()
     clock_t monster = clock();
     clock_t train = clock();
     clock_t train_charge = clock();
+    clock_t point_time = clock();       //포인트 지속시간 저장
+    clock_t invincible_time = clock();  //무적 지속시간 저장
+    clock_t time_time = clock();        //타임 지속시간 저장
+    bool is_point = 0;                      //포인트 상태를 판별하는 변수
+    bool is_invincible = 0;                 //무적 상태를 판별하는 변수
+    bool is_time = 0;                       //타임 상태를 판별하는 변수
 
     while (1)
     {
@@ -515,21 +521,21 @@ void Help_screen()
             }
         }
 
-        if (clock() > car + 100)
+        if (!is_time && clock() > car + 100)
         {
             Remove_car(help_car.x, help_car.y++); //자동차를 지움과 동시에 y좌표 수정
             if (help_car.y >= 35) help_car.y = 2; //만약 콘솔창을 벗어나면 다시 위로 보냄
             Draw_car(help_car.x, help_car.y, 0); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
             car = clock(); //시간 초기화
         }
-        if (clock() > monster + 200)
+        if (!is_time && clock() > monster + 200)
         {
             Remove_monster(help_monster.x, help_monster.y++);
             if (help_monster.y >= 37) help_monster.y = 2;
             Draw_monster(help_monster.x, help_monster.y);
             monster = clock();
         }
-        if (train_spawn && clock() > train_charge + 3000)
+        if (!is_time && train_spawn && clock() > train_charge + 3000)
         {
             if (clock() > train + 10 && trains[0].on) //10ms마다 발동
             {
@@ -548,7 +554,7 @@ void Help_screen()
                 train_spawn = false; train_charge = clock(); //다음 시퀀스로 넘어감
             }
         }
-        if (!train_spawn && clock() > train_charge + 1000) //기차가 줄지어 나온 후
+        if (!is_time && !train_spawn && clock() > train_charge + 1000) //기차가 줄지어 나온 후
         {
             if (clock() > train + 50)
             {
@@ -575,25 +581,67 @@ void Help_screen()
                 help_coin.on = false; //코인 객체 제거
             }
         }
-        if (Check_help_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
+        if (!is_invincible && Check_help_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
         {
             Help_screen(); break;
         }
-        if (Check_help_river(x, y) == 1)
+        if (!is_invincible && Check_help_river(x, y) == 1)
         {
             Help_screen(); break;
         }
-        if (Check_help_monster(x, y) == 1)
+        if (!is_invincible && Check_help_monster(x, y) == 1)
         {
             Help_screen(); break;
         }
-        if (Check_train(x, y) == 1)
+        if (!is_invincible && Check_train(x, y) == 1)
         {
             Help_screen(); break;
         }
+
+        //포인트가 활성화되었다면
+        if (point_on && !is_point)
+            is_point = 1; //포인트임을 알림
+        //지속시간이 지나면
+        if (clock() > point_time + point_duration * 1000)
+        {   //포인트 종료
+            is_point = 0; point_on = 0;
+        }
+
+        //무적이 활성화되었다면
+        if (invincible_on && !is_invincible)
+            is_invincible = 1; //무적임을 알림
+        //지속시간이 지나면
+        if (clock() > invincible_time + invincible_duration * 1000)
+        {   //무적 종료
+            is_invincible = 0; invincible_on = 0;
+        }
+
+        //타임이 활성화되었다면
+        if (time_on && !is_time)
+            is_time = 1; //타임임을 알림
+        //지속시간이 지나면
+        if (clock() > time_time + time_duration * 1000)
+        {   //타임종료
+            is_time = 0; time_on = 0;
+        }
+
         Itemcheck result = Check_item(x, y); //아이템 충돌
         if (result.found == 1) //아이템과 부딪혔다면
+        {
+            switch (result.type) //아이템 종류를 받아서
+            {
+            case point:
+                point_time = clock(); break; //지속시간 초기화
+            case fever:
+                point_time = clock(); invincible_time = clock(); break;
+            case invincible:
+                invincible_time = clock(); break; //지속시간 초기화
+            case _time:
+                time_time = clock(); break; //지속시간 초기화
+            }
             Draw_player(x, y); //지워진 플레이어 다시 그림
+        }
+           
     }
     Stop_bgm();
     free_object();

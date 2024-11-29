@@ -73,7 +73,6 @@ void Draw_player(short x, short y)
     if (varrier_on) textcolor(152, 255, 152);       //배리어 색상 지정
     else if (point_on) textcolor(122, 201, 88);     //포인트 색상 지정
     else if (invincible_on) textcolor(255, 215, 0); //무적 색상 지정
-    else if (time_on) textcolor(100, 150, 200);     //타임 색상 지정
     else textcolor(p_rgb.r, p_rgb.g, p_rgb.b);      //평소 색상 지정
     gotoxy(x, y); printf("G");            //좌표 이동 후 그림
     removecolor();                        //색상 삭제
@@ -611,7 +610,14 @@ bool Check_help_car(short x, short y)
     {
         if (help_car.x <= x && x <= help_car.x + 5 &&
             help_car.y <= y && y <= help_car.y + 4)
-            return 1; //자동차 객체의 범위와 겹치면 1을 반환
+        {
+            if (varrier_on) //배리어가 있다면
+            {
+                varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
+                return 0; //충돌 1회 방어
+            }
+            else return 1; //자동차 객체의 범위와 겹치면 1을 반환
+        }
     }
     return 0;
 }
@@ -649,7 +655,15 @@ bool Check_river(short x, short y)
                         is_over = false; break; //문제 없음 is_over = false
                     }
                 }
-                if (is_over == true) return 1; //하나라도 겹치면 1을 반환
+                if (is_over == true) 
+                {
+                    if (varrier_on)
+                    {
+                        varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
+                        return 0; //충돌 1회 방어
+                    }
+                    else return 1; //하나라도 겹치면 1을 반환
+                }
             }
         }
     }
@@ -670,7 +684,15 @@ bool Check_help_river(short x, short y)
                     is_over = false; break; //문제 없음 is_over = false
                 }
             }
-            if (is_over == true) return 1; //하나라도 겹치면 1을 반환
+            if (is_over == true) 
+            {
+                if (varrier_on)
+                {
+                    varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
+                    return 0; //충돌 1회 방어
+                }
+                else return 1; //하나라도 겹치면 1을 반환
+            }
         }
     }
     return 0;
@@ -702,7 +724,14 @@ bool Check_help_monster(short x, short y)
     {
         if (help_monster.x <= x && x <= help_monster.x + 4 &&
             help_monster.y <= y && y <= help_monster.y + 2)
-            return 1; //몬스터 객체의 범위와 겹치면 1을 반환
+        {
+            if (varrier_on) //배리어가 있다면
+            {
+                varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
+                return 0; //충돌 1회 방어
+            }
+            else return 1; //몬스터 객체의 범위와 겹치면 1을 반환
+        }
     }
     return 0;
 }
@@ -736,7 +765,7 @@ Itemcheck Check_item(short x, short y)
             if (items[i].x <= x && x <= items[i].x + 1 && 
                 items[i].y == y) //아이템 객체의 좌표와 겹치면  
             {
-                Delete_item(i); Score += 50;
+                Delete_item(i);
                 switch (items[i].type)
                 {
                 case varrier:

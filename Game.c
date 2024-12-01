@@ -3,6 +3,7 @@
 //게임오버
 void Game_over(short x, short y)
 {
+    Play_bgm(Gameover_sound, 0);
     Remove_player(x, y);
     Sleep(1500);
 }
@@ -60,6 +61,7 @@ void Game()
     clock_t invincible_time = clock();  //무적 지속시간 저장
     clock_t time_time = clock();        //타임 지속시간 저장
 
+    index = 0;                              //인덱스 초기화
     short x = start_x + 1, y = start_y;     //공의 초기 좌표 선언과 함께 초기화
     unsigned short choose = 0;              //객체를 선택할 변수
     long floating_x, floating_display = 0;  //x좌표를 저장할 변수
@@ -68,11 +70,14 @@ void Game()
     bool is_point = 0;                      //포인트 상태를 판별하는 변수
     bool is_invincible = 0;                 //무적 상태를 판별하는 변수
     bool is_time = 0;                       //타임 상태를 판별하는 변수
+    Itemcheck result;                       //아이템과 충돌했을때 정보를 받아올 변수
 
     Draw_player(x, y);
 
     for (int i = 79; i < 149; i += 8) //초기 화면을 덮을만큼만 자동차 객체 활성화 & 소환
         Add_car(i, rand() % 41, Find_car(), rand() % 2);
+
+    Play_bgm(Game_bgm, 1);
 
     while (1) //행동 선택
     {
@@ -283,7 +288,7 @@ void Game()
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면
             Draw_player(x, y); //지워진 플레이어 다시 그림
 
-        Itemcheck result = Check_item(x, y); //아이템 충돌
+        result = Check_item(x, y); //아이템 충돌
         if (result.found == 1) //아이템과 부딪혔다면
         {
             switch (result.type) //아이템 종류를 받아서

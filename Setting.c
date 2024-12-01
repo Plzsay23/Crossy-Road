@@ -144,10 +144,7 @@ void Ranking_sort()
 void Read_ranking()
 {
     FILE* Rank = fopen("Ranking.txt", "r");
-    if (!Rank) {
-        printf("랭킹 파일을 찾을 수 없습니다. 새로운 파일을 생성합니다.\n"); //랭킹파일이 없다면 무시하고 진행
-        return;
-    }
+    if (Rank == NULL) return;
 
     int i = 0;
     while (fscanf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d",

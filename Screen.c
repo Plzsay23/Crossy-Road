@@ -89,7 +89,7 @@ void Main_screen()
             else if (input == '2') // 2를 누르면 이어하기
             {
                 Play_bgm(Click_sound, 0); bgm_on = 1;
-                Continue_screen(); //이어하기
+                Continue_screen(); //이어하기1
                 break;
             }
             else if (input == '3') // 3을 누르면 색상 커스텀화면
@@ -133,41 +133,46 @@ void Main_screen()
             letter = clock(); //시간 초기화
         }
     }
-    Stop_bgm();
 }
 //새로하기 화면
 void Start_screen()
 {
     system("cls"); Draw_square();
     gotoxy(132, 39); printf("뒤로가기 : [ Q ]");
-    gotoxy(10, 20); printf("이름 입력 : ");
+    gotoxy(10, 5); printf("이름 입력 : ");
 
     Score = 0; // 점수 초기화
 
     unsigned short found = 0; //중복 검사 변수
-    //short car_x = 125, car_y = 2; //자동차의 초기 좌표
-    //clock_t car_timer = clock(); //자동차 이동 시간 초기화
-    //help_car.on = true; //자동차 객체 선언
 
-    Draw_image_256(Chicken, hdc, 500, 300);
+    gotoxy(95, 7); printf("    ~~~~~^~~^~~~~");
+    gotoxy(95, 8); printf("   (             )");
+    gotoxy(95, 9); printf("o O(  빨리 가자! )");
+    gotoxy(93, 10); printf(" o   (             )");
+    gotoxy(93, 11); printf("o     ~~~~~w~~w~~~~");
+
+    textcolor(30, 200, 200); //하늘
+    gotoxy(20, 27); printf("  ______");
+    gotoxy(20, 28); printf(" /|_||_\\`.__");
+    gotoxy(20, 29); printf("(   _    _ _\\");
+    gotoxy(17, 30); printf("CC =`-(_)--(_)-'");
+    textcolor(0, 0, 255); //파랑
+    gotoxy(50, 31); printf("  ______");
+    gotoxy(50, 32); printf(" /|_||_\\`.__");
+    gotoxy(50, 33); printf("(   _    _ _\\");
+    gotoxy(47, 34); printf("CC =`-(_)--(_)-'");
+    removecolor();
+
+    Draw_image_256(Chicken, hdc, 520, 250);
 
     //이름 입력 루프
     while (1)
     {
-        ////자동차 움직임
-        //if (clock() > car_timer + 100)
-        //{
-        //    Remove_car(car_x, car_y++); //자동차 지우고 y좌표 증가
-        //    if (car_y >= 40) car_y = 2; //콘솔창 아래로 벗어나면 위로 리셋
-        //    Draw_car(car_x, car_y, 0); //새 위치에 자동차 출력
-        //    car_timer = clock(); //타이머 초기화
-        //}
-
         //사용자 입력 처리
         if (_kbhit())
         {
-            gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  "); //기존 입력 지우기
-            gotoxy(22, 20); scanf("%s", Name); //이름 입력 (최대 15자)
+            gotoxy(22, 5); for (int i = 0; i < 15; i++) printf("  "); //기존 입력 지우기
+            gotoxy(22, 5); scanf("%s", Name); //이름 입력 (최대 15자)
 
             if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0) //뒤로가기
             {
@@ -182,7 +187,7 @@ void Start_screen()
                 if (strcmp(Name, Ranking[i].name) == 0)
                 {
                     found = 1;
-                    gotoxy(10, 22); printf("이미 존재하는 이름입니다.");
+                    gotoxy(20, 7); printf("이미 존재하는 이름입니다.");
                     break;
                 }
             }
@@ -193,7 +198,7 @@ void Start_screen()
     }
 
     //이름 입력 성공 시 게임 시작
-    bgm_on = 1; Game();
+    bgm_on = 1; Play_bgm(Gamestart_sound, 0); Sleep(1000); Game();
 }
 
 //이어하기 화면
@@ -218,25 +223,44 @@ void Continue_screen()
 {
     system("cls"); Draw_square();
     gotoxy(132, 39); printf("뒤로가기 : [ Q ]");
-    gotoxy(10, 20); printf("이름 입력 : ");
-    Draw_image_256(Chicken2, hdc, 500, 300);
+    gotoxy(10, 5); printf("이름 입력 : ");
+
+    gotoxy(95, 7); printf("    ~~~~~~^~~^~~~~~");
+    gotoxy(95, 8); printf("   (               )");
+    gotoxy(95, 9); printf("o O(  또 가려고..? )");
+    gotoxy(93, 10); printf(" o   (               )");
+    gotoxy(93, 11); printf("o     ~~~~~~w~~w~~~~~");
+
+    textcolor(0, 0, 255); //파랑
+    gotoxy(100, 27); printf("    ______");
+    gotoxy(100, 28); printf(" __.'/_||_|\\");
+    gotoxy(100, 29); printf("I_ I_    _   )");
+    gotoxy(100, 30); printf("'-(_)- -(_)-`=  @ @");
+    textcolor(30, 200, 200); //하늘
+    gotoxy(45, 31); printf("    ______");
+    gotoxy(45, 32); printf(" __.'/_||_|\\");
+    gotoxy(45, 33); printf("I_ I_    _   )");
+    gotoxy(45, 34); printf("'-(_)- -(_)-`=  @ @");
+    removecolor();
+
+    Draw_image_256(Chicken2, hdc, 520, 230);
 
     while (1)
     {
-        gotoxy(22, 20); for (int i = 0; i < 15; i++) printf("  ");
-        gotoxy(22, 20); scanf("%s", Name); //이름 입력
+        gotoxy(22, 5); for (int i = 0; i < 15; i++) printf("  ");
+        gotoxy(22, 5); scanf("%s", Name); //이름 입력
+        if (Check_continue() == 1)
+        {
+            bgm_on = 1; Play_bgm(Gamestart_sound, 0); Sleep(1000); Game(); break;
+        }
+        else
+        {
+            gotoxy(20, 7); printf("존재하지 않는 이름입니다.");
+        }
         if (strcmp(Name, "Q") == 0 || strcmp(Name, "q") == 0)
         {
             Play_bgm(Main_bgm, 1);
             Main_screen(); break;
-        }
-        if (Check_continue() == 1)
-        {
-            bgm_on = 1; Game(); break;
-        }
-        else
-        {
-            gotoxy(10, 22); printf("존재하지 않는 이름입니다.");
         }
     }
 }
@@ -270,7 +294,11 @@ void Color_screen()
 {
     system("cls"); Draw_square();
     gotoxy(132, 39); printf("뒤로가기 : [ Q ]");
-    gotoxy(16, 5); printf("## 캐릭터를 움직여 선택하세요! ##");
+    gotoxy(16, 4); printf("## 캐릭터를 움직여 선택하세요! ##");
+
+    gotoxy(55, 3); printf("            ↑");
+    gotoxy(55, 4); printf("이동  :  ←    →");
+    gotoxy(55, 5); printf("            ↓");
 
     Draw_car(27, 28, 1);
     gotoxy(26, 34); printf("색상 변경");
@@ -284,10 +312,10 @@ void Color_screen()
 
     gotoxy(116, 7); printf("현재코인 : %d", Coins);
 
-    //Draw_image_256(Genie, hdc, 180, 150);
+    Draw_image_256(Genie, hdc, 140, 150);
 
     short x = 75, y = 7;
-    Draw_player(x, y); 
+    Draw_player(x, y);
 
     while (1)
     {
@@ -326,7 +354,7 @@ void Color_screen()
             }
         }
 
-        if (29 <= y && y <= 35) {
+        if (29 <= y && y <= 35 && Coins >= 5) {
             if (26 <= x && x <= 39) {
                 Color_set_screen(1); return;
             }
@@ -367,7 +395,6 @@ void Color_set_screen(int obj)
         gotoxy(117, 15); scanf("%d", &b);
         if (r + g + b < 100 || (r < 50 && g < 50 && b < 50)) continue;
 
-
         switch (obj)
         {
         case 0:
@@ -383,10 +410,16 @@ void Color_set_screen(int obj)
             t_rgb.r = r; t_rgb.g = g; t_rgb.b = b; //기차 색상 조정
             Draw_train(72, 25); break;
         }
-
-        gotoxy(64, 33); printf("이 색으로 바꾸시겠습니까? (y/n) : ");
-        scanf(" %c", &input);
-        if (input == 'y' || input == 'Y') break;
+    check_color:
+        gotoxy(59, 33); printf("이 색으로 바꾸시겠습니까? (y/n) : ");
+        scanf("%c", &input);
+        if (input == 'y' || input == 'Y')
+        {
+            Play_bgm(Pick_sound, 0); Sleep(1000);
+            Play_bgm(Main_bgm, 1); break;
+        }
+        else if (input == 'n' || input == 'N') continue;
+        else goto check_color;
     }
     //색상 저장
     for (int i = 0; i < RANKING; i++)
@@ -460,7 +493,7 @@ void Help_screen()
     }
     //연꽃 다리 그리기
     bgcolor(0, 255, 0);
-    for (int i = 0; i < RIVERS; i++) 
+    for (int i = 0; i < RIVERS; i++)
     {
         if (help_river.bridge[i] != 0 && help_river.bridge[i] != 40)
         { //연꽃 다리의 y좌표가 0과 40이 아닐때만
@@ -571,7 +604,7 @@ void Help_screen()
 
         if (help_coin.on == true) //객체가 활성화되어 있다면
         {
-            if (help_coin.x <= x && x <= help_coin.x + 1 && help_coin.y == y)   
+            if (help_coin.x <= x && x <= help_coin.x + 1 && help_coin.y == y)
             {   //코인 객체의 좌표와 겹치면
                 Remove_coin(help_coin.x, help_coin.y); //코인 지우고
                 Draw_player(x, y); coin++;
@@ -641,9 +674,9 @@ void Help_screen()
             }
             Draw_player(x, y); //지워진 플레이어 다시 그림
         }
-           
+
     }
-    Stop_bgm();
+
     free_object();
     help_car.on = false; //자동차 객체 제거
     help_coin.on = false; //코인 객체 제거
@@ -656,31 +689,13 @@ void Ranking_screen()
 {
     system("cls");
     Draw_square();
+    Play_bgm(Ranking_sound, 0);
     gotoxy(132, 39);
     printf("뒤로가기 : [ Q ]");
 
     // 타이틀 출력
     gotoxy(20, 3);
-    printf("랭킹\t\t이름\t\t\t점수\t\t\t코인");
-    gotoxy(111, 5); printf("**********");
-    gotoxy(111, 6); printf("*         *");
-    gotoxy(110, 7); printf("*           *");
-    gotoxy(110, 8); printf("*     1     *");
-    gotoxy(110, 9); printf("*           *");
-    gotoxy(111, 10); printf("*         *");
-    gotoxy(111, 11); printf("**********");
-    for (int i = 5; i < 28; i++) 
-    {
-        gotoxy(110, i); printf("*");
-    }
-
-    gotoxy(111, 20); printf(".. /￣|");
-    gotoxy(111, 21); printf("　｜ ｜");
-    gotoxy(111, 22); printf(",―′|. ∧  ∧");
-    gotoxy(111, 23); printf("| ＿_）(＾ω＾)");
-    gotoxy(111, 24); printf("| ＿_）|⊂)");
-    gotoxy(111, 25); printf("| ＿_）|-Ｊ");
-    gotoxy(111, 26); printf("ヽ＿)ノ");
+    printf("\t랭킹\t\t\t\t이름\t\t\t\t점수\t\t\t\t코인");
 
     clock_t blink_time = clock();  // 깜빡임 효과를 위한 시간 저장 변수
     int blink_state = 0;           // 0일 때 빨강, 1일 때 분홍
@@ -717,15 +732,15 @@ void Ranking_screen()
                     removecolor();
 
                 //이름이 길어지면 한칸씩 밀리길래 하나씩 좌표찍음
-                gotoxy(20, 5 + i * 3); printf("%d", i + 1);
-                gotoxy(40, 5 + i * 3); printf("%s", Ranking[i].name);
-                gotoxy(64, 5 + i * 3); printf("%d", Ranking[i].score);
-                gotoxy(88, 5 + i * 3); printf("%d", Ranking[i].coins);
+                gotoxy(26, 5 + i * 3); printf("%d", i + 1);
+                gotoxy(56, 5 + i * 3); printf("%s", Ranking[i].name);
+                gotoxy(88, 5 + i * 3); printf("%d", Ranking[i].score);
+                gotoxy(120, 5 + i * 3); printf("%d", Ranking[i].coins);
             }
         }
 
         // 깜빡임 주기 설정 (500ms마다 색상 변경)
-        if (clock() > blink_time + 500) 
+        if (clock() > blink_time + 500)
         {
             blink_state = !blink_state;  // 빨강과 분홍으로 깜빡임 전환
             blink_time = clock();  // 시간 초기화
@@ -736,7 +751,7 @@ void Ranking_screen()
             char input = _getch();
             if (input == 'q' || input == 'Q') {
                 removecolor();
-                Main_screen(); return;
+                bgm_on = 1; Main_screen(); return;
             }
         }
     }

@@ -74,8 +74,8 @@ void Draw_player(short x, short y)
     else if (point_on) textcolor(122, 201, 88);     //포인트 색상 지정
     else if (invincible_on) textcolor(255, 215, 0); //무적 색상 지정
     else textcolor(p_rgb.r, p_rgb.g, p_rgb.b);      //평소 색상 지정
-    gotoxy(x, y); printf("G");            //좌표 이동 후 그림
-    removecolor();                        //색상 삭제
+    gotoxy(x, y); printf("G");                      //좌표 이동 후 그림
+    removecolor();                                  //색상 삭제
 }
 //좌표를 받아 플레이어 지우기
 void Remove_player(short x, short y)
@@ -702,10 +702,10 @@ bool Check_monster(short x, short y)
 {
     for (int i = 0; i < CARS; i++) //모든 몬스터 객체를 검사
     {
-        if (cars[i].on == true) //객체가 활성화되어 있다면
+        if (monsters[i].on == true) //객체가 활성화되어 있다면
         {
-            if (cars[i].x <= x && x <= cars[i].x + 4 &&
-                cars[i].y <= y && y <= cars[i].y + 2)
+            if (monsters[i].x <= x && x <= monsters[i].x + 4 &&
+                monsters[i].y <= y && y <= monsters[i].y + 2)
             {
                 if (varrier_on) //배리어가 있다면
                 {
@@ -834,7 +834,6 @@ short Find_item() //아이템
 unsigned short Choose_object()
 {
     int arr[] = {1,1,2,1,1,3,1,1,4}; //정해진 객체의 등장 배열
-    static int index = 0;
     if(index == 9) index = 0;
     return arr[index++];
 }

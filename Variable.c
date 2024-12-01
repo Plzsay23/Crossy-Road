@@ -48,6 +48,7 @@ Monster* monsters;  //몬스터 객체 배열
 Train* trains;      //기차 객체 배열
 Item* items;        //아이템 객체 배열
 short train_x;      //항상 기차의 x좌표를 저장할 변수
+int index;          //객체들이 줄지어 나올 주기를 저장하는 인덱스
 
 Car help_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
 Coin help_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체
@@ -57,9 +58,9 @@ Monster help_monster = { 91, 3, 0, 0 }; //게임 설명 화면에서 쓸 몬스터 객체
 User Ranking[RANKING]; //랭킹을 저장할 배열
 
 Color p_rgb = { 255, 255, 255 }; //플레이어 커스텀 색상
-Color c_rgb = { 0, 255, 0 }; //자동차
-Color m_rgb = { 255, 0, 0 }; //몬스터
-Color t_rgb = { 255, 165, 0 }; //기차
+Color c_rgb = { 0, 255, 0 };     //자동차
+Color m_rgb = { 255, 0, 0 };     //몬스터
+Color t_rgb = { 255, 165, 0 };   //기차
 
 unsigned int Score = 0; //플레이어의 점수를 저장할 곳
 unsigned int Coins = 0; //플레이어의 코인 개수를 저장할 곳
@@ -89,7 +90,6 @@ const char* Genie = "Images\\Genie.raw";
 const char* Main_bgm = "Sounds\\Main_bgm.wav";
 const char* Game_bgm = "Sounds\\Game_bgm.wav";
 const char* Click_sound = "Sounds\\Click_sound.wav";
-const char* Coin_sound = "Sounds\\Coin_sound.wav";
 const char* Gameover_sound = "Sounds\\Gameover_sound.wav";
 const char* Gamestart_sound = "Sounds\\Gamestart_sound.wav";
 const char* Ranking_sound = "Sounds\\Ranking_sound.wav";

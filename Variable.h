@@ -113,6 +113,7 @@ extern Monster* monsters;      //몬스터 객체 배열
 extern Train* trains;          //기차 객체 배열
 extern Item* items;            //아이템 객체 배열
 extern short train_x;          //항상 기차의 x좌표를 저장할 변수
+extern int index;              //객체들이 줄지어 나올 주기를 저장하는 인덱스
 
 extern Car help_car;           //게임 설명 화면에서 쓸 자동차 객체
 extern Coin help_coin;         //게임 설명 화면에서 쓸 코인 객체

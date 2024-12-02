@@ -610,14 +610,7 @@ bool Check_help_car(short x, short y)
     {
         if (help_car.x <= x && x <= help_car.x + 5 &&
             help_car.y <= y && y <= help_car.y + 4)
-        {
-            if (varrier_on) //배리어가 있다면
-            {
-                varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
-                return 0; //충돌 1회 방어
-            }
-            else return 1; //자동차 객체의 범위와 겹치면 1을 반환
-        }
+            return 1; //자동차 객체의 범위와 겹치면 1을 반환
     }
     return 0;
 }
@@ -655,15 +648,7 @@ bool Check_river(short x, short y)
                         is_over = false; break; //문제 없음 is_over = false
                     }
                 }
-                if (is_over == true) 
-                {
-                    if (varrier_on)
-                    {
-                        varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
-                        return 0; //충돌 1회 방어
-                    }
-                    else return 1; //하나라도 겹치면 1을 반환
-                }
+                if (is_over == true) return 1; //하나라도 겹치면 1을 반환
             }
         }
     }
@@ -684,15 +669,7 @@ bool Check_help_river(short x, short y)
                     is_over = false; break; //문제 없음 is_over = false
                 }
             }
-            if (is_over == true) 
-            {
-                if (varrier_on)
-                {
-                    varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
-                    return 0; //충돌 1회 방어
-                }
-                else return 1; //하나라도 겹치면 1을 반환
-            }
+            if (is_over == true) return 1; //하나라도 겹치면 1을 반환
         }
     }
     return 0;
@@ -706,14 +683,7 @@ bool Check_monster(short x, short y)
         {
             if (monsters[i].x <= x && x <= monsters[i].x + 4 &&
                 monsters[i].y <= y && y <= monsters[i].y + 2)
-            {
-                if (varrier_on) //배리어가 있다면
-                {
-                    varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
-                    return 0; //충돌 1회 방어
-                }
-                else return 1; //몬스터 객체의 범위와 겹치면 1을 반환
-            }
+                return 1; //몬스터 객체의 범위와 겹치면 1을 반환
         }
     }
     return 0; //안겹치면 0을 반환
@@ -724,14 +694,7 @@ bool Check_help_monster(short x, short y)
     {
         if (help_monster.x <= x && x <= help_monster.x + 4 &&
             help_monster.y <= y && y <= help_monster.y + 2)
-        {
-            if (varrier_on) //배리어가 있다면
-            {
-                varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
-                return 0; //충돌 1회 방어
-            }
-            else return 1; //몬스터 객체의 범위와 겹치면 1을 반환
-        }
+            return 1; //몬스터 객체의 범위와 겹치면 1을 반환
     }
     return 0;
 }
@@ -744,14 +707,7 @@ bool Check_train(short x, short y)
         {
             if (trains[i].x <= x && x <= trains[i].x + 6 &&
                 trains[i].y <= y && y <= trains[i].y + 5)
-            {
-                if (varrier_on) //배리어가 있다면
-                {
-                    varrier_on = 0; Item_invincible(1); //배리어 해제 후 1초 무적
-                    return 0; //충돌 1회 방어
-                }
-                else return 1; //기차 객체의 범위와 겹치면 1을 반환
-            }
+                return 1; //기차 객체의 범위와 겹치면 1을 반환
         }
     }
 }

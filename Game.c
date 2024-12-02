@@ -5,7 +5,7 @@ void Game_over(short x, short y)
 {
     Play_bgm(Gameover_sound, 0);
     Remove_player(x, y);
-    Sleep(1500);
+    Sleep(2000);
 }
 
 //게임 시작전 초기화
@@ -67,6 +67,7 @@ void Game()
     long floating_x, floating_display = 0;  //x좌표를 저장할 변수
     bool is_spawn = 0;                      //객체가 소환됐는지 아닌지를 판단할 변수
     int train_spawn = 0;                    //기차가 소환되었음을 알리는 변수
+    bool is_varrier = 0;                    //배리어 상태를 판별하는 변수
     bool is_point = 0;                      //포인트 상태를 판별하는 변수
     bool is_invincible = 0;                 //무적 상태를 판별하는 변수
     bool is_time = 0;                       //타임 상태를 판별하는 변수
@@ -121,7 +122,7 @@ void Game()
                                 if (i <= 70) //확률은 70%
                                     Add_coin(149, rand() % 41, Find_coin()); //코인 객체 생성
                                 else if (i <= 80) //확률은 10%
-                                    Add_item(148, rand() % 41, Find_item(), rand() % 6); //아이템 랜덤 소환
+                                    Add_item(148, rand() % 41, Find_item(), 0); //아이템 랜덤 소환
                             }
                         }
                         else choose = 0; //0으로 초기화
@@ -240,6 +241,12 @@ void Game()
             }
         }
 
+        //배리어가 활성화되었다면
+        if (varrier_on && !is_varrier)
+        {
+            varrier_on = 0; is_varrier = 1; //배리어임을 알림
+        }
+
         //포인트가 활성화되었다면
         if (point_on && !is_point)
             is_point = 1; //포인트임을 알림
@@ -270,19 +277,51 @@ void Game()
         //충돌감지 함수가 1을 반환하면 게임오버
         if (!is_invincible && Check_car(x, y) == 1) //자동차와 닿았다면 게임오버
         {
-            Game_over(x, y); break;
+            if (is_varrier) //배리어 상태라면
+            {   //배리어를 해제하고 짧은 무적부여
+                is_varrier = 0; invincible_on = 1;
+                invincible_duration = 1; invincible_time = clock();
+            }
+            else
+            {
+                Game_over(x, y); break;
+            }
         }
-        if (!is_invincible && Check_river(x, y) == 1) //강에 빠졌다면 게임오버
+        else if (!is_invincible && Check_river(x, y) == 1) //강에 빠졌다면 게임오버
         {
-            Game_over(x, y); break;
+            if (is_varrier) //배리어 상태라면
+            {   //배리어를 해제하고 짧은 무적부여
+                is_varrier = 0; invincible_on = 1;
+                invincible_duration = 1; invincible_time = clock();
+            }
+            else
+            {
+                Game_over(x, y); break;
+            }
         }
-        if (!is_invincible && Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
+        else if (!is_invincible && Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
         {
-            Game_over(x, y); break;
+            if (is_varrier) //배리어 상태라면
+            {   //배리어를 해제하고 짧은 무적부여
+                is_varrier = 0; invincible_on = 1;
+                invincible_duration = 1; invincible_time = clock();
+            }
+            else
+            {
+                Game_over(x, y); break;
+            }
         }
-        if (!is_invincible && Check_train(x, y) == 1) //기차와 닿았다면 게임오버
+        else if (!is_invincible && Check_train(x, y) == 1) //기차와 닿았다면 게임오버
         {
-            Game_over(x, y); break;
+            if (is_varrier) //배리어 상태라면
+            {   //배리어를 해제하고 짧은 무적부여
+                is_varrier = 0; invincible_on = 1;
+                invincible_duration = 1; invincible_time = clock();
+            }
+            else
+            {
+                Game_over(x, y); break;
+            }
         }
 
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면

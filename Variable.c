@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include "Variable.h"
 
-const char player[3][4] = { //플레이어
-    {" @ "},
-    {"/@\\"},
-    {"/ \\"}
-};
-
 const char car_down[5][7] = { //자동차 DOWN
     {"n_ww_ "},
     {"@l   l"},
@@ -57,6 +51,7 @@ Monster help_monster = { 91, 3, 0, 0 }; //게임 설명 화면에서 쓸 몬스터 객체
 
 User Ranking[RANKING]; //랭킹을 저장할 배열
 
+char player = 'G';               //플레이어 외형
 Color p_rgb = { 255, 255, 255 }; //플레이어 커스텀 색상
 Color c_rgb = { 0, 255, 0 };     //자동차
 Color m_rgb = { 255, 0, 0 };     //몬스터
@@ -74,6 +69,8 @@ bool point_on = 0;              //포인트 상태 변수
 int point_duration = 0;         //포인트 상태 지속시간
 bool invincible_on = 0;         //무적 상태 변수
 int invincible_duration = 0;    //무적 상태 지속시간
+bool fever_on = 0;              //피버 상태 지속시간
+int fever_duration = 0;         //피버 상태 지속시간
 bool time_on = 0;               //타임 상태 변수
 int time_duration = 0;          //타임 상태 지속시간
 

@@ -70,12 +70,13 @@ void Remove_object(short x, short y, int x_range, int y_range)
 //좌표를 받아 플레이어 그리기
 void Draw_player(short x, short y)
 {
-    if (varrier_on) textcolor(152, 255, 152);       //배리어 색상 지정
-    else if (point_on) textcolor(122, 201, 88);     //포인트 색상 지정
-    else if (invincible_on) textcolor(255, 215, 0); //무적 색상 지정
-    else textcolor(p_rgb.r, p_rgb.g, p_rgb.b);      //평소 색상 지정
-    gotoxy(x, y); printf("G");                      //좌표 이동 후 그림
-    removecolor();                                  //색상 삭제
+    if (fever_on) textcolor(255, 0, 0);                          //피버 색상 지정
+    else if (invincible_on && !fever_on) textcolor(255, 215, 0); //무적 색상 지정
+    else if (point_on && !fever_on) textcolor(128, 0, 128);      //포인트 색상 지정
+    else if (varrier_on) textcolor(0, 150, 255);                 //배리어 색상 지정
+    else textcolor(p_rgb.r, p_rgb.g, p_rgb.b);                   //평소 색상 지정
+    gotoxy(x, y); printf("%c", player);                          //좌표 이동 후 그림
+    removecolor();                                               //색상 삭제
 }
 //좌표를 받아 플레이어 지우기
 void Remove_player(short x, short y)
@@ -491,19 +492,19 @@ void Draw_item(short x, short y, int type)
     switch (type)
     {
     case varrier:
-        r = 100; g = 100; b = 100;
+        r = 0; g = 150; b = 255;
         strcpy(item, "ⓥ"); break;
     case point:
-        r = 150, g = 50, b = 255;
+        r = 128, g = 0, b = 128;
         strcpy(item, "ⓟ"); break;
     case invincible:
-        r = 50, g = 255, b = 150;
+        r = 255, g = 215, b = 0;
         strcpy(item, "ⓘ"); break;
     case fever:
-        r = 100, g = 0, b = 255;
+        r = 255, g = 0, b = 0;
         strcpy(item, "ⓕ"); break;
     case _time:
-        r = 75, g = 175, b = 255;
+        r = 100, g = 255, b = 100;
         strcpy(item, "ⓣ"); break;
     case star:
         r = 255; g = 215; b = 0;
@@ -561,6 +562,8 @@ void Item_point(int time)
 //피버 아이템 사용 함수
 void Item_fever(int time)
 {
+    fever_on = true; //피버 온, 효과는 없지만 플레이어의 색상을 변경하기 위함
+    fever_duration = time; //지속시간 설정
     point_on = true; //포인트 온
     point_duration = time; //지속시간 설정
     invincible_on = true; //무적 온

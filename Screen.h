@@ -7,8 +7,9 @@
 #include <stdbool.h>
 #include <time.h>
 #include <conio.h>
-#include "Setting.h"
 #include "Variable.h"
+#include "Setting.h"
+#include "Screen.h"
 #include "Object.h"
 #include "Game.h"
 
@@ -35,6 +36,8 @@ void Into_color_screen();
 void Color_screen();
 //색상을 바꾸는 화면
 void Color_set_screen(int obj);
+//외형을 바꾸는 화면
+void Player_set_screen();
 
 //설명화면
 void Help_screen();

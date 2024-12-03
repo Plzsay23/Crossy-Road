@@ -85,12 +85,11 @@ typedef struct User {
     int score;           //점수
     char name[30];       //사용자 이름
     unsigned int coins;  //코인 개수
+    char player;         //플레이어의 외형
     Color color[COLOR];  //색상 값을 저장할 배열
 } User;
 
 /*o게임 관련 전역 변수 선언o*/
-
-extern const char player[3][4];
 
 //자동차 디자인
 extern const char car_down[5][7];
@@ -122,6 +121,8 @@ extern Monster help_monster;   //게임 설명 화면에서 쓸 몬스터 객체
 
 extern User Ranking[RANKING];  //랭킹을 저장할 배열
 
+
+extern char player;            //플레이어 외형
 extern Color p_rgb;            //플레이어 커스텀 색상
 extern Color c_rgb;            //자동차
 extern Color m_rgb;            //몬스터
@@ -139,6 +140,8 @@ extern bool point_on;           //포인트 상태 변수
 extern int point_duration;      //포인트 상태 지속시간
 extern bool invincible_on;      //무적 상태 변수
 extern int invincible_duration; //무적 상태 지속시간
+extern bool fever_on;           //피버 상태 지속시간
+extern int fever_duration;      //피버 상태 지속시간
 extern bool time_on;            //타임 상태 변수
 extern int time_duration;       //타임 상태 지속시간
 

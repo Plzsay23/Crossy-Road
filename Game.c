@@ -59,6 +59,7 @@ void Game()
     clock_t trains_charge = clock();    //기차가 멈춰있을 시간 저장
     clock_t point_time = clock();       //포인트 지속시간 저장
     clock_t invincible_time = clock();  //무적 지속시간 저장
+    clock_t fever_time = clock();       //피버 지속시간 저장
     clock_t time_time = clock();        //타임 지속시간 저장
 
     index = 0;                              //인덱스 초기화
@@ -70,6 +71,7 @@ void Game()
     bool is_varrier = 0;                    //배리어 상태를 판별하는 변수
     bool is_point = 0;                      //포인트 상태를 판별하는 변수
     bool is_invincible = 0;                 //무적 상태를 판별하는 변수
+    bool is_fever = 0;                      //피버 상태를 판별하는 변수
     bool is_time = 0;                       //타임 상태를 판별하는 변수
     Itemcheck result;                       //아이템과 충돌했을때 정보를 받아올 변수
 
@@ -122,7 +124,7 @@ void Game()
                                 if (i <= 70) //확률은 70%
                                     Add_coin(149, rand() % 41, Find_coin()); //코인 객체 생성
                                 else if (i <= 80) //확률은 10%
-                                    Add_item(148, rand() % 41, Find_item(), 0); //아이템 랜덤 소환
+                                    Add_item(148, rand() % 41, Find_item(), rand() % 6); //아이템 랜덤 소환
                             }
                         }
                         else choose = 0; //0으로 초기화
@@ -243,9 +245,7 @@ void Game()
 
         //배리어가 활성화되었다면
         if (varrier_on && !is_varrier)
-        {
-            varrier_on = 0; is_varrier = 1; //배리어임을 알림
-        }
+            is_varrier = 1; //배리어임을 알림
 
         //포인트가 활성화되었다면
         if (point_on && !is_point)
@@ -265,6 +265,15 @@ void Game()
             is_invincible = 0; invincible_on = 0;
         }
 
+        //피버가 활성화되었다면
+        if (fever_on && !is_fever)
+            is_fever = 1; //피버임을 알림
+        //지속시간이 지나면
+        if (clock() > fever_time + fever_duration * 1000)
+        {   //피버 종료
+            is_fever = 0; fever_on = 0;
+        }
+
         //타임이 활성화되었다면
         if (time_on && !is_time)
             is_time = 1; //타임임을 알림
@@ -279,7 +288,7 @@ void Game()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -291,7 +300,7 @@ void Game()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -303,7 +312,7 @@ void Game()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -315,7 +324,7 @@ void Game()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -325,7 +334,10 @@ void Game()
         }
 
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면
+        {
+            if (is_point) Score += 100; else Score += 50;
             Draw_player(x, y); //지워진 플레이어 다시 그림
+        }
 
         result = Check_item(x, y); //아이템 충돌
         if (result.found == 1) //아이템과 부딪혔다면
@@ -334,14 +346,15 @@ void Game()
             {
             case point:
                 point_time = clock(); break; //지속시간 초기화
-            case fever:
-                point_time = clock(); invincible_time = clock(); break;
             case invincible:
                 invincible_time = clock(); break; //지속시간 초기화
+            case fever:
+                point_time = clock(); invincible_time = clock(); 
+                fever_time = clock(); break; //지속시간 초기화
             case _time:
                 time_time = clock(); break; //지속시간 초기화
             case star: //스타의 경우 추가 점수
-                if (is_point) Score += 1000; else Score += 500;
+                if (is_point) Score += 2000; else Score += 1000;
             }
             Draw_player(x, y); //지워진 플레이어 다시 그림
             if (is_point) Score += 200; else Score += 100;

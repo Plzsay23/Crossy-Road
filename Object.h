@@ -5,6 +5,9 @@
 #include <stdbool.h>
 #include "Variable.h"
 #include "Setting.h"
+#include "Screen.h"
+#include "Object.h"
+#include "Game.h"
 
 //객체의 동적 할당 함수들
 void init_object();

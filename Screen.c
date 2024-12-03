@@ -214,6 +214,7 @@ bool Check_continue()
             c_rgb.r = Ranking[i].color[1].r; c_rgb.g = Ranking[i].color[1].g; c_rgb.b = Ranking[i].color[1].b;
             m_rgb.r = Ranking[i].color[2].r; m_rgb.g = Ranking[i].color[2].g; m_rgb.b = Ranking[i].color[2].b;
             t_rgb.r = Ranking[i].color[3].r; t_rgb.g = Ranking[i].color[3].g; t_rgb.b = Ranking[i].color[3].b;
+            player = Ranking[i].player; //플레이어 외형도 불러오기
             return 1;
         }
     }
@@ -265,6 +266,7 @@ void Continue_screen()
     }
 }
 
+//색상화면 진입 - 로그인
 void Into_color_screen()
 {
     system("cls"); Draw_square();
@@ -295,26 +297,25 @@ void Color_screen()
     system("cls"); Draw_square();
     gotoxy(132, 39); printf("뒤로가기 : [ Q ]");
     gotoxy(16, 4); printf("## 캐릭터를 움직여 선택하세요! ##");
-
     gotoxy(55, 3); printf("            ↑");
     gotoxy(55, 4); printf("이동  :  ←    →");
     gotoxy(55, 5); printf("            ↓");
-
-    Draw_car(27, 28, 1);
-    gotoxy(26, 34); printf("색상 변경");
-    Draw_monster(57, 29);
-    gotoxy(56, 34); printf("색상 변경");
-    Draw_train(87, 27);
-    gotoxy(86, 34); printf("색상 변경");
-    Draw_player(120, 30);
-    gotoxy(116, 34); printf("색상 변경");
-    gotoxy(116, 5); printf("색상변경 : 5코인");
-
-    gotoxy(116, 7); printf("현재코인 : %d", Coins);
-
+    Draw_car(24, 28, 1);
+    gotoxy(23, 34); printf("색상 변경");
+    Draw_monster(49, 29);
+    gotoxy(47, 34); printf("색상 변경");
+    Draw_train(72, 27);
+    gotoxy(71, 34); printf("색상 변경");
+    Draw_player(99, 30);
+    gotoxy(95, 34); printf("색상 변경");
+    Draw_player(123, 30);
+    gotoxy(119, 34); printf("외형 변경");
+    gotoxy(116, 5); printf("색상변경 : 10코인");
+    gotoxy(116, 7); printf("외형변경 : 20코인");
+    gotoxy(116, 9); printf("현재코인 : %d", Coins);
     Draw_image_256(Genie, hdc, 140, 150);
 
-    short x = 75, y = 7;
+    short x = 75, y = 12;
     Draw_player(x, y);
 
     while (1)
@@ -354,18 +355,21 @@ void Color_screen()
             }
         }
 
-        if (29 <= y && y <= 35 && Coins >= 5) {
-            if (26 <= x && x <= 39) {
+        if (28 <= y && y <= 35 && Coins >= 10) {
+            if (23 <= x && x <= 31) {
                 Color_set_screen(1); return;
             }
-            else if (56 <= x && x <= 69) {
+            else if (47 <= x && x <= 55) {
                 Color_set_screen(2); return;
             }
-            else if (86 <= x && x <= 99) {
+            else if (71 <= x && x <= 79) {
                 Color_set_screen(3); return;
             }
-            else if (116 <= x && x <= 129) {
+            else if (95 <= x && x <= 103) {
                 Color_set_screen(0); return;
+            }
+            else if (119 <= x && x <= 127) {
+                Player_set_screen(); return;
             }
         }
     }
@@ -376,13 +380,12 @@ void Color_set_screen(int obj)
     int r = 0, g = 0, b = 0;
     char input;
 
-    while (1) {
+    while (1) 
+    {
         system("cls"); Draw_square();
-
         gotoxy(62, 4); printf("원하는 색 조합을 정하세요");
         gotoxy(54, 6); printf("예시처럼 너무 어두운 색은 사용할 수 없습니다");
         gotoxy(58, 8); printf("EX) red : 10, green : 20, blue : 40");
-
         textcolor(255, 0, 0);  // 빨강
         gotoxy(20, 15); printf("RED :    ");
         textcolor(0, 255, 0);  // 초록
@@ -429,7 +432,41 @@ void Color_set_screen(int obj)
             Store_color(i); break;
         }
     }
-    Coins -= 5;
+    Coins -= 10;
+    Ranking_sort(); //코인 갯수 변동 저장
+
+    Color_screen(); return;
+}
+void Player_set_screen()
+{
+    char input, play;
+    while (1) 
+    {
+        system("cls"); Draw_square();
+        gotoxy(58, 5); printf("원하는 알파벳(외형)을 입력하세요");
+        Draw_player(74, 10);
+        gotoxy(64, 20); printf("알파벳 입력 : ");
+        do { //알파벳만 입력가능
+            gotoxy(78, 20); printf(" ");
+            gotoxy(78, 20); scanf("%c", &play);
+        } while (!((65 <= play && play <= 90) || (97 <= play && play <= 122)));
+        textcolor(p_rgb.r, p_rgb.g, p_rgb.b);
+        gotoxy(74, 10); printf("%c", play);
+        removecolor();
+    check_player:
+        gotoxy(56, 25); printf("이 외형으로 바꾸시겠습니까? (y/n) : ");
+        scanf("%c", &input);
+        if (input == 'y' || input == 'Y')
+        {
+            Play_bgm(Pick_sound, 0); Sleep(1000);
+            Play_bgm(Main_bgm, 1); break;
+        }
+        else if (input == 'n' || input == 'N') continue;
+        else goto check_player;
+    }
+    //외형 저장
+    player = play;
+    Coins -= 20;
     Ranking_sort(); //코인 갯수 변동 저장
 
     Color_screen(); return;
@@ -513,11 +550,13 @@ void Help_screen()
     clock_t train_charge = clock();
     clock_t point_time = clock();       //포인트 지속시간 저장
     clock_t invincible_time = clock();  //무적 지속시간 저장
+    clock_t fever_time = clock();       //피버 지속시간 저장
     clock_t time_time = clock();        //타임 지속시간 저장
-    bool is_varrier = 0;                    //배리어 상태를 판별하는 변수
-    bool is_point = 0;                      //포인트 상태를 판별하는 변수
-    bool is_invincible = 0;                 //무적 상태를 판별하는 변수
-    bool is_time = 0;                       //타임 상태를 판별하는 변수
+    bool is_varrier = 0;                //배리어 상태를 판별하는 변수
+    bool is_point = 0;                  //포인트 상태를 판별하는 변수
+    bool is_invincible = 0;             //무적 상태를 판별하는 변수
+    bool is_fever = 0;                  //피버 상태를 판별하는 변수
+    bool is_time = 0;                   //타임 상태를 판별하는 변수
 
     while (1)
     {
@@ -563,7 +602,7 @@ void Help_screen()
             Draw_car(help_car.x, help_car.y, 0); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
             car = clock(); //시간 초기화
         }
-        if (!is_time && clock() > monster + 200)
+        if (!is_time && clock() > monster + 50)
         {
             Remove_monster(help_monster.x, help_monster.y++);
             if (help_monster.y >= 37) help_monster.y = 2;
@@ -606,9 +645,7 @@ void Help_screen()
 
         //배리어가 활성화되었다면
         if (varrier_on && !is_varrier)
-        {
-            varrier_on = 0; is_varrier = 1; //배리어임을 알림
-        }
+            is_varrier = 1; //배리어임을 알림
 
         //포인트가 활성화되었다면
         if (point_on && !is_point)
@@ -628,6 +665,15 @@ void Help_screen()
             is_invincible = 0; invincible_on = 0;
         }
 
+        //피버가 활성화되었다면
+        if (fever_on && !is_fever)
+            is_fever = 1; //피버임을 알림
+        //지속시간이 지나면
+        if (clock() > fever_time + fever_duration * 1000)
+        {   //피버 종료
+            is_fever = 0; fever_on = 0;
+        }
+
         //타임이 활성화되었다면
         if (time_on && !is_time)
             is_time = 1; //타임임을 알림
@@ -641,7 +687,7 @@ void Help_screen()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -653,7 +699,7 @@ void Help_screen()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -665,7 +711,7 @@ void Help_screen()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -677,7 +723,7 @@ void Help_screen()
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; invincible_on = 1;
+                is_varrier = 0; varrier_on = 0; invincible_on = 1;
                 invincible_duration = 1; invincible_time = clock();
             }
             else
@@ -706,10 +752,11 @@ void Help_screen()
             {
             case point:
                 point_time = clock(); break; //지속시간 초기화
-            case fever:
-                point_time = clock(); invincible_time = clock(); break;
             case invincible:
                 invincible_time = clock(); break; //지속시간 초기화
+            case fever:
+                point_time = clock(); invincible_time = clock(); 
+                fever_time = clock(); break; //지속시간 초기화
             case _time:
                 time_time = clock(); break; //지속시간 초기화
             }

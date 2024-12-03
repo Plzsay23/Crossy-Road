@@ -71,6 +71,7 @@ void Store_color(int i)
     Ranking[i].color[1].r = c_rgb.r; Ranking[i].color[1].g = c_rgb.g; Ranking[i].color[1].b = c_rgb.b;
     Ranking[i].color[2].r = m_rgb.r; Ranking[i].color[2].g = m_rgb.g; Ranking[i].color[2].b = m_rgb.b;
     Ranking[i].color[3].r = t_rgb.r; Ranking[i].color[3].g = t_rgb.g; Ranking[i].color[3].b = t_rgb.b;
+    Ranking[i].player = player;
 }
 
 //랭킹 정렬
@@ -128,13 +129,14 @@ void Ranking_sort()
     for (int i = 0; i < RANKING; i++)
     {
         if (Ranking[i].score > 0)
-        {   //이름, 점수, 코인
-            fprintf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", 
+        {   //이름, 점수, 코인, 외형
+            fprintf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %c\n", 
                 Ranking[i].name, Ranking[i].score, Ranking[i].coins,
                 Ranking[i].color[0].r, Ranking[i].color[0].g, Ranking[i].color[0].b,
                 Ranking[i].color[1].r, Ranking[i].color[1].g, Ranking[i].color[1].b,
                 Ranking[i].color[2].r, Ranking[i].color[2].g, Ranking[i].color[2].b,
-                Ranking[i].color[3].r, Ranking[i].color[3].g, Ranking[i].color[3].b);
+                Ranking[i].color[3].r, Ranking[i].color[3].g, Ranking[i].color[3].b, 
+                Ranking[i].player);
         }
     }
     fclose(Rank);
@@ -147,14 +149,14 @@ void Read_ranking()
     if (Rank == NULL) return;
 
     int i = 0;
-    while (fscanf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+    while (fscanf(Rank, "%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %c",
         Ranking[i].name, &Ranking[i].score, &Ranking[i].coins,
         &Ranking[i].color[0].r, &Ranking[i].color[0].g, &Ranking[i].color[0].b,
         &Ranking[i].color[1].r, &Ranking[i].color[1].g, &Ranking[i].color[1].b,
         &Ranking[i].color[2].r, &Ranking[i].color[2].g, &Ranking[i].color[2].b,
-        &Ranking[i].color[3].r, &Ranking[i].color[3].g, &Ranking[i].color[3].b) != EOF) {
-        i++;
-        if (i >= RANKING) break; // 배열 초과 방지
+        &Ranking[i].color[3].r, &Ranking[i].color[3].g, &Ranking[i].color[3].b, 
+        &Ranking[i].player) != EOF) { 
+        i++; if (i >= RANKING) break; // 배열 초과 방지
     }
     fclose(Rank);
 }

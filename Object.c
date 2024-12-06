@@ -607,16 +607,6 @@ bool Check_car(short x, short y)
     }
     return 0; //안겹치면 0을 반환
 }
-bool Check_help_car(short x, short y)
-{
-    if (help_car.on == true) //게임설명화면의 자동차 객체
-    {
-        if (help_car.x <= x && x <= help_car.x + 5 &&
-            help_car.y <= y && y <= help_car.y + 4)
-            return 1; //자동차 객체의 범위와 겹치면 1을 반환
-    }
-    return 0;
-}
 //코인 객체와 닿았는지를 판별하는 함수
 bool Check_coin(short x, short y)
 {
@@ -690,16 +680,6 @@ bool Check_monster(short x, short y)
         }
     }
     return 0; //안겹치면 0을 반환
-}
-bool Check_help_monster(short x, short y)
-{
-    if (help_car.on == true) //게임설명화면의 몬스터 객체
-    {
-        if (help_monster.x <= x && x <= help_monster.x + 4 &&
-            help_monster.y <= y && y <= help_monster.y + 2)
-            return 1; //몬스터 객체의 범위와 겹치면 1을 반환
-    }
-    return 0;
 }
 //기차 객체와 닿았는지를 판별하는 함수
 bool Check_train(short x, short y)

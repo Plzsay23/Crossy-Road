@@ -507,15 +507,12 @@ void Help_screen()
 
     bool is_outscreen = 1; //객체와 충돌시에 쓰일 변수
     short x = 2, y = 20; //플레이어의 초기 좌표 선언과 함께 초기화
-    help_car.on = true; //자동차 객체 선언
-    help_coin.on = true; //코인 객체 선언
     help_river.on = true; //강 객체 선언
-    help_monster.on = true; //몬스터 객체 선언
 
     Draw_player(x, y);
-    Draw_car(help_car.x, help_car.y, 0); //객체 출력
-    Draw_coin(help_coin.x, help_coin.y);
-    Draw_monster(help_monster.x, help_monster.y);
+    Add_car(10, 3, 0, 0);
+    Add_coin(30, 20, 0);
+    Add_monster(91, 3, 0, 0);
     Add_item(132, 9, Find_item(), varrier);
     Add_item(132, 14, Find_item(), point);
     Add_item(132, 19, Find_item(), invincible);
@@ -597,16 +594,16 @@ void Help_screen()
 
         if (!is_time && clock() > car + 100)
         {
-            Remove_car(help_car.x, help_car.y++); //자동차를 지움과 동시에 y좌표 수정
-            if (help_car.y >= 35) help_car.y = 2; //만약 콘솔창을 벗어나면 다시 위로 보냄
-            Draw_car(help_car.x, help_car.y, 0); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
+            Remove_car(cars[0].x, cars[0].y++); //자동차를 지움과 동시에 y좌표 수정
+            if (cars[0].y >= 35) cars[0].y = 2; //만약 콘솔창을 벗어나면 다시 위로 보냄
+            Draw_car(cars[0].x, cars[0].y, 0); //그렇게 좌표 수정이 모두 완료되면 자동차를 그려 움직임 표현
             car = clock(); //시간 초기화
         }
         if (!is_time && clock() > monster + 50)
         {
-            Remove_monster(help_monster.x, help_monster.y++);
-            if (help_monster.y >= 37) help_monster.y = 2;
-            Draw_monster(help_monster.x, help_monster.y);
+            Remove_monster(monsters[0].x, monsters[0].y++);
+            if (monsters[0].y >= 37) monsters[0].y = 2;
+            Draw_monster(monsters[0].x, monsters[0].y);
             monster = clock();
         }
         if (!is_time && train_spawn && clock() > train_charge + 3000)
@@ -683,7 +680,7 @@ void Help_screen()
             is_time = 0; time_on = 0;
         }
         
-        if (!is_invincible && Check_help_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
+        if (!is_invincible && Check_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
@@ -707,7 +704,7 @@ void Help_screen()
                 is_outscreen = 0; break;
             }
         }
-        if (!is_invincible && Check_help_monster(x, y) == 1)
+        if (!is_invincible && Check_monster(x, y) == 1)
         {
             if (is_varrier) //배리어 상태라면
             {   //배리어를 해제하고 짧은 무적부여
@@ -732,16 +729,15 @@ void Help_screen()
             }
         }
 
-        if (help_coin.on == true) //객체가 활성화되어 있다면
+        if (coins[0].on == true) //객체가 활성화되어 있다면
         {
-            if (help_coin.x <= x && x <= help_coin.x + 1 && help_coin.y == y)
+            if (coins[0].x <= x && x <= coins[0].x + 1 && coins[0].y == y)
             {   //코인 객체의 좌표와 겹치면
-                Remove_coin(help_coin.x, help_coin.y); //코인 지우고
+                Delete_coin(0); //코인 지우고
                 Draw_player(x, y); coin++;
                 textcolor(0, 255, 0);
                 gotoxy(26, 4); printf("코인 : %d", coin); //코인 갯수 최신화
                 removecolor();
-                help_coin.on = false; //코인 객체 제거
             }
         }
 
@@ -765,13 +761,10 @@ void Help_screen()
 
     }
 
+    //객체 제거
+    Delete_car(0); Delete_coin(0); Delete_monster(0);
+    for (int i = 0; i < ITEMS; i++) { Delete_train(i); Delete_item(i); }
     free_object();
-    help_car.on = false; //자동차 객체 제거
-    help_coin.on = false; //코인 객체 제거
-    help_river.on = false; //강 객체 제거
-    help_monster.on = false; //몬스터 객체 제거
-    for (int i = 0; i < ITEMS; i++) //기차, 아이템 객체 제거
-    { Delete_train(i); Delete_item(i); }
 
     if (is_outscreen == 1) Main_screen(); //q를 눌렀다면 메인으로
     else Help_screen(); //객체와 충돌했다면 처음으로

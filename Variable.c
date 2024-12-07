@@ -44,10 +44,7 @@ Item* items;        //아이템 객체 배열
 short train_x;      //항상 기차의 x좌표를 저장할 변수
 int index;          //객체들이 줄지어 나올 주기를 저장하는 인덱스
 
-Car help_car = { 10, 3, 0, 0 }; //게임 설명 화면에서 쓸 자동차 객체
-Coin help_coin = { 30, 20, 0 }; //게임 설명 화면에서 쓸 코인 객체
 River help_river = { 50, {10, 17, 24, 31, 38}, 0 }; //게임 설명 화면에서 쓸 강 객체
-Monster help_monster = { 91, 3, 0, 0 }; //게임 설명 화면에서 쓸 몬스터 객체
 
 User Ranking[RANKING]; //랭킹을 저장할 배열
 

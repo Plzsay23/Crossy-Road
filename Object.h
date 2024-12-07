@@ -72,12 +72,10 @@ void Item_invincible(int time);
 
 //객체와 플레이어의 충돌 감지 함수들
 bool Check_car(short x, short y);
-bool Check_help_car(short x, short y);
 bool Check_coin(short x, short y);
 bool Check_river(short x, short y);
 bool Check_help_river(short x, short y);
 bool Check_monster(short x, short y);
-bool Check_help_monster(short x, short y);
 bool Check_train(short x, short y);
 Itemcheck Check_item(short x, short y);
 

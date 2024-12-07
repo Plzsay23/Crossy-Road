@@ -141,7 +141,8 @@ void Start_screen()
     gotoxy(132, 39); printf("뒤로가기 : [ Q ]");
     gotoxy(10, 5); printf("이름 입력 : ");
 
-    Score = 0; // 점수 초기화
+    Score = 0; //점수 초기화
+    Coins = 0; //코인 초기화
 
     unsigned short found = 0; //중복 검사 변수
 
@@ -377,10 +378,19 @@ void Color_screen()
 //색상의 값을 입력받는 함수
 void Color_set_screen(int obj)
 {
+    //원래 색상 저장
+    int origin_r, origin_g, origin_b;
+    switch (obj)
+    {
+    case 0: origin_r = p_rgb.r; origin_g = p_rgb.g; origin_b = p_rgb.g; break; //플레이어
+    case 1: origin_r = c_rgb.r; origin_g = c_rgb.g; origin_b = c_rgb.g; break; //자동차
+    case 2: origin_r = m_rgb.r; origin_g = m_rgb.g; origin_b = m_rgb.g; break; //몬스터
+    case 3: origin_r = t_rgb.r; origin_g = t_rgb.g; origin_b = t_rgb.g; break; //기차
+    }
     int r = 0, g = 0, b = 0;
     char input;
 
-    while (1) 
+    while (1)
     {
         system("cls"); Draw_square();
         gotoxy(62, 4); printf("원하는 색 조합을 정하세요");
@@ -419,9 +429,19 @@ void Color_set_screen(int obj)
         if (input == 'y' || input == 'Y')
         {
             Play_bgm(Pick_sound, 0); Sleep(1000);
-            Play_bgm(Main_bgm, 1); break;
+            Play_bgm(Main_bgm, 1); Coins -= 10; break;
         }
-        else if (input == 'n' || input == 'N') continue;
+        else if (input == 'n' || input == 'N')  //색상 원래되로 되돌림
+        {
+            switch (obj) 
+            {
+            case 0: p_rgb.r = origin_r; p_rgb.g = origin_g; p_rgb.g = origin_b; break; //플레이어
+            case 1: c_rgb.r = origin_r; c_rgb.g = origin_g; c_rgb.g = origin_b; break; //자동차
+            case 2: m_rgb.r = origin_r; m_rgb.g = origin_g; m_rgb.g = origin_b; break; //몬스터
+            case 3: t_rgb.r = origin_r; t_rgb.g = origin_g; t_rgb.g = origin_b; break; //기차
+            }
+            break;
+        }
         else goto check_color;
     }
     //색상 저장
@@ -432,26 +452,28 @@ void Color_set_screen(int obj)
             Store_color(i); break;
         }
     }
-    Coins -= 10;
+    
     Ranking_sort(); //코인 갯수 변동 저장
 
-    Color_screen(); return;
+    Color_screen();
 }
 void Player_set_screen()
 {
     char input, play;
-    while (1) 
+    while (1)
     {
         system("cls"); Draw_square();
-        gotoxy(58, 5); printf("원하는 알파벳(외형)을 입력하세요");
+        Draw_car(18, 28, 1); Draw_monster(18, 17); Draw_train(17, 4);
+        Draw_car(128, 28, 1); Draw_monster(128, 17); Draw_train(127, 4);
+        gotoxy(55, 5); printf("변경할 외형(알파벳 1자리)을 입력하세요");
         Draw_player(74, 10);
-        gotoxy(64, 20); printf("알파벳 입력 : ");
+        gotoxy(64, 10); printf("알파벳 입력 : ");
         do { //알파벳만 입력가능
-            gotoxy(78, 20); printf(" ");
-            gotoxy(78, 20); scanf("%c", &play);
+            gotoxy(78, 10); printf(" ");
+            gotoxy(78, 10); scanf("%c", &play);
         } while (!((65 <= play && play <= 90) || (97 <= play && play <= 122)));
         textcolor(p_rgb.r, p_rgb.g, p_rgb.b);
-        gotoxy(74, 10); printf("%c", play);
+        gotoxy(74, 20); printf("%c", play);
         removecolor();
     check_player:
         gotoxy(56, 25); printf("이 외형으로 바꾸시겠습니까? (y/n) : ");
@@ -459,14 +481,14 @@ void Player_set_screen()
         if (input == 'y' || input == 'Y')
         {
             Play_bgm(Pick_sound, 0); Sleep(1000);
-            Play_bgm(Main_bgm, 1); break;
+            Play_bgm(Main_bgm, 1); 
+            //외형 저장
+            player = play; Coins -= 20; break;
         }
-        else if (input == 'n' || input == 'N') continue;
+        else if (input == 'n' || input == 'N') break;
         else goto check_player;
     }
-    //외형 저장
-    player = play;
-    Coins -= 20;
+    
     Ranking_sort(); //코인 갯수 변동 저장
 
     Color_screen(); return;
@@ -679,7 +701,7 @@ void Help_screen()
         {   //타임종료
             is_time = 0; time_on = 0;
         }
-        
+
         if (!is_invincible && Check_car(x, y) == 1) //충돌감지 함수가 1을 반환하면 게임오버
         {
             if (is_varrier) //배리어 상태라면
@@ -751,7 +773,7 @@ void Help_screen()
             case invincible:
                 invincible_time = clock(); break; //지속시간 초기화
             case fever:
-                point_time = clock(); invincible_time = clock(); 
+                point_time = clock(); invincible_time = clock();
                 fever_time = clock(); break; //지속시간 초기화
             case _time:
                 time_time = clock(); break; //지속시간 초기화

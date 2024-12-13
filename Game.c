@@ -78,9 +78,8 @@ void Game()
     Queue object;                           //오브젝트의 등장 순서를 정하는 큐
     init_queue(&object);                    //큐 초기화
     element object_index = 1;               //오브젝트를 선택할 변수
-    for(int i=0; i<5; i++) 
+    for(int i=0; i<5; i++)                  //적당히 인큐
         enqueue(&object, object_index++);   //큐에 초기값 인큐
-    gotoxy(0, 0); printf("%d", object.data[object.front + 1]);
 
     Draw_player(x, y);
 

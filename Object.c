@@ -772,10 +772,6 @@ short Find_item() //아이템
 //플로팅시 나올 객체를 선택하는 함수
 unsigned short Choose_object(Queue* q)
 {
-    //int arr[] = {1,1,2,1,1,3,1,1,4}; //정해진 객체의 등장 배열
-    //if(index == 9) index = 0;
-    //return arr[index++];
-
     int object = dequeue(q) % 9;
     if (object == 3) return 2;
     else if (object == 6) return 3;

@@ -7,6 +7,7 @@
 #include "Setting.h"
 #include "Screen.h"
 #include "Object.h"
+#include "Queue.h"
 #include "Game.h"
 
 //객체의 동적 할당 함수들

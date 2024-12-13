@@ -8,6 +8,7 @@
 #include "Setting.h"
 #include "Screen.h"
 #include "Object.h"
+#include "Queue.h"
 #include "Game.h"
 
 //게임 오버 시 잠깐 나올 이벤트

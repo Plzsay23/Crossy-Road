@@ -75,6 +75,13 @@ void Game()
     bool is_time = 0;                       //타임 상태를 판별하는 변수
     Itemcheck result;                       //아이템과 충돌했을때 정보를 받아올 변수
 
+    Queue object;                           //오브젝트의 등장 순서를 정하는 큐
+    init_queue(&object);                    //큐 초기화
+    element object_index = 1;               //오브젝트를 선택할 변수
+    for(int i=0; i<5; i++) 
+        enqueue(&object, object_index++);   //큐에 초기값 인큐
+    gotoxy(0, 0); printf("%d", object.data[object.front + 1]);
+
     Draw_player(x, y);
 
     for (int i = 79; i < 149; i += 8) //초기 화면을 덮을만큼만 자동차 객체 활성화 & 소환
@@ -103,7 +110,7 @@ void Game()
 
                     if (choose == 0)    //변수가 0으로 초기화되었다면
                     {
-                        choose = Choose_object(); //어떤 객체를 생성할지 선택
+                        choose = Choose_object(&object); //어떤 객체를 생성할지 선택
                         floating_x = extra_display; //시작하는 x좌표 저장
                         floating_display = 0; //객체 생성 후 몇 칸을 이동했는지를 저장하는 변수
                     }
@@ -127,7 +134,11 @@ void Game()
                                     Add_item(148, rand() % 41, Find_item(), rand() % 6); //아이템 랜덤 소환
                             }
                         }
-                        else choose = 0; //0으로 초기화
+                        else
+                        {
+                            choose = 0; //0으로 초기화
+                            enqueue(&object, object_index++); //다음 오브젝트 인큐
+                        }
                         break;
                     case 2: //강
                         if (extra_display - floating_x < 10) //10칸 동안 이 상태 유지
@@ -138,7 +149,11 @@ void Game()
                                 if (is_point) Score += 200; else Score += 100; is_spawn = 1;
                             }
                         }
-                        else { choose = 0; is_spawn = 0; } //0으로 초기화
+                        else 
+                        { 
+                            choose = 0; is_spawn = 0; //0으로 초기화
+                            enqueue(&object, object_index++); //다음 오브젝트 인큐
+                        } 
                         break;
                     case 3: //몬스터
                         if (extra_display - floating_x < 33) //33칸 동안 이 상태 유지
@@ -153,7 +168,11 @@ void Game()
                                 if (is_point) Score += 60; else Score += 30; //그럴때마다 30점 추가                            
                             }
                         }
-                        else choose = 0; //0으로 초기화
+                        else
+                        {
+                            choose = 0; //0으로 초기화
+                            enqueue(&object, object_index++); //다음 오브젝트 인큐
+                        }
                         break;
                     case 4: //기차
                         if (extra_display - floating_x < 7) //7칸 동안 이 상태 유지 - 수정해야 함
@@ -166,7 +185,11 @@ void Game()
                                 is_spawn = 1; train_spawn = 1; trains_charge = clock(); //기차 소환 선언
                             }
                         }
-                        else { choose = 0; is_spawn = 0; } //0으로 초기화
+                        else 
+                        { 
+                            choose = 0; is_spawn = 0; //0으로 초기화
+                            enqueue(&object, object_index++); //다음 오브젝트 인큐
+                        } 
                         break;
                     }
                     Draw_player(x, y); //그리고 플레이어 이동
@@ -283,55 +306,55 @@ void Game()
             is_time = 0; time_on = 0;
         }
 
-        //충돌감지 함수가 1을 반환하면 게임오버
-        if (!is_invincible && Check_car(x, y) == 1) //자동차와 닿았다면 게임오버
-        {
-            if (is_varrier) //배리어 상태라면
-            {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; varrier_on = 0; invincible_on = 1;
-                invincible_duration = 1; invincible_time = clock();
-            }
-            else
-            {
-                Game_over(x, y); break;
-            }
-        }
-        else if (!is_invincible && Check_river(x, y) == 1) //강에 빠졌다면 게임오버
-        {
-            if (is_varrier) //배리어 상태라면
-            {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; varrier_on = 0; invincible_on = 1;
-                invincible_duration = 1; invincible_time = clock();
-            }
-            else
-            {
-                Game_over(x, y); break;
-            }
-        }
-        else if (!is_invincible && Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
-        {
-            if (is_varrier) //배리어 상태라면
-            {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; varrier_on = 0; invincible_on = 1;
-                invincible_duration = 1; invincible_time = clock();
-            }
-            else
-            {
-                Game_over(x, y); break;
-            }
-        }
-        else if (!is_invincible && Check_train(x, y) == 1) //기차와 닿았다면 게임오버
-        {
-            if (is_varrier) //배리어 상태라면
-            {   //배리어를 해제하고 짧은 무적부여
-                is_varrier = 0; varrier_on = 0; invincible_on = 1;
-                invincible_duration = 1; invincible_time = clock();
-            }
-            else
-            {
-                Game_over(x, y); break;
-            }
-        }
+        ////충돌감지 함수가 1을 반환하면 게임오버
+        //if (!is_invincible && Check_car(x, y) == 1) //자동차와 닿았다면 게임오버
+        //{
+        //    if (is_varrier) //배리어 상태라면
+        //    {   //배리어를 해제하고 짧은 무적부여
+        //        is_varrier = 0; varrier_on = 0; invincible_on = 1;
+        //        invincible_duration = 1; invincible_time = clock();
+        //    }
+        //    else
+        //    {
+        //        Game_over(x, y); break;
+        //    }
+        //}
+        //else if (!is_invincible && Check_river(x, y) == 1) //강에 빠졌다면 게임오버
+        //{
+        //    if (is_varrier) //배리어 상태라면
+        //    {   //배리어를 해제하고 짧은 무적부여
+        //        is_varrier = 0; varrier_on = 0; invincible_on = 1;
+        //        invincible_duration = 1; invincible_time = clock();
+        //    }
+        //    else
+        //    {
+        //        Game_over(x, y); break;
+        //    }
+        //}
+        //else if (!is_invincible && Check_monster(x, y) == 1) //몬스터와 닿았다면 게임오버
+        //{
+        //    if (is_varrier) //배리어 상태라면
+        //    {   //배리어를 해제하고 짧은 무적부여
+        //        is_varrier = 0; varrier_on = 0; invincible_on = 1;
+        //        invincible_duration = 1; invincible_time = clock();
+        //    }
+        //    else
+        //    {
+        //        Game_over(x, y); break;
+        //    }
+        //}
+        //else if (!is_invincible && Check_train(x, y) == 1) //기차와 닿았다면 게임오버
+        //{
+        //    if (is_varrier) //배리어 상태라면
+        //    {   //배리어를 해제하고 짧은 무적부여
+        //        is_varrier = 0; varrier_on = 0; invincible_on = 1;
+        //        invincible_duration = 1; invincible_time = clock();
+        //    }
+        //    else
+        //    {
+        //        Game_over(x, y); break;
+        //    }
+        //}
 
         if (Check_coin(x, y) == 1) //코인과 부딪혔다면
         {

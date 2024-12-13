@@ -11,6 +11,7 @@
 #include "Setting.h"
 #include "Screen.h"
 #include "Object.h"
+#include "Queue.h"
 #include "Game.h"
 
 //그림 그리는 함수들
